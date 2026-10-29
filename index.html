@@ -1,5 +1,14 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>IPL Auction Arena</title><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IPL Auction Arena</title>
+
+<!-- 1. Load Firebase Compat SDKs here in the head -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <style>
 :root{--bg:#eef0f6;--cd:#fff;--tx:#12203f;--mu:#667;--ac:#e39b00;--bd:#d5d9e6;--ok:#15803d;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0a1126;--cd:#141d3b;--tx:#eef1ff;--mu:#9aa6c8;--ac:#ffc933;--bd:#27345f;--ok:#4ade80}}
@@ -21,7 +30,12 @@ h1,h2,h3{margin:.2em 0}.mu,small{color:var(--mu)}.chip{display:inline-block;padd
 .rb{height:22px;border-radius:8px;background:var(--cl);animation:grow 1.4s ease-out;transform-origin:left}.trophy{font-size:80px;animation:pop 1s}
 @keyframes pulse{50%{transform:scale(1.03)}}@keyframes pop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.2)}}@keyframes slide{from{transform:translateX(-24px);opacity:0}}
 @keyframes glow{to{box-shadow:0 0 14px var(--cl)}}@keyframes stamp{from{transform:scale(3);opacity:0}}@keyframes fall{to{transform:translateY(520px) rotate(720deg)}}@keyframes grow{from{transform:scaleX(0)}}
-</style></head><body><header><span>🏏 IPL AUCTION ARENA</span><span id="rm"></span></header><div id="app"></div>
+</style>
+</head>
+<body>
+<header><span>🏏 IPL AUCTION ARENA</span><span id="rm"></span></header>
+<div id="app"></div>
+
 <script>
 const RAW=`Virat Kohli|B|IN|93|om
 Rohit Sharma|B|IN|90|o
@@ -226,35 +240,32 @@ function resv(){const r=S.res,w=S.t[r[0].i],mx=r[0].tot,f=x=>x.toFixed(0);
  app.innerHTML=`<div class="card c win"><div class="trophy">🏆</div><h1 style="color:${w.col}">${lab(w)} are the champions!</h1>${conf(w.col)}</div>${r.map((z,k)=>{const t=S.t[z.i],e=z.e,x=t.xi;return`<div class="card" style="animation:slide .5s ${k*.3}s both"><b>#${k+1} ${lab(t)}</b> <b style="float:right">${z.tot.toFixed(1)}</b><div class="rb" style="--cl:${t.col};width:${z.tot/mx*100}%"></div>
 <small>Top ${f(e.top)} · Middle ${f(e.mid)} · Lower ${f(e.low)} | Powerplay ${f(e.pp)} · Middle ${f(e.md)} · Death ${f(e.dt)}</small><br><small>C: ${PL[x.c].n} · VC: ${PL[x.vc].n}<br>${x.o.map(i=>PL[i].n).join(', ')}</small></div>`}).join('')}<div class="c"><button class="btn" data-a="again">New auction</button></div>`}
 setInterval(()=>{tick();if(S&&S.ph=='auc'&&S.c){const c=S.c,l=Math.max(0,c.end-Date.now()),b=$('#tb');if(b){b.style.width=Math.min(100,l/150)+'%';$('#tt').textContent=c.st=='bid'?Math.ceil(l/1000)+'s':'';b.parentNode.classList.toggle('hot',l<4000&&c.st=='bid')}}},250);
-// Replace the values below with your Firebase Config keys from Project Settings
-<!-- 1. Load Firebase Compat SDKs first -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-<!-- 2. Initialize Firebase and set up your game database -->
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyAuCDfEXr3TGjP2pnWFk3k5lxnf3XmwEpU",
-    authDomain: "auction-arena-f2a9c.firebaseapp.com",
-    databaseURL: "https://auction-arena-f2a9c-default-rtdb.firebaseio.com",
-    projectId: "auction-arena-f2a9c",
-    storageBucket: "auction-arena-f2a9c.firebasestorage.app",
-    messagingSenderId: "931940033996",
-    appId: "1:931940033996:web:31013b3c1245898fa22969",
-    measurementId: "G-6NGJ0T31WB"
-  };
+// Initialize Firebase and set up your game database at the bottom
+const firebaseConfig = {
+  apiKey: "AIzaSyAuCDfEXr3TGjP2pnWFk3k5lxnf3XmwEpU",
+  authDomain: "auction-arena-f2a9c.firebaseapp.com",
+  databaseURL: "https://auction-arena-f2a9c-default-rtdb.firebaseio.com",
+  projectId: "auction-arena-f2a9c",
+  storageBucket: "auction-arena-f2a9c.firebasestorage.app",
+  messagingSenderId: "931940033996",
+  appId: "1:931940033996:web:31013b3c1245898fa22969",
+  measurementId: "G-6NGJ0T31WB"
+};
 
-  try {
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-    db = firebase.database();
-    MY = 'u_' + Math.random().toString(36).slice(2, 8);
-  } catch(e) {
-    db = null;
+try {
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
   }
-  
-  if (typeof render === 'function') {
-    render();
-  }
+  db = firebase.database();
+  MY = 'u_' + Math.random().toString(36).slice(2, 8);
+} catch(e) {
+  db = null;
+}
+
+if (typeof render === 'function') {
+  render();
+}
 </script>
+</body>
+</html>
