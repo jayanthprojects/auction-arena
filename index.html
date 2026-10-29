@@ -226,5 +226,22 @@ function resv(){const r=S.res,w=S.t[r[0].i],mx=r[0].tot,f=x=>x.toFixed(0);
  app.innerHTML=`<div class="card c win"><div class="trophy">🏆</div><h1 style="color:${w.col}">${lab(w)} are the champions!</h1>${conf(w.col)}</div>${r.map((z,k)=>{const t=S.t[z.i],e=z.e,x=t.xi;return`<div class="card" style="animation:slide .5s ${k*.3}s both"><b>#${k+1} ${lab(t)}</b> <b style="float:right">${z.tot.toFixed(1)}</b><div class="rb" style="--cl:${t.col};width:${z.tot/mx*100}%"></div>
 <small>Top ${f(e.top)} · Middle ${f(e.mid)} · Lower ${f(e.low)} | Powerplay ${f(e.pp)} · Middle ${f(e.md)} · Death ${f(e.dt)}</small><br><small>C: ${PL[x.c].n} · VC: ${PL[x.vc].n}<br>${x.o.map(i=>PL[i].n).join(', ')}</small></div>`}).join('')}<div class="c"><button class="btn" data-a="again">New auction</button></div>`}
 setInterval(()=>{tick();if(S&&S.ph=='auc'&&S.c){const c=S.c,l=Math.max(0,c.end-Date.now()),b=$('#tb');if(b){b.style.width=Math.min(100,l/150)+'%';$('#tt').textContent=c.st=='bid'?Math.ceil(l/1000)+'s':'';b.parentNode.classList.toggle('hot',l<4000&&c.st=='bid')}}},250);
-(async()=>{try{if(window.claude){db=await claude.use('db');const u=await claude.use('user');const id=u&&await u.id();id?MY=id:db=null}}catch(e){db=null}render()})();
-</script></body></html>
+// Replace the values below with your Firebase Config keys from Project Settings
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+try {
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  db = firebase.database();
+  MY = 'u_' + Math.random().toString(36).slice(2, 8);
+} catch(e) {
+  db = null;
+}
+render();
