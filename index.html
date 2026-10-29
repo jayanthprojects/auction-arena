@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>IPL Auction Arena</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>IPL Auction Arena</title><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
 :root{--bg:#eef0f6;--cd:#fff;--tx:#12203f;--mu:#667;--ac:#e39b00;--bd:#d5d9e6;--ok:#15803d;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0a1126;--cd:#141d3b;--tx:#eef1ff;--mu:#9aa6c8;--ac:#ffc933;--bd:#27345f;--ok:#4ade80}}
@@ -177,10 +178,10 @@ function tick(){if(!host||!S||S.ph!='auc')return;const c=S.c,n=Date.now();
  if(c.st=='bid'){if(n>=c.end){if(c.by>=0){const t=S.t[c.by];t.pu=+(t.pu-c.bid).toFixed(2);t.sq.push(c.p);c.st='sold';log(`SOLD! ${PL[c.p].n} to ${t.n} for ${m(c.bid)}`)}else{c.st='unsold';log(PL[c.p].n+' goes unsold')}c.end=n+3800;return sync()}
   if(n-c.last>2300)for(const k of [0,1,2,3].sort(()=>Math.random()-.5)){const t=S.t[k],a=nb(c);if(t.ai&&c.by!==k&&a<=aiVal(t,c.p)&&can(t,c.p,a)&&Math.random()<.2){bid(k);break}}}
  else if(n>=c.end){next();sync()}}
-async function sync(){render();if(online&&host)try{await doc.update({j:JSON.stringify(S)})}catch(e){}}
-function hostSnap(s){const d=s.data();if(!d||!S)return;for(const k in d)if(k[0]=='a'&&k[1]=='_'){let a;try{a=JSON.parse(d[k])}catch(e){continue}if(seen[k]===a.k)continue;seen[k]=a.k;const u=k.slice(2),ti=S.t.findIndex(t=>t.uid===u);
+async function sync(){render();if(online&&host&&doc)try{await doc.update({j:JSON.stringify(S)})}catch(e){}}
+function hostSnap(d){if(!d||!S)return;for(const k in d)if(k[0]=='a'&&k[1]=='_'){let a;try{a=JSON.parse(d[k])}catch(e){continue}if(seen[k]===a.k)continue;seen[k]=a.k;const u=k.slice(2),ti=S.t.findIndex(t=>t.uid===u);
  if(a.type=='join'&&S.ph=='lobby'&&ti<0){const f=S.t.find(t=>t.ai);if(f){f.ai=false;f.uid=u;f.nm=a.nm;sync()}}else if(a.type=='bid'&&ti>=0)bid(ti);else if(a.type=='xi'&&ti>=0&&S.ph=='xi'){S.t[ti].xi=a.x;chk()}}}
-const send=a=>doc.update({['a_'+MY]:JSON.stringify({k:Math.random(),...a})});
+const send=a=>{if(doc)doc.child('a_'+MY).set(JSON.stringify({k:Math.random(),...a}));};
 // ---------- actions
 const nm=()=>($('#nm')?.value||'Manager').slice(0,14);
 const A={solo(){S=mk();const t=S.t[0];t.uid=MY;t.ai=false;t.nm=nm();host=true;online=false;startAuc();sync()},
