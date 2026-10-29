@@ -1,0 +1,229 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>IPL Auction Arena</title>
+<style>
+:root{--bg:#eef0f6;--cd:#fff;--tx:#12203f;--mu:#667;--ac:#e39b00;--bd:#d5d9e6;--ok:#15803d;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0a1126;--cd:#141d3b;--tx:#eef1ff;--mu:#9aa6c8;--ac:#ffc933;--bd:#27345f;--ok:#4ade80}}
+:root[data-theme=dark]{--bg:#0a1126;--cd:#141d3b;--tx:#eef1ff;--mu:#9aa6c8;--ac:#ffc933;--bd:#27345f;--ok:#4ade80}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{display:flex;justify-content:space-between;padding:12px 16px;background:linear-gradient(90deg,#0b1f55,#2347a8);color:#fff;font-weight:800}
+#app{max-width:1100px;margin:auto;padding:14px}.g{display:grid;grid-template-columns:1.4fr 1fr;gap:14px}@media(max-width:800px){.g{grid-template-columns:1fr}}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:16px;padding:16px;margin-bottom:14px;position:relative;overflow:hidden}.c{text-align:center}
+h1,h2,h3{margin:.2em 0}.mu,small{color:var(--mu)}.chip{display:inline-block;padding:2px 9px;border-radius:99px;background:var(--bd);font-size:12px;margin:2px}.os{background:#e11d48;color:#fff}.tg{background:var(--ac);color:#111}
+.btn,.sm,select{font:inherit;border:0;border-radius:10px;background:var(--ac);color:#111;font-weight:700;padding:10px 16px;cursor:pointer;margin:3px}.sm{padding:3px 9px;background:var(--bd);color:var(--tx)}.sm.sel{background:var(--ac);color:#111}select{padding:3px;background:var(--bd);color:var(--tx)}
+.btn.big{width:100%;font-size:22px;padding:16px;animation:pulse 1.4s infinite}button:disabled{opacity:.4;animation:none;cursor:not-allowed}input{font:inherit;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);margin:3px}
+.pl{display:flex;gap:14px;align-items:center;margin:10px 0;animation:slide .5s}.av{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font-size:30px;font-weight:900;color:#fff;background:linear-gradient(135deg,hsl(var(--h) 70% 45%),hsl(calc(var(--h) + 50) 70% 30%));flex:none;box-shadow:0 0 0 4px var(--ac)}
+.bidbox{text-align:center;margin:8px 0}.amt{font-size:46px;font-weight:900;color:var(--ac);animation:pop .4s}.ld{font-weight:800;font-size:18px}
+.bar{height:14px;border-radius:9px;background:var(--bd);margin:10px 0;position:relative}.bar i{display:block;height:100%;border-radius:9px;background:var(--ok);transition:width .25s linear}.bar.hot i{background:#e11d48}.bar.hot{animation:pulse .6s infinite}.bar span{position:absolute;right:8px;top:-1px;font-size:11px;font-weight:700}
+.tm{display:flex;justify-content:space-between;padding:7px 10px;border-radius:10px;border-left:6px solid var(--cl);margin:5px 0;background:var(--bg)}.tm.me{outline:2px solid var(--ac)}.tm.lead{animation:glow 1s infinite alternate}
+.row{display:flex;justify-content:space-between;align-items:center;padding:5px 6px;border-bottom:1px solid var(--bd)}.row.on{background:var(--bg)}.lg div{font-size:13px;padding:2px 0;animation:slide .4s}
+.stamp{position:absolute;inset:0;display:grid;place-content:center;text-align:center;font-size:64px;font-weight:900;color:#fff;background:#000a;animation:stamp .5s}.stamp small{font-size:20px;color:#fff}.stamp.unsold{color:#fca5a5}
+.cf b{position:absolute;top:-20px;left:calc(var(--x) * 1%);width:8px;height:13px;background:var(--cc);animation:fall 2.4s ease-in var(--d) forwards}
+.rb{height:22px;border-radius:8px;background:var(--cl);animation:grow 1.4s ease-out;transform-origin:left}.trophy{font-size:80px;animation:pop 1s}
+@keyframes pulse{50%{transform:scale(1.03)}}@keyframes pop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.2)}}@keyframes slide{from{transform:translateX(-24px);opacity:0}}
+@keyframes glow{to{box-shadow:0 0 14px var(--cl)}}@keyframes stamp{from{transform:scale(3);opacity:0}}@keyframes fall{to{transform:translateY(520px) rotate(720deg)}}@keyframes grow{from{transform:scaleX(0)}}
+</style></head><body><header><span>🏏 IPL AUCTION ARENA</span><span id="rm"></span></header><div id="app"></div>
+<script>
+const RAW=`Virat Kohli|B|IN|93|om
+Rohit Sharma|B|IN|90|o
+Shubman Gill|B|IN|90|o
+Yashasvi Jaiswal|B|IN|89|o
+Suryakumar Yadav|B|IN|91|m
+Ruturaj Gaikwad|B|IN|86|o
+KL Rahul|W|IN|87|o
+Rishabh Pant|W|IN|88|m
+Sanju Samson|W|IN|86|om
+Ishan Kishan|W|IN|82|o
+Dhruv Jurel|W|IN|76|f
+Jitesh Sharma|W|IN|75|f
+Shreyas Iyer|B|IN|86|m
+Tilak Varma|B|IN|84|m
+Rinku Singh|B|IN|83|f
+Abhishek Sharma|B|IN|84|o
+Sai Sudharsan|B|IN|83|o
+Rajat Patidar|B|IN|80|m
+Devdutt Padikkal|B|IN|78|o
+Prithvi Shaw|B|IN|72|o
+Rahul Tripathi|B|IN|72|m
+Ayush Badoni|B|IN|74|f
+Shashank Singh|B|IN|76|f
+Nehal Wadhera|B|IN|72|m
+Naman Dhir|B|IN|70|f
+Shivam Dube|A|IN|80|f
+Riyan Parag|A|IN|80|m
+Nitish Kumar Reddy|A|IN|78|m
+Ravindra Jadeja|A|IN|86|s
+Hardik Pandya|A|IN|88|fd
+Axar Patel|A|IN|84|s
+Washington Sundar|A|IN|79|ps
+Venkatesh Iyer|A|IN|76|m
+Krunal Pandya|A|IN|76|s
+Rahul Tewatia|A|IN|74|f
+Shahbaz Ahmed|A|IN|70|s
+Jasprit Bumrah|L|IN|96|pd
+Mohammed Shami|L|IN|86|p
+Mohammed Siraj|L|IN|87|p
+Arshdeep Singh|L|IN|87|pd
+Bhuvneshwar Kumar|L|IN|83|pd
+Kuldeep Yadav|L|IN|88|s
+Yuzvendra Chahal|L|IN|85|s
+Varun Chakravarthy|L|IN|86|s
+Ravi Bishnoi|L|IN|80|s
+Harshal Patel|L|IN|80|d
+T Natarajan|L|IN|79|d
+Deepak Chahar|L|IN|79|p
+Prasidh Krishna|L|IN|80|d
+Avesh Khan|L|IN|77|d
+Mukesh Kumar|L|IN|76|d
+Harshit Rana|L|IN|78|d
+Mayank Yadav|L|IN|77|p
+Khaleel Ahmed|L|IN|77|p
+Tushar Deshpande|L|IN|74|d
+Mohit Sharma|L|IN|73|d
+Rahul Chahar|L|IN|72|s
+Sandeep Sharma|L|IN|74|p
+Yash Dayal|L|IN|74|p
+Suyash Sharma|L|IN|70|s
+Vaibhav Arora|L|IN|70|p
+Piyush Chawla|L|IN|68|s
+Jos Buttler|W|GB|90|o
+Phil Salt|W|GB|86|o
+Heinrich Klaasen|W|SA|90|mf
+Quinton de Kock|W|SA|85|o
+Nicholas Pooran|W|WI|87|mf
+Josh Inglis|W|AU|78|m
+Rahmanullah Gurbaz|W|AF|78|o
+Shai Hope|W|WI|74|o
+Travis Head|B|AU|90|o
+David Warner|B|AU|84|o
+Tim David|B|AU|83|f
+Jake Fraser-McGurk|B|AU|80|o
+Glenn Maxwell|A|AU|84|mfs
+Marcus Stoinis|A|AU|82|m
+Mitchell Marsh|A|AU|83|o
+Cameron Green|A|AU|82|m
+Pat Cummins|L|AU|89|d
+Mitchell Starc|L|AU|88|pd
+Josh Hazlewood|L|AU|87|p
+Adam Zampa|L|AU|82|s
+Jofra Archer|L|GB|86|pd
+Mark Wood|L|GB|82|p
+Adil Rashid|L|GB|80|s
+Sam Curran|A|GB|82|d
+Liam Livingstone|A|GB|82|fs
+Will Jacks|A|GB|81|o
+Ben Stokes|A|GB|82|m
+Moeen Ali|A|GB|76|s
+Harry Brook|B|GB|82|m
+Kagiso Rabada|L|SA|87|pd
+Anrich Nortje|L|SA|83|p
+Marco Jansen|A|SA|80|p
+David Miller|B|SA|84|f
+Aiden Markram|B|SA|82|m
+Tristan Stubbs|B|SA|80|f
+Trent Boult|L|NZ|87|p
+Lockie Ferguson|L|NZ|80|d
+Rachin Ravindra|A|NZ|80|s
+Devon Conway|B|NZ|82|o
+Daryl Mitchell|A|NZ|80|m
+Kane Williamson|B|NZ|80|m
+Mitchell Santner|A|NZ|76|s
+Rashid Khan|L|AF|92|sd
+Noor Ahmad|L|AF|78|s
+Mujeeb Ur Rahman|L|AF|74|s
+Fazalhaq Farooqi|L|AF|74|p
+Sunil Narine|A|WI|88|ps
+Andre Russell|A|WI|87|fd
+Shimron Hetmyer|B|WI|80|f
+Rovman Powell|B|WI|78|f
+Alzarri Joseph|L|WI|76|d
+Romario Shepherd|A|WI|74|f
+Wanindu Hasaranga|A|SL|82|s
+Matheesha Pathirana|L|SL|84|d
+Maheesh Theekshana|L|SL|76|s
+Pathum Nissanka|B|SL|74|o
+Mustafizur Rahman|L|BD|80|d
+Shakib Al Hasan|A|BD|74|s`;
+const FL={IN:'🇮🇳',AU:'🇦🇺',GB:'🇬🇧',SA:'🇿🇦',NZ:'🇳🇿',WI:'🌴',AF:'🇦🇫',SL:'🇱🇰',BD:'🇧🇩'},RL={B:'Batter',W:'WK-Batter',A:'All-rounder',L:'Bowler'};
+const TG={o:'Opener',m:'Middle',f:'Finisher',p:'Powerplay',d:'Death',s:'Spin'};
+const PL=RAW.split('\n').map((l,i)=>{const[n,role,c,v,t]=l.split('|');return{i,n,role,c,v:+v,t,os:c!='IN',b:v>=90?2:v>=85?1.5:v>=80?1:v>=72?.5:.2}});
+const TN=[['Mumbai Blasters','#2f7bff'],['Chennai Lions','#f5b800'],['Bengaluru Royals','#e8344f'],['Kolkata Knights','#9b4dd1']];
+const $=s=>document.querySelector(s),app=$('#app'),m=x=>'₹'+(+(+x).toFixed(2))+' Cr',osn=t=>t.sq.filter(i=>PL[i].os).length;
+const hue=s=>[...s].reduce((a,c)=>a*31+c.charCodeAt(0),7)%360,ini=n=>n.split(' ').map(w=>w[0]).slice(0,2).join('');
+let S=null,MY='me',host=false,online=false,doc=null,db=null,ui=null,seen={},msg='';
+const bt=i=>{const p=PL[i];return p.role=='B'||p.role=='W'?p.v:p.role=='A'?p.v*.85:p.v*.35},bl=i=>{const p=PL[i];return p.role=='L'?p.v:p.role=='A'?p.v*.8:p.v*.2};
+const nb=c=>c.by<0?PL[c.p].b:+(c.bid+(c.bid<2?.1:c.bid<5?.2:.25)).toFixed(2);
+const can=(t,p,a)=>t.sq.length<22&&t.pu-a>=(21-t.sq.length)*.2-1e-9&&(!PL[p].os||osn(t)<8);
+const log=s=>{S.lg.push(s);S.lg=S.lg.slice(-9)},tags=p=>[...p.t].map(k=>`<span class="chip tg">${TG[k]}</span>`).join('');
+const mk=()=>({ph:'lobby',code:'',i:-1,c:null,lg:[],res:null,ord:[],t:TN.map(x=>({n:x[0],col:x[1],uid:null,nm:'',ai:true,pu:100,sq:[],pr:.8+Math.random()*.45,xi:null}))});
+function aiVal(t,i){const p=PL[i];if(t.sq.length>=22||(p.os&&osn(t)>=8))return 0;let v=.0105*(p.v-58)**2*t.pr;const k=r=>t.sq.filter(j=>PL[j].role==r).length;
+ if(p.role=='W')v*=k('W')==0?1.3:k('W')>=2?.4:.8;if('LA'.includes(p.role)&&k('L')+k('A')<9)v*=1.2;if(t.sq.length>=16)v*=.6;if(p.os&&osn(t)>=6)v*=.6;return Math.max(Math.min(v,t.pu*.35),p.b*.9)}
+function auto(t){const sq=[...t.sq].sort((a,b)=>PL[b].v-PL[a].v);let x=[],os=0;const add=i=>{if(x.length<11&&!x.includes(i)&&(!PL[i].os||os<4)){x.push(i);PL[i].os&&os++}};
+ const w=sq.find(i=>PL[i].role=='W');if(w!=null)add(w);sq.filter(i=>'LA'.includes(PL[i].role)).slice(0,5).forEach(add);sq.forEach(add);sq.forEach(i=>{if(x.length<11&&!x.includes(i))x.push(i)});
+ const k=i=>bt(i)+(PL[i].t.includes('o')?6:0);x.sort((a,b)=>k(b)-k(a));const g={p:[],m:[],d:[]},bw={};
+ x.filter(i=>bl(i)>=58).sort((a,b)=>bl(b)-bl(a)).slice(0,7).forEach(i=>{const t=PL[i].t,pr=[t.includes('p')&&'p',t.includes('d')&&'d','m','p','d'].filter(Boolean),q=pr.find(q=>g[q].length<(q=='m'?3:2))||'m';g[q].push(i);bw[i]=q});
+ const s=[...x].sort((a,b)=>PL[b].v-PL[a].v);return{o:x,c:s[0],vc:s[1],bw}}
+function ev(x){const o=x.o,sg=(a,b,g)=>{const s=o.slice(a,b);return s.reduce((n,i)=>n+bt(i)*(PL[i].t.includes(g)?1.06:1),0)/s.length};
+ const gp=(k,g)=>{const s=o.filter(i=>x.bw[i]==k);return[s.length?s.reduce((n,i)=>n+bl(i)*(PL[i].t.includes(g)?1.08:1),0)/s.length:35,s.length]};
+ const top=sg(0,3,'o'),mid=sg(3,6,'m'),low=sg(6,11,'f'),[pp,a]=gp('p','p'),[md,b]=gp('m','s'),[dt,d]=gp('d','d'),n=a+b+d;
+ const bat=.4*top+.35*mid+.25*low,bowl=.3*pp+.4*md+.3*dt-Math.max(0,5-n)*6-[a,b,d].filter(z=>z<2).length*4;
+ let tot=(bat+bowl)/2;if(!o.some(i=>PL[i].role=='W'))tot-=5;tot+=2*PL[x.c].v/100+PL[x.vc].v/100;return{top,mid,low,pp,md,dt,bat,bowl,tot}}
+// ---------- host game logic
+function startAuc(){S.ord=PL.map(p=>p.i).sort((a,b)=>PL[b].v+Math.random()*14-PL[a].v-Math.random()*14);S.ph='auc';S.i=-1;next()}
+function next(){S.i++;if(S.i>=S.ord.length||S.t.every(t=>t.sq.length>=22))return endAuc();const n=Date.now();S.c={p:S.ord[S.i],bid:0,by:-1,st:'bid',end:n+15000,last:n,n:0,bd:[]};log('Now on the block: '+PL[S.c.p].n)}
+function endAuc(){const free=PL.filter(p=>!S.t.some(t=>t.sq.includes(p.i))).sort((a,b)=>(a.os-b.os)||b.v-a.v);S.t.forEach(t=>{while(t.sq.length<11&&free.length)t.sq.push(free.shift().i);if(t.ai)t.xi=auto(t)});S.ph='xi';log('Auction complete!');chk()}
+function bid(id,q){const c=S.c;if(S.ph!='auc'||c.st!='bid'||c.by===id)return;const t=S.t[id],a=nb(c);if(!can(t,c.p,a))return;const n=Date.now();c.bid=a;c.by=id;c.last=n;c.end=Math.max(c.end,n+9000);c.n++;c.bd.includes(id)||c.bd.push(id);log(`${t.n} bid ${m(a)}`);q||sync()}
+function chk(){if(S.t.every(t=>t.ai||t.xi||!t.uid))fin();else sync()}
+function fin(){S.t.forEach(t=>{if(!t.xi)t.xi=auto(t)});S.res=S.t.map((t,i)=>{const e=ev(t.xi);return{i,e,tot:e.tot+(Math.random()-.5)*6}}).sort((a,b)=>b.tot-a.tot);S.ph='res';sync()}
+function tick(){if(!host||!S||S.ph!='auc')return;const c=S.c,n=Date.now();
+ if(c.st=='bid'){if(n>=c.end){if(c.by>=0){const t=S.t[c.by];t.pu=+(t.pu-c.bid).toFixed(2);t.sq.push(c.p);c.st='sold';log(`SOLD! ${PL[c.p].n} to ${t.n} for ${m(c.bid)}`)}else{c.st='unsold';log(PL[c.p].n+' goes unsold')}c.end=n+3800;return sync()}
+  if(n-c.last>2300)for(const k of [0,1,2,3].sort(()=>Math.random()-.5)){const t=S.t[k],a=nb(c);if(t.ai&&c.by!==k&&a<=aiVal(t,c.p)&&can(t,c.p,a)&&Math.random()<.2){bid(k);break}}}
+ else if(n>=c.end){next();sync()}}
+async function sync(){render();if(online&&host)try{await doc.update({j:JSON.stringify(S)})}catch(e){}}
+function hostSnap(s){const d=s.data();if(!d||!S)return;for(const k in d)if(k[0]=='a'&&k[1]=='_'){let a;try{a=JSON.parse(d[k])}catch(e){continue}if(seen[k]===a.k)continue;seen[k]=a.k;const u=k.slice(2),ti=S.t.findIndex(t=>t.uid===u);
+ if(a.type=='join'&&S.ph=='lobby'&&ti<0){const f=S.t.find(t=>t.ai);if(f){f.ai=false;f.uid=u;f.nm=a.nm;sync()}}else if(a.type=='bid'&&ti>=0)bid(ti);else if(a.type=='xi'&&ti>=0&&S.ph=='xi'){S.t[ti].xi=a.x;chk()}}}
+const send=a=>doc.update({['a_'+MY]:JSON.stringify({k:Math.random(),...a})});
+// ---------- actions
+const nm=()=>($('#nm')?.value||'Manager').slice(0,14);
+const A={solo(){S=mk();const t=S.t[0];t.uid=MY;t.ai=false;t.nm=nm();host=true;online=false;startAuc();sync()},
+ async host(){const c=Math.random().toString(36).slice(2,6).toUpperCase();S=mk();S.code=c;const t=S.t[0];t.uid=MY;t.ai=false;t.nm=nm();host=online=true;doc=db.doc('rooms/'+c);try{await doc.set({j:JSON.stringify(S)});doc.onSnapshot(hostSnap)}catch(e){msg='Could not create room (needs Contributor access).';S=null;online=host=false}render()},
+ async join(){const c=($('#cd').value||'').trim().toUpperCase();doc=db.doc('rooms/'+c);try{const s=await doc.get();if(!s.exists){msg='Room not found';return render()}online=true;host=false;doc.onSnapshot(s=>{const d=s.data();if(d&&d.j){S=JSON.parse(d.j);render()}});send({type:'join',nm:nm()})}catch(e){msg='Could not join room';render()}},
+ start(){startAuc();sync()},skip(){const c=S.c;if(online||c.st!='bid'||c.by===S.t.findIndex(t=>t.uid===MY))return;for(let n=0;n<300;n++){let hit=0;for(const k of [0,1,2,3].sort(()=>Math.random()-.5)){const t=S.t[k],a=nb(c);if(t.ai&&c.by!==k&&a<=aiVal(t,c.p)&&can(t,c.p,a)){bid(k,1);hit=1;break}}if(!hit)break}log('You skipped '+PL[c.p].n);c.end=Date.now();tick()},bid(){const i=S.t.findIndex(t=>t.uid===MY);host?bid(i):send({type:'bid'})},force(){fin()},
+ tog(v){v=+v;const o=ui.o,k=o.indexOf(v);if(k>=0){o.splice(k,1);delete ui.bw[v];if(ui.c==v)ui.c=null;if(ui.vc==v)ui.vc=null}else o.push(v);render()},
+ up(v){v=+v;const o=ui.o;if(v>0)[o[v-1],o[v]]=[o[v],o[v-1]];render()},dn(v){v=+v;const o=ui.o;if(v<o.length-1)[o[v+1],o[v]]=[o[v],o[v+1]];render()},
+ cap(v){v=+v;ui.c=v;if(ui.vc==v)ui.vc=null;render()},vc(v){v=+v;ui.vc=v;if(ui.c==v)ui.c=null;render()},
+ auto(){ui=auto(S.t.find(t=>t.uid===MY));render()},lock(){ui.done=true;const x={o:ui.o,c:ui.c,vc:ui.vc,bw:ui.bw};if(host){S.t.find(t=>t.uid===MY).xi=x;chk()}else{send({type:'xi',x});render()}},again(){location.reload()}};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b&&b.tagName!='SELECT')A[b.dataset.a]?.(b.dataset.v)});
+document.addEventListener('change',e=>{const b=e.target;if(b.dataset.a=='bw'){ui.bw[b.dataset.v]=b.value;render()}});
+// ---------- views
+const lab=t=>t.n+(t.ai?'':' 👤'+t.nm),conf=col=>`<div class="cf" style="--cc:${col}">${Array.from({length:30},()=>`<b style="--x:${Math.random()*100|0};--d:${Math.random().toFixed(2)}s"></b>`).join('')}</div>`;
+function render(){$('#rm').textContent=S&&S.code?'Room '+S.code:'';if(!S)return home();({lobby:lob,auc:auc,xi:xis,res:resv})[S.ph]()}
+function home(){app.innerHTML=`<div class="card c"><h1>🏏 Build your IPL squad</h1><p class="mu">Bid for real players with ₹100 Cr. 22 slots, max 8 overseas. Then pick your XI and battle for the title.</p>
+<input id="nm" placeholder="Your name" maxlength="14"><br><button class="btn" data-a="solo">Play solo vs 3 AI teams</button>
+${db?`<hr><button class="btn" data-a="host">Host online room</button><br><input id="cd" placeholder="Room code" size="8" maxlength="4"><button class="btn" data-a="join">Join friends’ room</button>`:'<p class="mu">Online rooms need a signed-in viewer.</p>'}<p style="color:#e11d48">${msg}</p></div>`}
+function lob(){const me=S.t.findIndex(t=>t.uid===MY);app.innerHTML=`<div class="card c"><h2>Lobby · code <span style="color:var(--ac)">${S.code}</span></h2><p class="mu">Friends join with this code. Empty seats are played by AI.</p>
+${S.t.map(t=>`<div class="tm" style="--cl:${t.col}"><b>${t.n}</b><span>${t.ai?'🤖 AI':'👤 '+t.nm}</span></div>`).join('')}${host?'<button class="btn" data-a="start">Start auction</button>':'<p>Waiting for host to start…</p>'}</div>`}
+function stamp(c){const t=S.t[c.by];return c.st=='sold'?`<div class="stamp">SOLD<small>${t.n} · ${m(c.bid)}</small></div>${conf(t.col)}`:`<div class="stamp unsold">UNSOLD</div>`}
+function auc(){const c=S.c,p=PL[c.p],me=S.t.findIndex(t=>t.uid===MY),mt=S.t[me],a=nb(c),ld=c.by>=0?S.t[c.by]:null;
+ app.innerHTML=`<div class="g"><div><section class="card"><span class="chip">Lot ${S.i+1}/${S.ord.length}</span><span class="chip">${RL[p.role]}</span>${p.os?'<span class="chip os">OVERSEAS</span>':''}
+<div class="pl"><div class="av" style="--h:${hue(p.n)}">${ini(p.n)}</div><div><h2>${p.n}</h2><div>${FL[p.c]} ${p.c} · Rating <b>${p.v}</b></div><div>${tags(p)}</div><small>Base ${m(p.b)}</small></div></div>
+<div class="bidbox"><small>Current bid</small><div class="amt">${c.by<0?'—':m(c.bid)}</div><div class="ld" style="color:${ld?ld.col:'var(--mu)'}">${ld?'🔨 '+ld.n:'Waiting for the first bid…'}</div></div>
+<div class="bar"><i id="tb"></i><span id="tt"></span></div>
+${me>=0&&c.st=='bid'?`<button class="btn big" data-a="bid" ${c.by===me||!can(mt,c.p,a)?'disabled':''}>Bid ${m(a)}</button>`:''}
+${!online&&c.st=='bid'&&c.by!==me?'<button class="btn" style="width:100%;background:var(--bd);color:var(--tx)" data-a="skip">⏭ Skip this player</button>':''}
+<div>${S.t.map((t,i)=>`<span class="chip" style="${c.by===i?'background:'+t.col+';color:#fff;font-weight:800':''}">${t.n.split(' ')[0]}: ${c.by===i?'LEADING':c.bd.includes(i)?'raised':'watching'}</span>`).join('')}</div>${c.st!='bid'?stamp(c):''}</section>
+<section class="card lg"><h3>Live bid feed</h3>${[...S.lg].reverse().map(l=>`<div>${l}</div>`).join('')}</section></div>
+<aside>${S.t.map((t,i)=>`<div class="tm ${i==me?'me':''} ${c.by===i?'lead':''}" style="--cl:${t.col}"><span><b>${lab(t)}</b><br><small>${t.sq.length}/22 · overseas ${osn(t)}/8</small></span><b>${m(t.pu)}</b></div>`).join('')}
+${mt?`<section class="card"><h3>Your squad (${mt.sq.length}/22)</h3><small>${mt.sq.map(i=>(PL[i].os?'✈ ':'')+PL[i].n).join(' · ')||'No players yet'}</small></section>`:''}</aside></div>`}
+function xis(){const me=S.t.findIndex(t=>t.uid===MY),mt=S.t[me];ui=ui||{o:[],c:null,vc:null,bw:{}};
+ if(me<0||mt.xi||ui.done){const w=S.t.filter(t=>!t.ai&&!t.xi);app.innerHTML=`<div class="card c"><h2>Waiting for managers to lock their XI…</h2><p>${w.map(lab).join(', ')||'Everyone is ready'}</p>${host?'<button class="btn" data-a="force">Auto-pick for waiting players and reveal winner</button>':''}</div>`;return}
+ const o=ui.o,os=o.filter(i=>PL[i].os).length,wk=o.some(i=>PL[i].role=='W'),nbw=o.filter(i=>ui.bw[i]).length,ok=o.length==11&&wk&&ui.c!=null&&ui.vc!=null&&nbw>=5,sg=k=>k<3?'TOP':k<6?'MIDDLE':'LOWER';
+ const pv=o.length==11&&ui.c!=null&&ui.vc!=null?ev(ui):null;
+ app.innerHTML=`<div class="g"><section class="card"><h3>Your squad (${mt.sq.length})</h3>${[...mt.sq].sort((a,b)=>PL[b].v-PL[a].v).map(i=>{const p=PL[i],on=o.includes(i);return`<div class="row ${on?'on':''}"><span>${FL[p.c]} <b>${p.n}</b> <small>${RL[p.role]} · ${p.v} ${p.t}</small></span><button class="sm" data-a="tog" data-v="${i}" ${!on&&(o.length>=11||p.os&&os>=4)?'disabled':''}>${on?'−':'+'}</button></div>`}).join('')}</section>
+<section class="card"><h3>Playing XI: order and bowling plan</h3><small>XI ${o.length}/11 · overseas ${os}/4 · keeper ${wk?'✓':'✗'} · bowlers ${nbw}/5+ · set C and VC</small>
+${o.map((i,k)=>`<div class="row"><span><small>${k+1} ${sg(k)}</small> <b>${PL[i].n}</b></span><span><button class="sm" data-a="up" data-v="${k}">▲</button><button class="sm" data-a="dn" data-v="${k}">▼</button><button class="sm ${ui.c==i?'sel':''}" data-a="cap" data-v="${i}">C</button><button class="sm ${ui.vc==i?'sel':''}" data-a="vc" data-v="${i}">VC</button><select data-a="bw" data-v="${i}">${[['','Bowls: no'],['p','Powerplay'],['m','Middle'],['d','Death']].map(([v,l])=>`<option value="${v}" ${(ui.bw[i]||'')==v?'selected':''}>${l}</option>`).join('')}</select></span></div>`).join('')}
+${pv?`<p>Preview · Batting <b>${pv.bat.toFixed(0)}</b> · Bowling <b>${pv.bowl.toFixed(0)}</b></p>`:''}<button class="btn" data-a="auto">Auto-pick</button><button class="btn" data-a="lock" ${ok?'':'disabled'}>Lock my XI</button></section></div>`}
+function resv(){const r=S.res,w=S.t[r[0].i],mx=r[0].tot,f=x=>x.toFixed(0);
+ app.innerHTML=`<div class="card c win"><div class="trophy">🏆</div><h1 style="color:${w.col}">${lab(w)} are the champions!</h1>${conf(w.col)}</div>${r.map((z,k)=>{const t=S.t[z.i],e=z.e,x=t.xi;return`<div class="card" style="animation:slide .5s ${k*.3}s both"><b>#${k+1} ${lab(t)}</b> <b style="float:right">${z.tot.toFixed(1)}</b><div class="rb" style="--cl:${t.col};width:${z.tot/mx*100}%"></div>
+<small>Top ${f(e.top)} · Middle ${f(e.mid)} · Lower ${f(e.low)} | Powerplay ${f(e.pp)} · Middle ${f(e.md)} · Death ${f(e.dt)}</small><br><small>C: ${PL[x.c].n} · VC: ${PL[x.vc].n}<br>${x.o.map(i=>PL[i].n).join(', ')}</small></div>`}).join('')}<div class="c"><button class="btn" data-a="again">New auction</button></div>`}
+setInterval(()=>{tick();if(S&&S.ph=='auc'&&S.c){const c=S.c,l=Math.max(0,c.end-Date.now()),b=$('#tb');if(b){b.style.width=Math.min(100,l/150)+'%';$('#tt').textContent=c.st=='bid'?Math.ceil(l/1000)+'s':'';b.parentNode.classList.toggle('hot',l<4000&&c.st=='bid')}}},250);
+(async()=>{try{if(window.claude){db=await claude.use('db');const u=await claude.use('user');const id=u&&await u.id();id?MY=id:db=null}}catch(e){db=null}render()})();
+</script></body></html>
