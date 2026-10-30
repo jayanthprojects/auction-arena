@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>IPL Auction Arena</title>
 
-<!-- 1. Load Firebase Compat SDKs here in the head -->
+<!-- Firebase Compat SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
@@ -241,7 +241,7 @@ function resv(){const r=S.res,w=S.t[r[0].i],mx=r[0].tot,f=x=>x.toFixed(0);
 <small>Top ${f(e.top)} · Middle ${f(e.mid)} · Lower ${f(e.low)} | Powerplay ${f(e.pp)} · Middle ${f(e.md)} · Death ${f(e.dt)}</small><br><small>C: ${PL[x.c].n} · VC: ${PL[x.vc].n}<br>${x.o.map(i=>PL[i].n).join(', ')}</small></div>`}).join('')}<div class="c"><button class="btn" data-a="again">New auction</button></div>`}
 setInterval(()=>{tick();if(S&&S.ph=='auc'&&S.c){const c=S.c,l=Math.max(0,c.end-Date.now()),b=$('#tb');if(b){b.style.width=Math.min(100,l/150)+'%';$('#tt').textContent=c.st=='bid'?Math.ceil(l/1000)+'s':'';b.parentNode.classList.toggle('hot',l<4000&&c.st=='bid')}}},250);
 
-// Initialize Firebase and set up your game database at the bottom
+// Initialize Firebase and set up your game database
 const firebaseConfig = {
   apiKey: "AIzaSyAuCDfEXr3TGjP2pnWFk3k5lxnf3XmwEpU",
   authDomain: "auction-arena-f2a9c.firebaseapp.com",
@@ -266,6 +266,126 @@ try {
 if (typeof render === 'function') {
   render();
 }
+</script>
+
+<!-- ===== AUCTIONEER + NEW COLOURS ADD-ON ===== -->
+<style>
+/* ---------- new colourful theme (overrides only the colour variables) ---------- */
+:root{--bg:#fff1f8;--cd:#fff;--tx:#2a1650;--mu:#7a6a9a;--ac:#ff6b00;--bd:#f1d5f7;--ok:#12b886}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#1a0b3d;--cd:#2a1260;--tx:#fff4ff;--mu:#c4b0ff;--ac:#ffd23f;--bd:#4a2a9a;--ok:#2ee6a6}}
+:root[data-theme=dark]{--bg:#1a0b3d;--cd:#2a1260;--tx:#fff4ff;--mu:#c4b0ff;--ac:#ffd23f;--bd:#4a2a9a;--ok:#2ee6a6}
+body{background:radial-gradient(circle at 12% 8%,#ff3d8b44,transparent 40%),radial-gradient(circle at 90% 20%,#00c2ff44,transparent 40%),var(--bg);background-attachment:fixed}
+header{background:linear-gradient(90deg,#ff3d8b,#7a3cff,#00c2ff);text-shadow:0 2px 6px #0004}
+.card{box-shadow:0 6px 24px #7a3cff33;border-color:#7a3cff66}
+.btn{background:linear-gradient(135deg,var(--ac),#ff7a18);box-shadow:0 4px 14px #ff7a1866}
+.sm.sel{background:linear-gradient(135deg,var(--ac),#ff7a18)}
+.amt{text-shadow:0 0 18px var(--ac)}
+.chip{background:var(--bd)}.tg{background:linear-gradient(135deg,var(--ac),#ff7a18)}
+.bar i{background:linear-gradient(90deg,#2ee6a6,#00c2ff)}
+
+/* ---------- auctioneer ---------- */
+.card.lg{min-height:190px}
+.au-wrap{position:absolute;right:14px;top:6px;width:130px;height:140px;pointer-events:none}
+.au-svg{width:130px;height:130px;overflow:visible;position:absolute;right:0;top:8px}
+.au-b{position:absolute;right:140px;top:18px;max-width:230px;background:#fff;color:#2a1650;font-weight:800;font-size:14px;padding:8px 12px;border-radius:14px;box-shadow:0 4px 14px #0003}
+.au-b::after{content:"";position:absolute;right:-8px;top:16px;border:8px solid transparent;border-left-color:#fff;border-right:0}
+.au-b.pop{animation:aupop .4s}
+.au-bang{position:absolute;left:-6px;top:40px;font-size:38px;display:none}
+.au[data-mood=sold] .au-bang{display:block;animation:aupop .5s infinite alternate}
+.mo,.he,.sw{display:none}
+.au[data-mood=idle] .m-idle,.au[data-mood=bid] .m-bid,.au[data-mood=war] .m-war,.au[data-mood=once] .m-once,.au[data-mood=sold] .m-sold,.au[data-mood=unsold] .m-unsold{display:inline}
+.au[data-mood=sold] .he{display:inline}.au[data-mood=sold] .eyes{display:none}
+.au[data-mood=once] .sw,.au[data-mood=war] .sw,.au[data-mood=unsold] .sw{display:inline;animation:audrop 1.2s infinite}
+.b1,.b2,.eyes,.gv,.pp{transform-box:fill-box;transform-origin:center}
+.eyes{animation:blink 4s infinite}.pp{animation:look 3s infinite ease-in-out}
+.gv{transform-box:view-box;transform-origin:108px 128px}
+.au[data-mood=bid] .b1,.au[data-mood=bid] .b2{transform:translateY(-3px)}
+.au[data-mood=war] .b1,.au[data-mood=war] .b2,.au[data-mood=sold] .b1,.au[data-mood=sold] .b2{transform:translateY(-6px)}
+.au[data-mood=war] .eyes{transform:scale(1.25)}
+.au[data-mood=once] .b1,.au[data-mood=unsold] .b1{transform:rotate(-16deg)}
+.au[data-mood=once] .b2,.au[data-mood=unsold] .b2{transform:rotate(16deg)}
+.au[data-mood=idle] .au-svg{animation:aubob 2.4s infinite ease-in-out}
+.au[data-mood=bid] .au-svg{animation:aubounce .5s infinite alternate}
+.au[data-mood=war] .au-svg{animation:aushake .18s infinite}
+.au[data-mood=once] .au-svg{animation:aulean 1s infinite alternate}
+.au[data-mood=sold] .au-svg{animation:aujump .5s infinite}
+.au[data-mood=unsold] .au-svg{animation:audroop 2s infinite alternate ease-in-out}
+.au[data-mood=bid] .gv{animation:augav 1s infinite}
+.au[data-mood=war] .gv{animation:augav .25s infinite}
+.au[data-mood=once] .gv{transform:rotate(-40deg)}
+.au[data-mood=sold] .gv{animation:augav .35s 4}
+@keyframes aupop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.12)}}
+@keyframes aubob{50%{transform:translateY(-4px) rotate(2deg)}}
+@keyframes aubounce{to{transform:translateY(-8px)}}
+@keyframes aushake{0%{transform:translate(-2px,1px) rotate(-2deg)}50%{transform:translate(2px,-1px) rotate(2deg)}100%{transform:translate(-2px,1px) rotate(-2deg)}}
+@keyframes aulean{to{transform:rotate(-5deg) translateY(-3px)}}
+@keyframes aujump{50%{transform:translateY(-16px) scale(1.05)}}
+@keyframes audroop{to{transform:translateY(6px) rotate(3deg)}}
+@keyframes augav{50%{transform:rotate(-55deg)}}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+@keyframes look{0%,100%{transform:translateX(-2px)}50%{transform:translateX(2px)}}
+@keyframes audrop{0%{transform:translateY(0);opacity:1}100%{transform:translateY(24px);opacity:0}}
+@media(max-width:800px){
+ .card.lg{min-height:0}
+ .au-wrap{position:relative;right:auto;top:auto;width:100%;height:150px;margin-top:10px}
+ .au-svg{right:50%;margin-right:-65px;top:18px}
+ .au-b{right:auto;left:50%;transform:translateX(-50%);top:-6px;white-space:nowrap}
+ .au-b::after{display:none}.au-bang{left:calc(50% - 90px)}
+}
+</style>
+
+<script>
+(function(){
+const SVG=`<div class="au" data-mood="idle"><div class="au-b"></div><div class="au-bang">💥</div>
+<svg class="au-svg" viewBox="0 0 130 130">
+<path d="M18 130Q20 100 65 98Q110 100 112 130Z" fill="#7a3cff"/><path d="M52 100L65 112L78 100Z" fill="#fff"/>
+<path d="M65 108L50 100V116ZM65 108L80 100V116Z" fill="#ff3d8b"/><circle cx="65" cy="108" r="4" fill="#c2185b"/>
+<circle cx="26" cy="62" r="8" fill="#ffcf9f"/><circle cx="104" cy="62" r="8" fill="#ffcf9f"/>
+<ellipse cx="65" cy="62" rx="40" ry="42" fill="#ffcf9f"/>
+<circle cx="38" cy="76" r="7" fill="#ff9aa2" opacity=".6"/><circle cx="92" cy="76" r="7" fill="#ff9aa2" opacity=".6"/>
+<ellipse cx="65" cy="30" rx="50" ry="9" fill="#f5d27a"/><path d="M38 30Q38 4 65 4Q92 4 92 30Z" fill="#f5d27a"/><rect x="38" y="21" width="54" height="8" fill="#ff3d8b"/>
+<rect class="b1" x="41" y="43" width="19" height="5" rx="2.5" fill="#4a2a1a"/><rect class="b2" x="70" y="43" width="19" height="5" rx="2.5" fill="#4a2a1a"/>
+<g class="eyes"><circle cx="50" cy="58" r="8" fill="#fff"/><circle class="pp" cx="50" cy="58" r="4" fill="#222"/><circle cx="80" cy="58" r="8" fill="#fff"/><circle class="pp" cx="80" cy="58" r="4" fill="#222"/></g>
+<path class="he" d="M42 61Q50 49 58 61M72 61Q80 49 88 61" stroke="#222" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+<path d="M48 76Q56 68 65 74Q74 68 82 76Q74 82 65 78Q56 82 48 76Z" fill="#4a2a1a"/>
+<path class="mo m-idle" d="M55 88Q65 96 75 88" stroke="#7a1f2a" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path class="mo m-bid" d="M54 86Q65 106 76 86Z" fill="#7a1f2a"/>
+<g class="mo m-war"><ellipse cx="65" cy="93" rx="10" ry="12" fill="#7a1f2a"/><ellipse cx="65" cy="99" rx="6" ry="4" fill="#ff6b81"/></g>
+<ellipse class="mo m-once" cx="65" cy="90" rx="5" ry="6" fill="#7a1f2a"/>
+<g class="mo m-sold"><path d="M50 84Q65 114 80 84Z" fill="#7a1f2a"/><path d="M52 85Q65 91 78 85V84H52Z" fill="#fff"/></g>
+<path class="mo m-unsold" d="M55 97Q65 85 75 97" stroke="#7a1f2a" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path class="sw" d="M108 40Q114 52 108 56Q102 52 108 40Z" fill="#5ec8ff"/>
+<g class="gv"><rect x="105.5" y="92" width="5" height="36" rx="2" fill="#8a5a2b"/><rect x="94" y="84" width="28" height="13" rx="4" fill="#b9772f"/></g>
+</svg></div>`;
+const f=(a)=>a[Math.random()*a.length|0];
+const L={
+ idle:[()=>"Who opens the bidding?",()=>"Don't be shy, folks!",()=>PL[S.c.p].n+"! A real star!",()=>"Wallets out, managers!"],
+ bid:[()=>"Going up! 📈",()=>"Ooh, nice bid!",()=>"Do I hear more?",()=>S.t[S.c.by].n.split(' ')[0]+" means business!"],
+ war:[()=>"BIDDING WAR!! 🔥",()=>"Fight! Fight! Fight!",()=>"My gavel is sweating!",()=>S.t[S.c.by].n.split(' ')[0]+" won't back down!"],
+ once:[()=>"Going once...",()=>"Going twice...",()=>"Last chance!!"],
+ sold:[()=>"SOLD to "+S.t[S.c.by].n+"!",()=>"Bang! "+m(S.c.bid)+" – done!",()=>"Cha-ching! 💰"],
+ unsold:[()=>"No takers? Ouch.",()=>"Unsold... sad gavel 😢",()=>"Nobody? Really?"]};
+let last='',line='';
+function upd(){
+ if(!S||S.ph!='auc'||!S.c)return;
+ const host=document.querySelector('.card.lg');if(!host)return;
+ let w=host.querySelector('.au-wrap'),fresh=0;
+ if(!w){const d=document.createElement('div');d.className='au-wrap';d.innerHTML=SVG;host.appendChild(d);w=d;fresh=1}
+ const c=S.c,l=c.end-Date.now();let mo,ix=0;
+ if(c.st=='sold')mo='sold';else if(c.st=='unsold')mo='unsold';
+ else if(c.by<0)mo='idle';
+ else if(l<4000){mo='once';ix=l>2700?0:l>1300?1:2}
+ else if(c.n>=4)mo='war';else mo='bid';
+ const key=mo+'|'+S.i+'|'+c.n+'|'+ix;
+ const changed=key!==last;
+ if(changed){last=key;const a=L[mo];line=(mo=='once'?a[ix]:f(a))()}
+ const au=w.querySelector('.au'),b=w.querySelector('.au-b');
+ au.dataset.mood=mo;
+ if(changed||fresh){b.textContent=line;if(changed){b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}}
+}
+const _r=render;render=function(){_r();upd()};
+setInterval(upd,200);
+})();
 </script>
 </body>
 </html>
