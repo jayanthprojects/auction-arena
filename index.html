@@ -213,7 +213,7 @@ const lab=t=>t.n+(t.ai?'':' 👤'+t.nm),conf=col=>`<div class="cf" style="--cc:$
 function render(){$('#rm').textContent=S&&S.code?'Room '+S.code:'';if(!S)return home();({lobby:lob,auc:auc,xi:xis,res:resv})[S.ph]()}
 function home(){app.innerHTML=`<div class="card c"><h1>🏏 Build your IPL squad</h1><p class="mu">Bid for real players with ₹100 Cr. 22 slots, max 8 overseas. Then pick your XI and battle for the title.</p>
 <input id="nm" placeholder="Your name" maxlength="14"><br><button class="btn" data-a="solo">Play solo vs 3 AI teams</button>
-${db?`<hr><button class="btn" data-a="host">Host online room</button><br><input id="cd" placeholder="Room code" size="8" maxlength="4"><button class="btn" data-a="join">Join friends’ room</button>`:'<p class="mu">Online rooms need a signed-in viewer.</p>'}<p style="color:#e11d48">${msg}</p></div>`}
+${db?`<hr><button class="btn" data-a="host">Host online room</button><br><input id="cd" placeholder="Room code" size="8" maxlength="4"><button class="btn" data-a="join">Join friends’ room</button>`:'<p class="mu">Online rooms need a signed-in viewer.</p>'}<p style="color:#e11d48">{msg}</p></div>`}
 function lob(){const me=S.t.findIndex(t=>t.uid===MY);app.innerHTML=`<div class="card c"><h2>Lobby · code <span style="color:var(--ac)">${S.code}</span></h2><p class="mu">Friends join with this code. Empty seats are played by AI.</p>
 ${S.t.map(t=>`<div class="tm" style="--cl:${t.col}"><b>${t.n}</b><span>${t.ai?'🤖 AI':'👤 '+t.nm}</span></div>`).join('')}${host?'<button class="btn" data-a="start">Start auction</button>':'<p>Waiting for host to start…</p>'}</div>`}
 function stamp(c){const t=S.t[c.by];return c.st=='sold'?`<div class="stamp">SOLD<small>${t.n} · ${m(c.bid)}</small></div>${conf(t.col)}`:`<div class="stamp unsold">UNSOLD</div>`}
@@ -287,7 +287,7 @@ header{background:linear-gradient(90deg,#ff3d8b,#7a3cff,#00c2ff);text-shadow:0 2
 .card.lg{min-height:190px}
 .au-wrap{position:absolute;right:14px;top:6px;width:130px;height:140px;pointer-events:none}
 .au-svg{width:130px;height:130px;overflow:visible;position:absolute;right:0;top:8px}
-.au-b{position:absolute;right:140px;top:18px;max-width:230px;background:#fff;color:#2a1650;font-weight:800;font-size:14px;padding:8px 12px;border-radius:14px;box-shadow:0 4px 14px #0003}
+.au-b{position:absolute;right:140px;top:10px;max-width:270px;background:#fff;color:#2a1650;font-weight:800;font-size:14px;padding:8px 12px;border-radius:14px;box-shadow:0 4px 14px #0003}
 .au-b::after{content:"";position:absolute;right:-8px;top:16px;border:8px solid transparent;border-left-color:#fff;border-right:0}
 .au-b.pop{animation:aupop .4s}
 .au-bang{position:absolute;left:-6px;top:40px;font-size:38px;display:none}
@@ -311,6 +311,17 @@ header{background:linear-gradient(90deg,#ff3d8b,#7a3cff,#00c2ff);text-shadow:0 2
 .au[data-mood=sold] .au-svg{animation:aujump .5s infinite}
 .au[data-mood=unsold] .au-svg{animation:audroop 2s infinite alternate ease-in-out}
 .au[data-mood=bid] .gv{animation:augav 1s infinite}
+.hh{display:none}
+.au[data-mood=wow] .m-wow,.au[data-mood=wow] .hh{display:inline}
+.au[data-mood=wow] .eyes{display:none}
+.au[data-mood=wow] .b1,.au[data-mood=wow] .b2{transform:translateY(-7px)}
+.au[data-mood=wow] .ch{opacity:1}
+.au[data-mood=wow] .au-svg{animation:aubounce .28s infinite alternate}
+.au[data-mood=wow] .hh{animation:aupulse .4s infinite alternate;transform-box:fill-box;transform-origin:center}
+#au-em{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+#au-em span{position:absolute;opacity:0;animation:aufloat 2.2s ease-out forwards}
+@keyframes aufloat{0%{transform:translate(0,0) scale(.4);opacity:0}15%{opacity:1}100%{transform:translate(var(--dx),-200px) scale(1.25) rotate(var(--rt));opacity:0}}
+@keyframes aupulse{to{transform:scale(1.35)}}
 .au[data-mood=war] .gv{animation:augav .25s infinite}
 .au[data-mood=once] .gv{transform:rotate(-40deg)}
 .au[data-mood=sold] .gv{animation:augav .35s 4}
@@ -342,7 +353,7 @@ const SVG=`<div class="au" data-mood="idle"><div class="au-b"></div><div class="
 <path d="M65 108L50 100V116ZM65 108L80 100V116Z" fill="#ff3d8b"/><circle cx="65" cy="108" r="4" fill="#c2185b"/>
 <circle cx="26" cy="62" r="8" fill="#ffcf9f"/><circle cx="104" cy="62" r="8" fill="#ffcf9f"/>
 <ellipse cx="65" cy="62" rx="40" ry="42" fill="#ffcf9f"/>
-<circle cx="38" cy="76" r="7" fill="#ff9aa2" opacity=".6"/><circle cx="92" cy="76" r="7" fill="#ff9aa2" opacity=".6"/>
+<circle class="ch" cx="38" cy="76" r="7" fill="#ff9aa2" opacity=".6"/><circle class="ch" cx="92" cy="76" r="7" fill="#ff9aa2" opacity=".6"/>
 <ellipse cx="65" cy="30" rx="50" ry="9" fill="#f5d27a"/><path d="M38 30Q38 4 65 4Q92 4 92 30Z" fill="#f5d27a"/><rect x="38" y="21" width="54" height="8" fill="#ff3d8b"/>
 <rect class="b1" x="41" y="43" width="19" height="5" rx="2.5" fill="#4a2a1a"/><rect class="b2" x="70" y="43" width="19" height="5" rx="2.5" fill="#4a2a1a"/>
 <g class="eyes"><circle cx="50" cy="58" r="8" fill="#fff"/><circle class="pp" cx="50" cy="58" r="4" fill="#222"/><circle cx="80" cy="58" r="8" fill="#fff"/><circle class="pp" cx="80" cy="58" r="4" fill="#222"/></g>
@@ -354,31 +365,109 @@ const SVG=`<div class="au" data-mood="idle"><div class="au-b"></div><div class="
 <ellipse class="mo m-once" cx="65" cy="90" rx="5" ry="6" fill="#7a1f2a"/>
 <g class="mo m-sold"><path d="M50 84Q65 114 80 84Z" fill="#7a1f2a"/><path d="M52 85Q65 91 78 85V84H52Z" fill="#fff"/></g>
 <path class="mo m-unsold" d="M55 97Q65 85 75 97" stroke="#7a1f2a" stroke-width="3" fill="none" stroke-linecap="round"/>
+<g class="mo m-wow"><ellipse cx="65" cy="91" rx="5" ry="6" fill="#7a1f2a"/><text x="72" y="92" font-size="15">💋</text></g>
+<text class="hh" x="40" y="66" font-size="20" fill="#ff2d6f">♥</text><text class="hh" x="70" y="66" font-size="20" fill="#ff2d6f">♥</text>
 <path class="sw" d="M108 40Q114 52 108 56Q102 52 108 40Z" fill="#5ec8ff"/>
 <g class="gv"><rect x="105.5" y="92" width="5" height="36" rx="2" fill="#8a5a2b"/><rect x="94" y="84" width="28" height="13" rx="4" fill="#b9772f"/></g>
 </svg></div>`;
-const f=(a)=>a[Math.random()*a.length|0];
-const L={
- idle:[()=>"Who opens the bidding?",()=>"Don't be shy, folks!",()=>PL[S.c.p].n+"! A real star!",()=>"Wallets out, managers!"],
- bid:[()=>"Going up! 📈",()=>"Ooh, nice bid!",()=>"Do I hear more?",()=>S.t[S.c.by].n.split(' ')[0]+" means business!"],
- war:[()=>"BIDDING WAR!! 🔥",()=>"Fight! Fight! Fight!",()=>"My gavel is sweating!",()=>S.t[S.c.by].n.split(' ')[0]+" won't back down!"],
- once:[()=>"Going once...",()=>"Going twice...",()=>"Last chance!!"],
- sold:[()=>"SOLD to "+S.t[S.c.by].n+"!",()=>"Bang! "+m(S.c.bid)+" – done!",()=>"Cha-ching! 💰"],
- unsold:[()=>"No takers? Ouch.",()=>"Unsold... sad gavel 😢",()=>"Nobody? Really?"]};
-let last='',line='';
+const f=a=>a[Math.random()*a.length|0];
+const PJ={
+ 'kohli':["Virat ante chase master ra! Runs ni chase chesthadu, ippudu mee wallet ni chase chesthunnadu 😄","Kohli vasthe stadium lo 'Kohli Kohli' — mee jebu lo 'khaali khaali' 😂"],
+ 'rohit':["Rohit ni toss lo marchipotaru, kani bid lo marchipokandi maama! 😜","Hitman ki bid pettandi — leda 'Hit' avthaaru, mee wallet 😅"],
+ 'bumrah':["Bumrah action chusi batsmen confuse, mee wallet kuda confuse avthundi! 🤯","Bumrah yorker ki chappalu kuda save kavu ra babu! 🥾"],
+ 'siraj':["Mana Hyderabadi Siraj! Ee rate ki biryani plate free ivvali anna! 🍗","Siraj bowling ki Charminar kuda sound chesthundi 😎"],
+ 'tilak':["Mana Hyderabad abbayi Tilak! Local boy ki local rate ivvandi anna 😍","Tilak ki bid pettandi, lekapothe Hyderabad aunties maaki class teesukuntaru 😂"],
+ 'nitish kumar':["Nitish Reddy — Telugu pride! Bid cheyyakapothe 'Reddy' ga undaleru 😎","Vizag nunchi vachaadu, bid lo 'Vizag wave' laaga paiki povali! 🌊"],
+ 'jadeja':["Jadeja bat tho sword swing, price tho wallet swing! ⚔️","Sir Jadeja ki 'Sir' ani pilavandi, discount raadu mari 😂"],
+ 'hardik':["Hardik: bat, ball, style — full combo pack, Sunday thali laaga! 🍛","Hardik ki rate adhi, attitude inkaa adhi 😎"],
+ 'rashid':["Rashid ball spin avthundi, mee BP kuda spin avthundi! 🌀","Rashid Khan ki bid pettandi — spin lo wallet kuda tirugutundi 😂"],
+ 'pant':["Pant one-hand six ki Telugu heroes kuda clap kodthaaru! 👏","Pant crease lo ante comedy, bid lo ante thriller! 🎬"],
+ 'klaasen':["Klaasen spinners ni 'chitaka' kodthadu — bid kuda chitaka kottandi! 💥","Klaasen vasthe bowlers ki 'ayyo ramaa' tappa gati ledu 😂"],
+ 'russell':["Russell sixer kodthe stadium roof ki kuda hole paduthundi! 🚀","Russell: Andre-nalin ante mee wallet lo Andre-nalin kavali! 💪"],
+ 'warner':["Warner Pushpa step veste crowd whistle! Bid kuda 'thaggedhe le' anandi! 🔥","Warner: Telugu reels king! Bid pettandi, lekapothe reel lo trolls ostay 😂"],
+ 'head':["Head vasthe bowlers ki head-ache ra babu! 🤕","Travis Head: SRH fans ki darling — bid ki 'Head' pettandi! 🧡"],
+ 'cummins':["Cummins Hyderabad biryani ki fan ata! Bid pettandi, biryani meeru ivvandi 🍛","Captain Cummins — mee wallet ki kuda captain kavali ra! 😄"],
+ 'chahal':["Chahal spin tho kaadu, smile tho kuda wicket teesthadu 😁","Chahal ante comedy + wickets combo! 🎭"],
+ 'kuldeep':["Kuldeep ball ardham chesukovadam kante Telugu serial plot ardham chesukovadam easy! 📺","Kuldeep googly: batsman ki 'Em jarigindi ra?' moment! 😵"],
+ 'shami':["Shami seam position: Telugu hero entry laaga slow-mo lo vasthundi! 🎬","Shami ki bid pettandi, lekapothe 'Shami-ga' unchipotaru 😂"],
+ 'maxwell':["Maxwell switch hit: ball tho kaadu, mee heartbeat tho aadukuntaadu! 💓","Maxwell ante entertainment guarantee — refund ledu mari! 😆"],
+ 'narine':["Narine poker face — bid ki kuda poker face pettandi! 🃏","Narine mystery spin: batsman ki mystery, mee wallet ki history! 😂"],
+ 'buttler':["Buttler ramp shot: 'ayyo wahh' ani aunties kuda cheppesaru 😍","Buttler ki bid pettandi, KGF level mass! 💪"],
+ 'gill':["Shubman cover drive chusi 'ento beautiful' ani aunties antaru 😍","Gill: smooth ante Hyderabad Irani chai laaga smooth! ☕"],
+ 'jaiswal':["Yashasvi: pani puri nunchi crorepati! Mari meeru crore lo bid pettandi! 💰","Jaiswal vasthe powerplay lo 'crackers' pelutayi! 🎆"],
+ 'rinku':["Rinku: last 5 balls lo 5 sixes — Telugu serial climax laga! 🔥","Rinku Singh: finishing lo 'Mass Maharaja' vibes! 😎"],
+ 'suryakumar':["SKY 360° shots — mee bids kuda 360° lo vachesthayi! 🌪️","Suryakumar ki bid pettandi, ball ekkada padina 'SKY' lo ne untundi! ☁️"],
+ 'natarajan':["Natarajan yorker: chappalu kuda save kavu ra! 🥾","Natarajan: Hyderabad boys favourite — bid ki mass response ivvandi! 📣"],
+ 'bhuvneshwar':["Bhuvi swing: gaali tho kaadu, Hyderabad traffic tho kuda swing chesthadu 🚦","Bhuvi ki bid pettandi, swing lo mee wallet kuda aadutundi! 🎢"],
+ 'arshdeep':["Arshdeep death overs lo cool — mee wallet mundu kuda cool avvandi! 😎","Arshdeep: left-arm, right-price! 😄"],
+ 'ishan':["Ishan: dance, sixes, drama — full entertainment package! 💃","Ishan Kishan ki bid pettandi, interval lo kuda entertainment! 🍿"],
+ 'iyer':["Iyer ki rate higher ayipothundi, jagratha! 📈","Iyer vasthe captaincy + sixes combo offer! 🎁"],
+ 'mayank yadav':["Mayank speed chusi Hyderabad cab drivers kuda jealous! 🚕","Mayank bowling: ball vachindi ante, 'ayyo' tho purthi! 💨"],
+ 'curran':["Curran chinna pillodu, kani rate peddadi ra! 😂","Sam Curran: all-rounder, all-smiles, all-your-money! 💸"],
+ 'salt':["Phil Salt vasthe powerplay lo 'mirchi' rate peruguthundi! 🌶️","Salt: Hyderabad mirchi bajji laaga hot! 🔥"],
+ 'stoinis':["Stoinis: 'Stoinis' ante 'Stoned is'? Kaadu, 'Strong is'! 😂","Stoinis vasthe finishing lo 'full masala'! 🌶️"],
+ 'pooran':["Pooran sixers kodthe, 'pooran poli' laaga sweet ga untundi! 😋","Pooran: batting lo 'poori' laaga ubbipothadu! 🫓"]
+};
+const G=[
+ "Ee rate ki Hyderabad lo biryani 10,000 plates vachestayi! 🍛",
+ "Bidding thaggedhe le! Pushpa style! 🔥",
+ "Arey babu, bid cheyyandi — Telugu serial laaga extend cheyyakandi! 📺",
+ "Mee wallet ni gattiga pattukondi, auctioneer ki chillara ledu! 😂",
+ "Katappa kuda ee auction lo wallet ni champesadu ra! 😭",
+ "Naa face Brahmi meme laaga ayyindi, ee rates chusi! 😲",
+ "Ee price chusi naaku BP vachindi — mee wallet ki kuda vachinda? 🩺",
+ "Bid pettaru ante pettaru — Sunday biryani laaga, aagakoodadu! 🍗",
+ "Ayyo ayyo ayyo! Rates ekkuva, jebu takkuva! 💸",
+ "Em ra babu, kaalam ga bid cheyyandi, maa auctioneer ki BP perigindi! 🤪",
+ "Hyderabad traffic laaga auction kuda ekkada aagadu! 🚦",
+ "Dabbulu unte ivvandi, lekapothe 'ayyo ramaa' ani aagandi! 🙏"];
+const HYPE=["Going up! 📈","Ooh, nice bid maama!","Inka ekkuva ivvandi!","Super ra mama! 👏",()=>S.t[S.c.by].n.split(' ')[0]+" means business! 😎","Baaga pettaru! 🔥"];
+const WARL=["BIDDING WAR!! 🔥","Fight! Fight! Fight!","Naa gavel sweating ra! 💦",()=>S.t[S.c.by].n.split(' ')[0]+" back down kaadu! 😤","Ayyo ramaa, em war ra idi! 🤯"];
+const WOW=["Arey wahhh! 😘","Ayyo ramaa! 🤩","Mind block ayindi maama! 😍","Em rate ra babu! 😲💋","Super super super! 🥰"];
+const SOLDL=[()=>"SOLD to "+S.t[S.c.by].n+"! 🎉",()=>"Bang! "+m(S.c.bid)+" — done deal! 🔨",()=>"Cha-ching! 💰 Mubarak!",()=>"Ee rate ki Hyderabad lo 2BHK vachestundi anukunnara? 😂 SOLD!"];
+const UNL=["Unsold! 'Baagundi kani vaddu' antunnaru 😂","Nobody? Naa face ippudu Brahmi meme! 😭","Unsold... gavel kuda sad ayyindi 😢","Takers ledu ra babu! 🤷"];
+const ONCE=["Going once...","Going twice...","Last chance, ayyo! 😬"];
+const pj=p=>{const n=p.n.toLowerCase();for(const k in PJ)if(n.includes(k))return PJ[k];return[]};
+const run=x=>typeof x=='function'?x():x;
+function burst(list,n){
+ const w=document.querySelector('.au-wrap');if(!w)return;
+ const r=w.getBoundingClientRect();let h=document.getElementById('au-em');
+ if(!h){h=document.createElement('div');h.id='au-em';document.body.appendChild(h)}
+ for(let i=0;i<n;i++){const e=document.createElement('span');e.textContent=f(list);
+  e.style.left=Math.max(8,r.left+r.width/2-Math.random()*340)+'px';e.style.top=(r.top+40+Math.random()*60)+'px';
+  e.style.fontSize=(22+Math.random()*22)+'px';e.style.animationDelay=(i*.09)+'s';
+  e.style.setProperty('--dx',(Math.random()*80-40)+'px');e.style.setProperty('--rt',(Math.random()*60-30)+'deg');
+  h.appendChild(e);setTimeout(()=>e.remove(),2800)}
+}
+let last='',line='',lot=-1,pn=0,pb=0,wowT=0;
 function upd(){
  if(!S||S.ph!='auc'||!S.c)return;
  const host=document.querySelector('.card.lg');if(!host)return;
  let w=host.querySelector('.au-wrap'),fresh=0;
  if(!w){const d=document.createElement('div');d.className='au-wrap';d.innerHTML=SVG;host.appendChild(d);w=d;fresh=1}
- const c=S.c,l=c.end-Date.now();let mo,ix=0;
+ const c=S.c,now=Date.now(),l=c.end-now;
+ if(lot!=S.i){lot=S.i;pn=0;pb=0;wowT=0}
+ if(c.n>pn){
+  if((c.n==1&&(PL[c.p].v>=85||Math.random()<.4))||Math.floor(c.bid/5)>Math.floor(pb/5)){wowT=now+1700;burst(['😘','😍','🤩','💋','😂','🥰','😲'],9)}
+  pn=c.n;pb=c.bid}
+ let mo,ix=0;
  if(c.st=='sold')mo='sold';else if(c.st=='unsold')mo='unsold';
- else if(c.by<0)mo='idle';
+ else if(now<wowT)mo='wow';
+ else if(c.by<0){mo='idle';ix=Math.max(0,Math.floor((now-(c.end-15000))/4500))}
  else if(l<4000){mo='once';ix=l>2700?0:l>1300?1:2}
  else if(c.n>=4)mo='war';else mo='bid';
  const key=mo+'|'+S.i+'|'+c.n+'|'+ix;
  const changed=key!==last;
- if(changed){last=key;const a=L[mo];line=(mo=='once'?a[ix]:f(a))()}
+ if(changed){
+  last=key;const P=pj(PL[c.p]),J=P.concat(G);
+  if(mo=='idle')line=ix==0&&P.length?f(P):f(J);
+  else if(mo=='bid')line=Math.random()<.45?f(J):run(f(HYPE));
+  else if(mo=='war')line=Math.random()<.5?f(J):run(f(WARL));
+  else if(mo=='once')line=ONCE[ix];
+  else if(mo=='wow')line=f(WOW);
+  else if(mo=='sold'){line=run(f(SOLDL));burst(['🥳','😘','💰','🎉','😍','🤑'],11)}
+  else{line=f(UNL);burst(['😂','🤣','😭'],6)}
+ }
  const au=w.querySelector('.au'),b=w.querySelector('.au-b');
  au.dataset.mood=mo;
  if(changed||fresh){b.textContent=line;if(changed){b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}}
