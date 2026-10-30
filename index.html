@@ -157,7 +157,7 @@ Maheesh Theekshana|L|SL|76|s
 Pathum Nissanka|B|SL|74|o
 Mustafizur Rahman|L|BD|80|d
 Shakib Al Hasan|A|BD|74|s`;
-const FL={IN:'🇮🇳',AU:'🇦🇺',GB:'🇬🇧',SA:'🇿🇦',NZ:'🇳🇿',WI:'🌴',AF:'🇦🇫',SL:'🇱🇰',BD:'🇧🇩'},RL={B:'Batter',W:'WK-Batter',A:'All-rounder',L:'Bowler'};
+const FL={IN:'🇮🇳',AU:'🇦🇺',GB:'🇬🇧',SA:'🇿🇦',NZ:'NZ',WI:'🌴',AF:'🇦🇫',SL:'🇱🇰',BD:'🇧🇩'},RL={B:'Batter',W:'WK-Batter',A:'All-rounder',L:'Bowler'};
 const TG={o:'Opener',m:'Middle',f:'Finisher',p:'Powerplay',d:'Death',s:'Spin'};
 const PL=RAW.split('\n').map((l,i)=>{const[n,role,c,v,t]=l.split('|');return{i,n,role,c,v:+v,t,os:c!='IN',b:v>=90?2:v>=85?1.5:v>=80?1:v>=72?.5:.2}});
 let TN=[['Mumbai Blasters','#2f7bff'],['Chennai Lions','#f5b800'],['Bengaluru Royals','#e8344f'],['Kolkata Knights','#9b4dd1']];
@@ -221,6 +221,24 @@ ${db?`<hr><button class="btn" data-a="host">Host online room</button><br><input 
 function lob(){const me=S.t.findIndex(t=>t.uid===MY);app.innerHTML=`<div class="card c"><h2>Lobby · code <span style="color:var(--ac)">${S.code}</span></h2><p class="mu">Friends join with this code. Empty seats are played by AI.</p>
 ${S.t.map(t=>`<div class="tm" style="--cl:${t.col}"><b>${t.n}</b><span>${t.ai?'🤖 AI':'👤 '+t.nm}</span></div>`).join('')}${host?'<button class="btn" data-a="start">Start auction</button>':'<p>Waiting for host to start…</p>'}</div>`}
 function stamp(c){const t=S.t[c.by];return c.st=='sold'?`<div class="stamp">SOLD<small>${t.n} · ${m(c.bid)}</small></div>${conf(t.col)}`:`<div class="stamp unsold">UNSOLD</div>`}
+
+// --- PERMANENT AUCTIONEER HTML EMBEDDED DIRECTLY INTO auc() ---
+const AU_EMBED=`<div class="au-wrap"><div class="au-b"></div><div class="au-bang">💥</div>
+<svg class="au-svg" viewBox="0 0 130 130">
+<path d="M18 130Q20 100 65 98Q110 100 112 130Z" fill="#7a3cff"/><path d="M52 100L65 112L78 100Z" fill="#fff"/>
+<path d="M65 108L50 100V116ZM65 108L80 100V116Z" fill="#ff3d8b"/><circle cx="65" cy="108" r="4" fill="#c2185b"/>
+<circle cx="26" cy="62" r="8" fill="#ffcf9f"/><circle cx="104" cy="62" r="8" fill="#ffcf9f"/>
+<ellipse cx="65" cy="62" rx="40" ry="42" fill="#ffcf9f"/>
+<circle class="ch" cx="38" cy="76" r="7" fill="#ff9aa2" opacity=".6"/><circle class="ch" cx="92" cy="76" r="7" fill="#ff9aa2" opacity=".6"/>
+<ellipse cx="65" cy="30" rx="50" ry="9" fill="#f5d27a"/><path d="M38 30Q38 4 65 4Q92 4 92 30Z" fill="#f5d27a"/><rect x="38" y="21" width="54" height="8" fill="#ff3d8b"/>
+<rect class="b1" x="41" y="43" width="19" height="5" rx="2.5" fill="#4a2a1a"/><rect class="b2" x="70" y="43" width="19" height="5" rx="2.5" fill="#4a2a1a"/>
+<g class="eyes"><circle cx="50" cy="58" r="8" fill="#fff"/><circle class="pp" cx="50" cy="58" r="4" fill="#222"/><circle cx="80" cy="58" r="8" fill="#fff"/><circle class="pp" cx="80" cy="58" r="4" fill="#222"/></g>
+<path class="he" d="M42 61Q50 49 58 61M72 61Q80 49 88 61" stroke="#222" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+<path d="M48 76Q56 68 65 74Q74 68 82 76Q74 82 65 78Q56 82 48 76Z" fill="#4a2a1a"/>
+<path class="sw" d="M108 40Q114 52 108 56Q102 52 108 40Z" fill="#5ec8ff"/>
+<g class="gv"><rect x="105.5" y="92" width="5" height="36" rx="2" fill="#8a5a2b"/><rect x="94" y="84" width="28" height="13" rx="4" fill="#b9772f"/></g>
+</svg></div>`;
+
 function auc(){const c=S.c,p=PL[c.p],me=S.t.findIndex(t=>t.uid===MY),mt=S.t[me],a=nb(c),ld=c.by>=0?S.t[c.by]:null;
  app.innerHTML=`<div class="g"><div><section class="card"><span class="chip">Lot ${S.i+1}/${S.ord.length}</span><span class="chip">${RL[p.role]}</span>${p.os?'<span class="chip os">OVERSEAS</span>':''}
 <div class="pl"><div class="av" style="--h:${hue(p.n)}">${ini(p.n)}</div><div><h2>${p.n}</h2><div>${FL[p.c]} ${p.c} · Rating <b>${p.v}</b></div><div>${tags(p)}</div><small>Base ${m(p.b)}</small></div></div>
@@ -229,7 +247,7 @@ function auc(){const c=S.c,p=PL[c.p],me=S.t.findIndex(t=>t.uid===MY),mt=S.t[me],
 ${me>=0&&c.st=='bid'?`<button class="btn big" data-a="bid" ${c.by===me||!can(mt,c.p,a)?'disabled':''}>Bid ${m(a)}</button>`:''}
 ${!online&&c.st=='bid'&&c.by!==me?'<button class="btn" style="width:100%;background:var(--bd);color:var(--tx)" data-a="skip">⏭ Skip this player</button>':''}
 <div>${S.t.map((t,i)=>`<span class="chip" style="${c.by===i?'background:'+t.col+';color:#fff;font-weight:800':''}">${t.n.split(' ')[0]}: ${c.by===i?'LEADING':c.bd.includes(i)?'raised':'watching'}</span>`).join('')}</div>${c.st!='bid'?stamp(c):''}</section>
-<section class="card lg"><h3>Live bid feed</h3>${[...S.lg].reverse().map(l=>`<div>${l}</div>`).join('')}</section></div>
+<section class="card lg">${AU_EMBED}<h3>Live bid feed</h3>${[...S.lg].reverse().map(l=>`<div>${l}</div>`).join('')}</section></div>
 <aside>${S.t.map((t,i)=>`<div class="tm ${i==me?'me':''} ${c.by===i?'lead':''}" style="--cl:${t.col}"><span><b>${lab(t)}</b><br><small>${t.sq.length}/22 · overseas ${osn(t)}/8</small></span><b>${m(t.pu)}</b></div>`).join('')}
 ${mt?`<section class="card"><h3>Your squad (${mt.sq.length}/22)</h3><small>${mt.sq.map(i=>(PL[i].os?'✈ ':'')+PL[i].n).join(' · ')||'No players yet'}</small></section>`:''}</aside></div>`}
 function xis(){const me=S.t.findIndex(t=>t.uid===MY),mt=S.t[me];ui=ui||{o:[],c:null,vc:null,bw:{}};
@@ -272,7 +290,7 @@ if (typeof render === 'function') {
 }
 </script>
 
-<!-- ===== FUN PACK ADD-ON v3 (Fixed Auctioneer Insertion) ===== -->
+<!-- ===== FUN PACK ADD-ON v4 (Permanent Embedded Auctioneer) ===== -->
 <style>
 body.kids{--bg:#fff7d6;--cd:#fff;--tx:#3b1d6e;--mu:#6b5b95;--bd:#ffd1f0;--ac:#ff7a00;--ok:#12b886;font-family:"Comic Sans MS","Chalkboard SE","Marker Felt",system-ui,sans-serif;background:radial-gradient(circle at 10% 10%,#ffe14d99,transparent 35%),radial-gradient(circle at 90% 15%,#4dd2ff88,transparent 35%),radial-gradient(circle at 50% 100%,#ff7ad988,transparent 40%),#fff7d6;background-attachment:fixed}
 body.kids header{background:linear-gradient(90deg,#ff4d6d,#ff9f1c,#2ec4b6,#4361ee,#b5179e);font-size:20px;letter-spacing:1px}
@@ -323,7 +341,7 @@ const cap=mkd('x-cap'),fy=mkd('x-fly');
 mkd('x-bar','<button data-x="k" title="Kids theme">🎨</button><button data-x="s" title="Sound effects">🔊</button><button data-x="v" class="off" title="Auctioneer voice">🗣️</button><button data-x="l" title="Fun level">😜</button><button data-x="p" title="Party! Stunt">🎉</button>');
 ['🎈','⭐','🌈','🪁','🎠','🍭','🎈','🧸','🎈','⭐'].forEach((e,i)=>{const b=document.createElement('span');b.className='xb';b.textContent=e;b.style.cssText=`left:${i*10+Math.random()*6}%;--t:${14+Math.random()*12|0}s;animation-delay:-${Math.random()*14|0}s`;document.body.appendChild(b)});
 let ct;function say(t,tag){cap.innerHTML='<small>'+(tag||'🎬 Telugu Reel')+'</small>';cap.appendChild(document.createTextNode(t));cap.classList.remove('on');void cap.offsetWidth;cap.classList.add('on');clearTimeout(ct);ct=setTimeout(()=>cap.classList.remove('on'),5500);talk(t)}
-function fly(list,n){const W=innerWidth,H=innerHeight;for(let i=0;i<n;i++){const e=document.createElement('span'),r=Math.random()<.5;e.textContent=f(list);e.style.cssText=`font-size:${28+Math.random()*30|0}px;--t:${(1.8+Math.random()*1.4).toFixed(1)}s;--x0:${r?-60:W}px;--x1:${r?W:-60}px;--y0:${H*(.2+Math.random()*.6)|0}px;--y1:${H*(.05+Math.random()*.6)|0}px;--r:${Math.random()*720-360|0}deg;animation-delay:${(i*.15).toFixed(2)}s`;fy.appendChild(e);setTimeout(()=>e.remove(),3900+i*150)}}
+function fly(list,n){const W=innerWidth,H=innerHeight;for(let i=0;i<n;i++){const e=document.createElement('span'),r=Math.random()<.5;e.textContent=f(list);e.style.cssText=`font-size:${28+Math.random()*30|0}px;--t:${(1.8+Math.random()*1.4).toFixed(1)}s;--x0:${r?-60:W}px;--x1:${r?W:-60}px;--y0:${H*(.2+Math.random()*6)|0}px;--y1:${H*(.05+Math.random()*6)|0}px;--r:${Math.random()*720-360|0}deg;animation-delay:${(i*.15).toFixed(2)}s`;fy.appendChild(e);setTimeout(()=>e.remove(),3900+i*150)}}
 
 const MOV=["Pushpa ante flower anukunnava? Fire ra! Bid pettandi! 🔥","Kattappa Baahubali ni enduku champadu? Bid ekkuva pettaledani! 🗡️","Magadheera laaga 100 mandini oka bid tho champestha! 🐎","Eega laaga chinna bid kuda pedda revenge theesukuntundi! 🪰","Athadu laaga silent ga vachi bid tho 'bang' kodathaa! 😎","Pokiri laaga evariki ardham kakunda bid pettandi! 🕶️","Srimanthudu laaga bid pettandi — oka village ni kuda adopt chesukovachu! 🏡","RRR laaga: meeru fire, mee wallet water! 🔥💧","Arjun Reddy laaga kopam vaddu, bid pettandi chalu! 😤","Jathi Ratnalu laaga em chesthunnamo teliyakunda bid pettandi! 😂","Ala Vaikunthapurramuloo laaga 'Butta Bomma' step veyyandi bid mundu! 💃","Sarileru Neekevvaru laaga mind block ayyindi ee rate ki! 🤯","Kalki laaga ee price future lo kuda undadu! 🚀","Khaleja laaga mee wallet ki 'Super Star' protection kavali! ⭐"];
 const INS=["POV: nuvvu bid pettavu, mee wallet 'bye bye' chepindi 😭","Reel idi: 'Wait for it…' 💸 ayyo, bid poyindi!","Bro, like-share-subscribe… mundu bid pettu! 📲","Mee friends: 'Anna enduku ra ee bid?' Meeru: 'Passion ra!' 😎","Trending: #BidChesiChoodu #WalletKhaali 🔥","Story lo petti 'Auction King' ani caption pettukondi 👑","Screenshot teesi 'Anna mass' ani status pettandi! 📸","Comments lo 'Fire' ani vesthe 100 likes guarantee! 🔥👍","Slow-mo + BGM pettandi — mee bid cinema laaga untundi! 🎬","Bid pettaledu ante unfollow kottesthaaru ra! 😂","Filter petti kuda mee wallet 'empty' ani teliyakunda undadu 🤳"];
@@ -332,22 +350,6 @@ const RL2={B:"Bat pattukunte stadium lo whistle sound! 📣",W:"Gloves tho catch
 const TL2={o:"Opener: first ball nunchi mass mode ON! 🔥",m:"Middle overs lo Sunday nidra laaga anchor! 😴",f:"Finisher: Telugu serial climax laaga twist! 🎬",p:"Powerplay lo ball tho 'Pushpa Pushpa'! 🌶️",d:"Death yorker ki chappalu kuda save kavu! 🥾",s:"Spinner: ball tirugutundi, mee BP kuda tirugutundi! 🌀"};
 const EX={'sanju':"Sixes kodthe 'Sanju' kaadu 'Sixer-ju'! 😂",'kl rahul':"Class idi ra — Telugu 'Classic' movie laaga! 🎞️",'ruturaj':"Ruturaj ante 'Raju' — bid kuda rajasam ga pettandi! 👑",'sudharsan':"Sai Baba ki devotion, bat tho passion! 🙏",'abhishek':"Powerplay lo bowlers ki 'Abhishekam' chesthaadu! 🔥",'riyan':"Reels ki fire, bat ki kuda fire! 🔥",'axar':"Left-arm magic — mee wallet ni lagesthaadu! 🪄",'washington':"Peru lo America, bowling lo Chennai! 🇺🇸😂",'venkatesh':"Venkateswara swamy ki mokku — 'Govinda' ani bid pettandi! 🙏",'krunal':"Pandya brothers combo pack! 👬",'bishnoi':"Googly ki batsman 'Ela ra?' antaadu! 🤔",'chakravarthy':"Mystery spin — Telugu thriller laaga twist! 🕵️",'prasidh':"Krishna leelalu laaga bounce leelalu! 🦚",'dube':"Sixer kodithe ball ki address undadu! 📮",'harshal':"Slower ball: Telugu serial speed — suspense! 🐌",'avesh':"Helmet tho celebration — mass entertainment! 🪖",'mukesh':"Silent killer — wallet ni silent ga theesesthaadu! 🤫",'tushar':"Chaduvu lo topper, bowling lo kuda! 📚",'chahar':"Swing, giggle, hug — full entertainment! 😄",'chawla':"Veteran — senior hero level respect! 🙏",'prithvi':"Fast start tho 'Shaw-king'! ⚡",'patidar':"'Ee sala cup namde' fans ki hope-u! 🏆",'shashank':"Auction confusion hero — meme material ra! 😂",'badoni':"Junior mass hero in the making! 🧒🔥",'de kock':"Keeper + opener = oka ticket ki rendu movies! 🎟️",'gurbaz':"Sixes ki 'gurr' mani sound! 💥",'fraser':"Peru kante sixes pedda — full-length peru ra! 😂",'tim david':"Finishing lo 'Tim Tim' ani sixes! 🔔",'green':"Peru lo green, rate lo red hot! 🟢🔥",'starc':"Yorker ki crore rate — worth it ra! 🎯",'hazlewood':"Line & length — serial lo same dialogue laaga repeat! 🔁",'zampa':"Leg-spin tho Hyderabad traffic laaga confuse! 🚦",'archer':"Speed ki 'Rocket' ani peru pettali! 🚀",'mark wood':"150 kph — Hyderabad auto kante speed! 🛺",'livingstone':"Sixes ki stadium lo landing! ✈️",'stokes':"All-rounder, all-drama — serial ki script ivvachu! 📺",'brook':"Brook ante chinna nadi — sixes ki sunami! 🌊",'rabada':"Speed + swag, full mass combo! 😎",'nortje':"Pace ki naa gunde aagindi! 💨",'jansen':"6'8\" height — roof ki 'hi' chepthaadu! 🙋",'miller':"Killer Miller — last overs lo climax! 🎬",'boult':"Swing ki ball banana laaga tirugutundi! 🍌",'noor':"Chinna pilla, pedda spin — kids movie laaga cute! 🧒",'hetmyer':"Hair, swag, sixes — full reel package! 💇",'powell':"Power ante Powell — mee wallet ki power cut! 🔌",'shepherd':"Gorrela kaapari laaga mee bids ni kaasthaadu! 🐑",'hasaranga':"Wicket teesi cartwheel — kids favourite! 🤸",'pathirana':"Baby Malinga — Telugu lo 'Chinna Malinga'! 👶",'mustafizur':"Cutters tho scissors laaga kosesthaadu! ✂️",'shakib':"Brahmi laaga multi-talent — bat, ball, drama! 🎭"};
 const joke=p=>{const n=p.n.toLowerCase(),k=Object.keys(EX).find(k=>n.includes(k)),r=p.v,pool=[CJ[p.c],RL2[p.role],...[...p.t].map(x=>TL2[x]),r>=90?`Rating ${r}! Superstar — Mahesh Babu level mass! 🌟`:r>=84?`Rating ${r} — star stamp pakka! ⭐`:r>=76?`Rating ${r} — Sunday biryani laaga satisfying! 🍛`:`Rating ${r} — Jathi Ratnalu laaga underdog surprise! 😂`,`${fn(p.n)} ante ${fn(p.n)} ra — peru vinte Hyderabad auto driver kuda 'wahh' antaadu 😆`];return fn(p.n)+': '+(k&&Math.random()<.75?EX[k]:f(pool.filter(Boolean)))};
-
-const SVG=`<div class="au" data-mood="idle"><div class="au-b"></div><div class="au-bang">💥</div>
-<svg class="au-svg" viewBox="0 0 130 130">
-<path d="M18 130Q20 100 65 98Q110 100 112 130Z" fill="#7a3cff"/><path d="M52 100L65 112L78 100Z" fill="#fff"/>
-<path d="M65 108L50 100V116ZM65 108L80 100V116Z" fill="#ff3d8b"/><circle cx="65" cy="108" r="4" fill="#c2185b"/>
-<circle cx="26" cy="62" r="8" fill="#ffcf9f"/><circle cx="104" cy="62" r="8" fill="#ffcf9f"/>
-<ellipse cx="65" cy="62" rx="40" ry="42" fill="#ffcf9f"/>
-<circle class="ch" cx="38" cy="76" r="7" fill="#ff9aa2" opacity=".6"/><circle class="ch" cx="92" cy="76" r="7" fill="#ff9aa2" opacity=".6"/>
-<ellipse cx="65" cy="30" rx="50" ry="9" fill="#f5d27a"/><path d="M38 30Q38 4 65 4Q92 4 92 30Z" fill="#f5d27a"/><rect x="38" y="21" width="54" height="8" fill="#ff3d8b"/>
-<rect class="b1" x="41" y="43" width="19" height="5" rx="2.5" fill="#4a2a1a"/><rect class="b2" x="70" y="43" width="19" height="5" rx="2.5" fill="#4a2a1a"/>
-<g class="eyes"><circle cx="50" cy="58" r="8" fill="#fff"/><circle class="pp" cx="50" cy="58" r="4" fill="#222"/><circle cx="80" cy="58" r="8" fill="#fff"/><circle class="pp" cx="80" cy="58" r="4" fill="#222"/></g>
-<path class="he" d="M42 61Q50 49 58 61M72 61Q80 49 88 61" stroke="#222" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-<path d="M48 76Q56 68 65 74Q74 68 82 76Q74 82 65 78Q56 82 48 76Z" fill="#4a2a1a"/>
-<path class="sw" d="M108 40Q114 52 108 56Q102 52 108 40Z" fill="#5ec8ff"/>
-<g class="gv"><rect x="105.5" y="92" width="5" height="36" rx="2" fill="#8a5a2b"/><rect x="94" y="84" width="28" height="13" rx="4" fill="#b9772f"/></g>
-</svg></div>`;
 
 const KF={tilt:[{rotate:'-12deg'},{rotate:'12deg',translate:'0 -5px'}],squash:[{scale:'1 1'},{scale:'1.2 .8'}],walk:[{translate:'-16px 0'},{translate:'16px 0'}],dance:[{rotate:'-10deg',translate:'-6px 0'},{rotate:'10deg',translate:'6px -12px'}],spin:[{rotate:'y 0deg'},{rotate:'y 720deg'}],shake:[{translate:'-4px 2px',rotate:'-3deg'},{translate:'4px -2px',rotate:'3deg'}],jump:[{translate:'0 0'},{translate:'0 -18px',scale:'1.08'}],bob:[{translate:'0 0'},{translate:'0 6px'}],droop:[{translate:'0 0',rotate:'0deg'},{translate:'0 10px',rotate:'6deg'}]};
 const SL=[
@@ -371,9 +373,7 @@ let ST=null,tS=0;
 function stunt(ty){const L=SL.filter(s=>s[0]==(ty||'a'));let s;do{s=f(L)}while(L.length>1&&ST&&s===ST.s);const d=s[7]*s[8],n=Date.now();ST={s,t0:n,end:n+d};tS=n;say(s[1],'🎭 Auctioneer Live');SX[s[5]]&&SX[s[5]]();fly(s[4],O.lv>1?9:5);if(s[4].includes('📸')){const e=document.createElement('div');e.className='xflash';document.body.appendChild(e);setTimeout(()=>e.remove(),600)}paint();setTimeout(paint,d+60)}
 function paint(){
  const host=document.querySelector('.card.lg');if(!host)return;
- let w=host.querySelector('.au-wrap');
- if(!w){const d=document.createElement('div');d.className='au-wrap';d.innerHTML=SVG;host.appendChild(d);w=d}
- const sv=w.querySelector('.au-svg');if(!sv)return;
+ const sv=host.querySelector('.au-svg');if(!sv)return;
  sv.querySelectorAll('.x').forEach(e=>e.remove());sv.getAnimations().forEach(a=>{if(!a.animationName)a.cancel()});if(!ST||Date.now()>=ST.end)return;
  const s=ST.s,add=(t,y,z)=>{const e=document.createElementNS('http://www.w3.org/2000/svg','text');e.setAttribute('class','x');e.setAttribute('x',65);e.setAttribute('y',y);e.setAttribute('font-size',z);e.setAttribute('text-anchor','middle');e.textContent=t;sv.appendChild(e)};
  add(s[2],88,78);add(s[3],26,46);const a=sv.animate(KF[s[6]],{duration:s[7],iterations:s[8],direction:'alternate',easing:'ease-in-out'});a.currentTime=Date.now()-ST.t0}
@@ -383,7 +383,7 @@ function inject(){if(S||document.querySelector('.xpick'))return;const b=document
  h.innerHTML='<b>👥 How many teams?</b><br>'+[4,6,8].map(n=>`<button class="sm ${TN.length==n?'sel':''}" data-xn="${n}">${n} teams</button>`).join('')+'<br><b>🏏 Pick your team</b><br>'+TN.map((t,i)=>`<button class="sm ${pick==i?'sel':''}" data-xt="${i}" style="border-bottom:4px solid ${t[1]}">${t[0]}</button>`).join('');b.before(h)}
 function seat(){if(!S||pick<=0||pick>=S.t.length)return;const a=S.t[0],b=S.t[pick];['uid','nm','ai'].forEach(k=>[a[k],b[k]]=[b[k],a[k]);sync()}
 const _so=A.solo,_ho=A.host;A.solo=function(){_so();seat()};A.host=async function(){await _ho();if(host&&online)seat()};
-function extraAI(){if(!host||!S||S.ph!='auc'||S.t.length<5)return;const c=S.c,n=Date.now();if(c.st!='bid'||n-c.last<=2300)return;for(let k=4;k<S.t.length;k++){const t=S.t[k],a=nb(c);if(t.ai&&c.by!==k&&a<=aiVal(t,c.p)&&can(t,c.p,a)&&Math.random()<.12){bid(k);break}}}
+function extraAI(){if(!host||!S||S.ph!='auc'||S.t.length<5)return;const c=S.c,n=Date.now();if(c.st!='bid'||n-c.last<=2300)return;for(const k=4;k<S.t.length;k++){const t=S.t[k],a=nb(c);if(t.ai&&c.by!==k&&a<=aiVal(t,c.p)&&can(t,c.p,a)&&Math.random()<.12){bid(k);break}}}
 
 document.addEventListener('click',e=>{const b=e.target.closest('[data-xn],[data-xt],[data-x]');if(!b)return;
  if(b.dataset.xn){TN=TLs.slice(0,+b.dataset.xn);extraTeams=TN.length>4;if(pick>=TN.length)pick=0;render()}
