@@ -272,10 +272,13 @@ if (typeof render === 'function') {
 }
 </script>
 
-<!-- ===== AUCTIONEER + FUNNY TELUGU INSTAGRAM DIALOGS & ANIMATED DANCE ADD-ON ===== -->
+<!-- ===== AUCTIONEER + NEW COLOURS ADD-ON: paste right before </body> (after your original </script>) ===== -->
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
+/* ---------- new colourful theme (overrides only the colour variables) ---------- */
 :root{--bg:#fff1f8;--cd:#fff;--tx:#2a1650;--mu:#7a6a9a;--ac:#ff6b00;--bd:#f1d5f7;--ok:#12b886}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#1a0b3d;--cd:#2a1260;--tx:#fff4ff;--mu:#c4b0ff;--ac:#ffd23f;--bd:#4a2a9a;--ok:#2ee6a6}}
+:root[data-theme=dark]{--bg:#1a0b3d;--cd:#2a1260;--tx:#fff4ff;--mu:#c4b0ff;--ac:#ffd23f;--bd:#4a2a9a;--ok:#2ee6a6}
 body{background:radial-gradient(circle at 12% 8%,#ff3d8b44,transparent 40%),radial-gradient(circle at 90% 20%,#00c2ff44,transparent 40%),var(--bg);background-attachment:fixed}
 header{background:linear-gradient(90deg,#ff3d8b,#7a3cff,#00c2ff);text-shadow:0 2px 6px #0004}
 .card{box-shadow:0 6px 24px #7a3cff33;border-color:#7a3cff66}
@@ -285,7 +288,7 @@ header{background:linear-gradient(90deg,#ff3d8b,#7a3cff,#00c2ff);text-shadow:0 2
 .chip{background:var(--bd)}.tg{background:linear-gradient(135deg,var(--ac),#ff7a18)}
 .bar i{background:linear-gradient(90deg,#2ee6a6,#00c2ff)}
 
-/* ---------- auctioneer avatar & dance styles ---------- */
+/* ---------- auctioneer ---------- */
 .card.lg{min-height:190px}
 .au-wrap{position:absolute;right:14px;top:6px;width:130px;height:140px;pointer-events:none}
 .au-svg{width:130px;height:130px;overflow:visible;position:absolute;right:0;top:8px}
@@ -306,11 +309,11 @@ header{background:linear-gradient(90deg,#ff3d8b,#7a3cff,#00c2ff);text-shadow:0 2
 .au[data-mood=war] .eyes{transform:scale(1.25)}
 .au[data-mood=once] .b1,.au[data-mood=unsold] .b1{transform:rotate(-16deg)}
 .au[data-mood=once] .b2,.au[data-mood=unsold] .b2{transform:rotate(16deg)}
-.au[data-mood=idle] .au-svg{animation:audance 1.2s infinite alternate ease-in-out}
-.au[data-mood=bid] .au-svg{animation:aubounce .4s infinite alternate}
-.au[data-mood=war] .au-svg{animation:aushake .15s infinite}
+.au[data-mood=idle] .au-svg{animation:aubob 2.4s infinite ease-in-out}
+.au[data-mood=bid] .au-svg{animation:aubounce .5s infinite alternate}
+.au[data-mood=war] .au-svg{animation:aushake .18s infinite}
 .au[data-mood=once] .au-svg{animation:aulean 1s infinite alternate}
-.au[data-mood=sold] .au-svg{animation:aujump .4s infinite}
+.au[data-mood=sold] .au-svg{animation:aujump .5s infinite}
 .au[data-mood=unsold] .au-svg{animation:audroop 2s infinite alternate ease-in-out}
 .au[data-mood=bid] .gv{animation:augav 1s infinite}
 .hh{display:none}
@@ -318,14 +321,17 @@ header{background:linear-gradient(90deg,#ff3d8b,#7a3cff,#00c2ff);text-shadow:0 2
 .au[data-mood=wow] .eyes{display:none}
 .au[data-mood=wow] .b1,.au[data-mood=wow] .b2{transform:translateY(-7px)}
 .au[data-mood=wow] .ch{opacity:1}
-.au[data-mood=wow] .au-svg{animation:audance .25s infinite alternate}
+.au[data-mood=wow] .au-svg{animation:aubounce .28s infinite alternate}
 .au[data-mood=wow] .hh{animation:aupulse .4s infinite alternate;transform-box:fill-box;transform-origin:center}
 #au-em{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
 #au-em span{position:absolute;opacity:0;animation:aufloat 2.2s ease-out forwards}
 @keyframes aufloat{0%{transform:translate(0,0) scale(.4);opacity:0}15%{opacity:1}100%{transform:translate(var(--dx),-200px) scale(1.25) rotate(var(--rt));opacity:0}}
 @keyframes aupulse{to{transform:scale(1.35)}}
-@keyframes audance{0%{transform:translateY(0) rotate(-4deg)}100%{transform:translateY(-8px) rotate(4deg)}}
+.au[data-mood=war] .gv{animation:augav .25s infinite}
+.au[data-mood=once] .gv{transform:rotate(-40deg)}
+.au[data-mood=sold] .gv{animation:augav .35s 4}
 @keyframes aupop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.12)}}
+@keyframes aubob{50%{transform:translateY(-4px) rotate(2deg)}}
 @keyframes aubounce{to{transform:translateY(-8px)}}
 @keyframes aushake{0%{transform:translate(-2px,1px) rotate(-2deg)}50%{transform:translate(2px,-1px) rotate(2deg)}100%{transform:translate(-2px,1px) rotate(-2deg)}}
 @keyframes aulean{to{transform:rotate(-5deg) translateY(-3px)}}
@@ -342,20 +348,160 @@ header{background:linear-gradient(90deg,#ff3d8b,#7a3cff,#00c2ff);text-shadow:0 2
  .au-b{right:auto;left:50%;transform:translateX(-50%);top:-6px;white-space:nowrap}
  .au-b::after{display:none}.au-bang{left:calc(50% - 90px)}
 }
+
+/* ---------- more antics (acts) ---------- */
+.hat{transform-box:fill-box;transform-origin:center}.arm{transform-box:view-box;transform-origin:24px 116px}.e1,.e2{transform-box:fill-box;transform-origin:center}
+.sg,.tg2,.xx,.hd{display:none}
+.au[data-act][data-mood] .mo{display:none}
+.au[data-act=tongue][data-mood] .tg2,.au[data-act=hero][data-mood] .sg,.au[data-act=faint][data-mood] .xx,.au[data-act=pushpa][data-mood] .hd{display:inline}
+.au[data-act=cry][data-mood] .m-unsold{display:inline}
+.au[data-act=hero][data-mood] .eyes,.au[data-act=faint][data-mood] .eyes{display:none}
+.au[data-act=tongue][data-mood] .e1 .pp{animation:none;transform:translateX(3px)}
+.au[data-act=tongue][data-mood] .e2 .pp{animation:none;transform:translateX(-3px)}
+.au[data-act=wink][data-mood] .e2{transform:scaleY(.1)}
+.au[data-act=cry][data-mood] .sw{display:inline;animation:audrop .7s infinite}
+.au[data-act=dance][data-mood] .au-svg{animation:audance .45s infinite alternate}
+.au[data-act=dance][data-mood] .arm{animation:auwave .22s infinite alternate}
+.au[data-act=dance][data-mood] .gv{animation:augav .3s infinite}
+.au[data-act=tongue][data-mood] .au-svg{animation:aushake .3s infinite}
+.au[data-act=hat][data-mood] .hat{animation:auhat 1.2s 2}
+.au[data-act=flex][data-mood] .au-svg{animation:auflex .5s infinite alternate}
+.au[data-act=flex][data-mood] .arm{animation:auwave .5s infinite alternate}
+.au[data-act=flex][data-mood] .gv{transform:rotate(-65deg)}
+.au[data-act=faint][data-mood] .au-svg{animation:aufaint 3s}
+.au[data-act=hero][data-mood] .au-svg{animation:auhero 3.2s}
+.au[data-act=pushpa][data-mood] .au-svg{animation:aupushpa .7s infinite alternate}
+.au[data-act=pushpa][data-mood] .hd{animation:auchin .7s infinite alternate}
+.au[data-act=wink][data-mood] .au-svg{animation:aulean .8s infinite alternate}
+.au[data-act=cry][data-mood] .au-svg{animation:aubob .6s infinite}
+@keyframes auwave{from{transform:rotate(-25deg)}to{transform:rotate(25deg)}}
+@keyframes audance{from{transform:rotate(-9deg)}to{transform:rotate(9deg) translateY(-12px)}}
+@keyframes auhat{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-34px) rotate(360deg)}100%{transform:translateY(0) rotate(720deg)}}
+@keyframes auflex{from{transform:scale(1)}to{transform:scale(1.1)}}
+@keyframes aufaint{0%,8%{transform:none}20%,85%{transform:translateY(34px) rotate(80deg)}100%{transform:none}}
+@keyframes auhero{0%{transform:scale(.6) translateX(50px);opacity:.2}35%{transform:scale(1.2) rotate(-4deg);opacity:1}100%{transform:scale(1)}}
+@keyframes aupushpa{from{transform:rotate(-13deg)}to{transform:rotate(-6deg) translateY(-6px)}}
+@keyframes auchin{from{transform:translateX(0)}to{transform:translateX(46px)}}
+
+/* ---------- kids theme ---------- */
+body{font-family:'Fredoka','Baloo 2','Comic Sans MS',system-ui,sans-serif}
+:root{--bg:#dff6ff;--cd:#fffdf5;--tx:#3a1a6e;--mu:#7a5fb0;--ac:#ff7a00;--bd:#ffd1ec;--ok:#12c28a}
+header{border-radius:0 0 26px 26px;font-size:18px;letter-spacing:.5px}
+.card{border:3px solid #ff8ad8;border-radius:26px;box-shadow:0 8px 0 #7a3cff44}
+.tm{border-radius:18px;border-left-width:10px}
+.btn{border-radius:99px;border:3px solid #fff9;box-shadow:0 5px 0 #c24d00;transition:transform .1s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #c24d00}
+.sm{border-radius:99px}.chip{border-radius:99px;font-weight:600;padding:3px 11px}
+.amt{font-size:54px}.av{box-shadow:0 0 0 5px var(--ac),0 0 0 10px #fff6}
+header,#app{position:relative;z-index:1}
+#au-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#au-bg span{position:absolute;bottom:-60px;opacity:.35;animation:aubg linear infinite}
+@keyframes aubg{to{transform:translateY(-115vh) rotate(360deg)}}
+.au-opt{margin:12px 0;padding:10px;border:3px dashed var(--ac);border-radius:20px}
+.au-opt .sm{font-size:14px;margin:3px}.au-opt small{display:block;margin-top:6px}
+.pk{margin-left:8px}
+
+/* ---------- crew: sidekick + rival ---------- */
+.card.lg{min-height:240px}
+.au-wrap{width:330px;height:210px}
+.au-svg{right:100px;top:78px}
+.au-b{left:0;right:0;top:0;max-width:none;text-align:center}
+.au-b::after{right:auto;left:50%;top:auto;bottom:-8px;margin-left:-8px;border:8px solid transparent;border-top-color:#fff;border-bottom:0}
+.au-bang{left:100px;top:110px}
+.cr{position:absolute;top:78px;width:100px;height:130px;overflow:visible;animation:crbob 2.2s ease-in-out infinite alternate}
+.cr-l{left:0}.cr-r{right:0;animation-delay:-1.1s}
+.cr *{transform-box:fill-box;transform-origin:center}
+.cr .al,.cr .ar,.cr .ll,.cr .rl{transform-box:view-box}
+.cr .al{transform-origin:30px 74px}.cr .ar{transform-origin:70px 74px}.cr .ll{transform-origin:40px 96px}.cr .rl{transform-origin:60px 96px}
+.cr .cm,.cr .exx{display:none}.cr .cm-s{display:inline}.cr .ey{animation:blink 4.5s infinite}
+.au-cloud,.au-pop{display:none;position:absolute;pointer-events:none}
+.au-cloud{left:26px;top:100px;font-size:84px}.au-pop{left:128px;top:158px;font-size:30px}
+/* mouth fix for single acts */
+.au[data-act=dance][data-mood] .m-bid,.au[data-act=hat][data-mood] .m-bid,.au[data-act=flex][data-mood] .m-bid,.au[data-act=wink][data-mood] .m-bid,.au[data-act=pushpa][data-mood] .m-bid,.au[data-act=hero][data-mood] .m-bid,.au[data-act=faint][data-mood] .m-once{display:inline}
+/* crew mood reactions */
+.au[data-mood=sold] .cr .cm-s,.au[data-mood=wow] .cr .cm-s,.au[data-mood=war] .cr .cm-s,.au[data-mood=unsold] .cr .cm-s{display:none}
+.au[data-mood=sold] .cr .cm-o,.au[data-mood=wow] .cr .cm-o,.au[data-mood=war] .cr .cm-o,.au[data-mood=unsold] .cr-l .cm-o,.au[data-mood=unsold] .cr-r .cm-w{display:inline}
+.au[data-mood=sold] .cr,.au[data-mood=wow] .cr{animation:crjump .45s infinite alternate}
+.au[data-mood=sold] .cr .al,.au[data-mood=wow] .cr .al{animation:crcl .3s infinite alternate}
+.au[data-mood=sold] .cr .ar,.au[data-mood=wow] .cr .ar{animation:crcr .3s infinite alternate}
+.au[data-mood=war] .cr,.au[data-mood=unsold] .cr-l{animation:crlaugh .22s infinite alternate}
+.au[data-mood=unsold] .cr-r{animation:audroop 1.5s infinite alternate}
+/* duo: dance together */
+.au[data-duo=duodance][data-mood] .cr{animation:crdance .4s infinite alternate}
+.au[data-duo=duodance][data-mood] .cr-r{animation-delay:-.2s}
+.au[data-duo=duodance][data-mood] .cr .al{animation:crcl2 .2s infinite alternate}
+.au[data-duo=duodance][data-mood] .cr .ar{animation:crcr2 .2s infinite alternate}
+.au[data-duo=duodance][data-mood] .cr .ll{animation:crleg .2s infinite alternate}
+.au[data-duo=duodance][data-mood] .cr .rl{animation:crleg2 .2s infinite alternate}
+.au[data-duo=duodance][data-mood] .cr .cm-s,.au[data-duo=brawl][data-mood] .cr .cm-s,.au[data-duo=fight][data-mood] .cr .cm-s{display:none}
+.au[data-duo=duodance][data-mood] .cr .cm-o,.au[data-duo=brawl][data-mood] .cr .cm-o,.au[data-duo=fight][data-mood] .cr-r .cm-o,.au[data-duo=fight][data-mood] .cr-l .cm-w{display:inline}
+/* duo: copycat */
+.au[data-duo=mimic][data-mood] .au-svg{animation:cmimic 4.2s}
+.au[data-duo=mimic][data-mood] .cr-r{animation:cmimic 4.2s .5s}
+.au[data-duo=mimic][data-mood] .cr-l{animation:cmimic 4.2s 1s}
+.au[data-duo=mimic][data-mood] .arm{animation:cmarm 4.2s}
+.au[data-duo=mimic][data-mood] .cr-r .al{animation:cmarml 4.2s .5s}.au[data-duo=mimic][data-mood] .cr-r .ar{animation:cmarmr 4.2s .5s}
+.au[data-duo=mimic][data-mood] .cr-l .al{animation:cmarml 4.2s 1s}.au[data-duo=mimic][data-mood] .cr-l .ar{animation:cmarmr 4.2s 1s}
+/* duo: gavel bonk */
+.au[data-duo=fight][data-mood] .cr-l{animation:crcharge 3.6s}
+.au[data-duo=fight][data-mood] .cr-l .al{animation:crcl2 .15s 12 alternate}.au[data-duo=fight][data-mood] .cr-l .ar{animation:crcr2 .15s 12 alternate}
+.au[data-duo=fight][data-mood] .cr-l .ey{animation:crxo 3.6s}
+.au[data-duo=fight][data-mood] .cr-l .exx{display:inline;animation:crxx 3.6s}
+.au[data-duo=fight][data-mood] .arm{animation:aupunch 3.6s}
+.au[data-duo=fight][data-mood] .gv{animation:augavbonk 3.6s}
+.au[data-duo=fight][data-mood] .au-svg{animation:crrecoil 3.6s}
+.au[data-duo=fight][data-mood] .cr-r{animation:crjump .35s infinite alternate}
+.au[data-duo=fight][data-mood] .cr-r .al{animation:crcl .3s infinite alternate}.au[data-duo=fight][data-mood] .cr-r .ar{animation:crcr .3s infinite alternate}
+.au[data-duo=fight][data-mood] .au-bang{display:block;opacity:0;animation:crbang 3.6s}
+/* duo: cartoon dust-cloud brawl while he eats popcorn */
+.au[data-duo=brawl][data-mood] .cr-l{animation:crbl 3.8s}
+.au[data-duo=brawl][data-mood] .cr-r{animation:crbr 3.8s}
+.au[data-duo=brawl][data-mood] .au-cloud{display:block;animation:crcloud 3.8s}
+.au[data-duo=brawl][data-mood] .au-pop{display:block;animation:aubob .5s infinite}
+@keyframes crbob{to{transform:translateY(-4px)}}
+@keyframes crjump{to{transform:translateY(-16px)}}
+@keyframes crlaugh{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+@keyframes crcl{to{transform:rotate(130deg)}}@keyframes crcr{to{transform:rotate(-130deg)}}
+@keyframes crcl2{from{transform:rotate(40deg)}to{transform:rotate(100deg)}}@keyframes crcr2{from{transform:rotate(-40deg)}to{transform:rotate(-100deg)}}
+@keyframes crleg{from{transform:rotate(-25deg)}to{transform:rotate(25deg)}}@keyframes crleg2{from{transform:rotate(25deg)}to{transform:rotate(-25deg)}}
+@keyframes crdance{from{transform:rotate(-9deg)}to{transform:rotate(9deg) translateY(-12px)}}
+@keyframes cmimic{0%{transform:none}12%{transform:rotate(-14deg)}26%{transform:rotate(14deg)}40%{transform:translateY(-20px)}54%{transform:scaleX(-1)}68%{transform:scaleX(1) rotate(-10deg) translateY(-6px)}82%{transform:scale(1.12)}100%{transform:none}}
+@keyframes cmarm{0%,10%{transform:none}25%{transform:rotate(30deg)}40%{transform:rotate(-30deg)}60%{transform:rotate(60deg)}100%{transform:none}}
+@keyframes cmarml{0%,10%{transform:none}25%{transform:rotate(100deg)}50%{transform:rotate(30deg)}70%{transform:rotate(130deg)}100%{transform:none}}
+@keyframes cmarmr{0%,10%{transform:none}25%{transform:rotate(-100deg)}50%{transform:rotate(-30deg)}70%{transform:rotate(-130deg)}100%{transform:none}}
+@keyframes crcharge{0%,14%{transform:none}30%{transform:translateX(60px) scale(1.08)}42%{transform:translateX(94px) scale(1.12)}48%{transform:translateX(72px)}62%,84%{transform:translateX(-26px) rotate(-75deg)}100%{transform:none}}
+@keyframes aupunch{0%,36%{transform:none}43%{transform:rotate(-65deg)}52%,100%{transform:none}}
+@keyframes augavbonk{0%,36%{transform:none}43%{transform:rotate(-90deg)}48%{transform:rotate(20deg)}58%,100%{transform:none}}
+@keyframes crrecoil{0%,42%{transform:none}46%{transform:rotate(-7deg) translateX(8px)}56%,100%{transform:none}}
+@keyframes crbang{0%,40%{opacity:0;transform:scale(.4)}46%{opacity:1;transform:scale(1.4)}62%{opacity:1;transform:scale(1)}72%,100%{opacity:0}}
+@keyframes crxo{0%,48%{opacity:1}52%,85%{opacity:0}100%{opacity:1}}@keyframes crxx{0%,48%{opacity:0}52%,85%{opacity:1}100%{opacity:0}}
+@keyframes crbl{0%{transform:none;opacity:1}8%{transform:rotate(-6deg)}16%{transform:rotate(6deg)}22%,78%{opacity:0}84%{transform:rotate(-50deg);opacity:1}100%{transform:none;opacity:1}}
+@keyframes crbr{0%{transform:none;opacity:1}18%{transform:translateX(-170px)}22%,78%{transform:translateX(-170px);opacity:0}84%{transform:translateX(-170px) rotate(50deg);opacity:1}100%{transform:none;opacity:1}}
+@keyframes crcloud{0%,18%{opacity:0;transform:scale(.3)}24%{opacity:1;transform:scale(1)}32%{transform:translate(6px,-5px) rotate(8deg)}40%{transform:translate(-6px,4px) rotate(-8deg)}48%{transform:translate(5px,5px) rotate(6deg)}56%{transform:translate(-5px,-4px) rotate(-6deg)}64%{transform:translate(6px,3px) rotate(8deg)}72%{opacity:1;transform:scale(1.05)}80%,100%{opacity:0;transform:scale(.3)}}
+@media(max-width:800px){
+ .card.lg{min-height:0}
+ .au-wrap{position:relative;right:auto;top:auto;width:330px;height:210px;margin:10px auto 0}
+ .au-svg{right:100px;margin-right:0;top:78px}
+ .au-b{left:0;right:0;top:0;transform:none;white-space:normal}
+ .au-b::after{display:block}.au-bang{left:100px}
+}
+@media(max-width:380px){.au-wrap{zoom:.8}}
 </style>
 
 <script>
 (function(){
-const SVG=`<div class="au" data-mood="idle"><div class="au-b"></div><div class="au-bang">💥</div>
+const CR=(k,o)=>`<svg class="cr ${k}" viewBox="0 0 100 130"><path class="ll" d="M40 96V122" stroke="${o.pa}" stroke-width="10" stroke-linecap="round"/><path class="rl" d="M60 96V122" stroke="${o.pa}" stroke-width="10" stroke-linecap="round"/><ellipse cx="40" cy="126" rx="10" ry="4" fill="#222"/><ellipse cx="60" cy="126" rx="10" ry="4" fill="#222"/><rect x="28" y="64" width="44" height="40" rx="15" fill="${o.sh}"/><g class="al"><path d="M30 74Q17 84 15 98" stroke="${o.sh}" stroke-width="9" stroke-linecap="round" fill="none"/><circle cx="15" cy="100" r="6.5" fill="${o.sk}"/></g><g class="ar"><path d="M70 74Q83 84 85 98" stroke="${o.sh}" stroke-width="9" stroke-linecap="round" fill="none"/><circle cx="85" cy="100" r="6.5" fill="${o.sk}"/></g><circle cx="50" cy="42" r="${o.r}" fill="${o.sk}"/><circle cx="33" cy="54" r="5" fill="#ff9aa2" opacity=".6"/><circle cx="67" cy="54" r="5" fill="#ff9aa2" opacity=".6"/>${o.hat}<g class="ey"><circle cx="41" cy="40" r="5.5" fill="#fff"/><circle cx="41" cy="41" r="2.8" fill="#222"/><circle cx="59" cy="40" r="5.5" fill="#fff"/><circle cx="59" cy="41" r="2.8" fill="#222"/></g><path class="exx" d="M36 35l10 10M46 35l-10 10M54 35l10 10M64 35l-10 10" stroke="#222" stroke-width="3" stroke-linecap="round"/>${o.mu}<path class="cm cm-s" d="M42 58Q50 65 58 58" stroke="#7a1f2a" stroke-width="3" fill="none" stroke-linecap="round"/><path class="cm cm-o" d="M41 56Q50 74 59 56Z" fill="#7a1f2a"/><path class="cm cm-w" d="M42 65Q50 55 58 65" stroke="#7a1f2a" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`;
+const CRW=CR('cr-l',{pa:'#2b2b6b',sh:'#0fae7e',sk:'#e8b48a',r:27,mu:'<path d="M31 53Q40 46 50 52Q60 46 69 53Q60 59 50 55Q40 59 31 53Z" fill="#222"/>',hat:'<ellipse cx="50" cy="20" rx="30" ry="6" fill="#0a7d5a"/><path d="M30 20Q30 2 50 2Q70 2 70 20Z" fill="#0a7d5a"/>'})+CR('cr-r',{pa:'#2563eb',sh:'#ff7a00',sk:'#f2c29b',r:23,mu:'',hat:'<path d="M28 34Q28 16 50 16Q72 16 72 34Z" fill="#ff3d8b"/><rect x="66" y="31" width="22" height="6" rx="3" fill="#ff3d8b"/>'});
+const SVG=`<div class="au" data-mood="idle"><div class="au-b"></div><div class="au-bang">💥</div><div class="au-cloud">💨</div><div class="au-pop">🍿</div>
 <svg class="au-svg" viewBox="0 0 130 130">
-<path d="M18 130Q20 100 65 98Q110 100 112 130Z" fill="#7a3cff"/><path d="M52 100L65 112L78 100Z" fill="#fff"/>
+<path d="M18 130Q20 100 65 98Q110 100 112 130Z" fill="#7a3cff"/><g class="arm"><path d="M24 118Q8 106 12 92" stroke="#7a3cff" stroke-width="11" stroke-linecap="round" fill="none"/><circle cx="12" cy="90" r="6" fill="#ffcf9f"/></g><path d="M52 100L65 112L78 100Z" fill="#fff"/>
 <path d="M65 108L50 100V116ZM65 108L80 100V116Z" fill="#ff3d8b"/><circle cx="65" cy="108" r="4" fill="#c2185b"/>
 <circle cx="26" cy="62" r="8" fill="#ffcf9f"/><circle cx="104" cy="62" r="8" fill="#ffcf9f"/>
 <ellipse cx="65" cy="62" rx="40" ry="42" fill="#ffcf9f"/>
 <circle class="ch" cx="38" cy="76" r="7" fill="#ff9aa2" opacity=".6"/><circle class="ch" cx="92" cy="76" r="7" fill="#ff9aa2" opacity=".6"/>
-<ellipse cx="65" cy="30" rx="50" ry="9" fill="#f5d27a"/><path d="M38 30Q38 4 65 4Q92 4 92 30Z" fill="#f5d27a"/><rect x="38" y="21" width="54" height="8" fill="#ff3d8b"/>
+<g class="hat"><ellipse cx="65" cy="30" rx="50" ry="9" fill="#f5d27a"/><path d="M38 30Q38 4 65 4Q92 4 92 30Z" fill="#f5d27a"/><rect x="38" y="21" width="54" height="8" fill="#ff3d8b"/></g>
 <rect class="b1" x="41" y="43" width="19" height="5" rx="2.5" fill="#4a2a1a"/><rect class="b2" x="70" y="43" width="19" height="5" rx="2.5" fill="#4a2a1a"/>
-<g class="eyes"><circle cx="50" cy="58" r="8" fill="#fff"/><circle class="pp" cx="50" cy="58" r="4" fill="#222"/><circle cx="80" cy="58" r="8" fill="#fff"/><circle class="pp" cx="80" cy="58" r="4" fill="#222"/></g>
+<g class="eyes"><g class="e1"><circle cx="50" cy="58" r="8" fill="#fff"/><circle class="pp" cx="50" cy="58" r="4" fill="#222"/></g><g class="e2"><circle cx="80" cy="58" r="8" fill="#fff"/><circle class="pp" cx="80" cy="58" r="4" fill="#222"/></g></g>
 <path class="he" d="M42 61Q50 49 58 61M72 61Q80 49 88 61" stroke="#222" stroke-width="3.5" fill="none" stroke-linecap="round"/>
 <path d="M48 76Q56 68 65 74Q74 68 82 76Q74 82 65 78Q56 82 48 76Z" fill="#4a2a1a"/>
 <path class="mo m-idle" d="M55 88Q65 96 75 88" stroke="#7a1f2a" stroke-width="3" fill="none" stroke-linecap="round"/>
@@ -367,9 +513,14 @@ const SVG=`<div class="au" data-mood="idle"><div class="au-b"></div><div class="
 <g class="mo m-wow"><ellipse cx="65" cy="91" rx="5" ry="6" fill="#7a1f2a"/><text x="72" y="92" font-size="15">💋</text></g>
 <text class="hh" x="40" y="66" font-size="20" fill="#ff2d6f">♥</text><text class="hh" x="70" y="66" font-size="20" fill="#ff2d6f">♥</text>
 <path class="sw" d="M108 40Q114 52 108 56Q102 52 108 40Z" fill="#5ec8ff"/>
+<g class="tg2"><path d="M54 86Q65 100 76 86Z" fill="#7a1f2a"/><path d="M60 91Q65 112 70 91Z" fill="#ff5c8a"/></g>
+<g class="sg"><rect x="37" y="49" width="26" height="16" rx="6" fill="#111"/><rect x="67" y="49" width="26" height="16" rx="6" fill="#111"/><rect x="62" y="54" width="6" height="3" fill="#111"/><path d="M42 54h9" stroke="#fff" opacity=".5" stroke-width="2"/></g>
+<path class="xx" d="M43 52l14 12M57 52l-14 12M73 52l14 12M87 52l-14 12" stroke="#222" stroke-width="3" stroke-linecap="round"/>
+<circle class="hd" cx="45" cy="99" r="7" fill="#ffcf9f" stroke="#e0a875"/>
 <g class="gv"><rect x="105.5" y="92" width="5" height="36" rx="2" fill="#8a5a2b"/><rect x="94" y="84" width="28" height="13" rx="4" fill="#b9772f"/></g>
-</svg></div>`;
+</svg>${CRW}</div>`;
 const f=a=>a[Math.random()*a.length|0];
+/* ---- player jokes (Telugu-flavoured, light-hearted). Add your own: 'name part':['line',...] ---- */
 const PJ={
  'kohli':["Virat ante chase master ra! Runs ni chase chesthadu, ippudu mee wallet ni chase chesthunnadu 😄","Kohli vasthe stadium lo 'Kohli Kohli' — mee jebu lo 'khaali khaali' 😂"],
  'rohit':["Rohit ni toss lo marchipotaru, kani bid lo marchipokandi maama! 😜","Hitman ki bid pettandi — leda 'Hit' avthaaru, mee wallet 😅"],
@@ -423,7 +574,7 @@ const G=[
 const HYPE=["Going up! 📈","Ooh, nice bid maama!","Inka ekkuva ivvandi!","Super ra mama! 👏",()=>S.t[S.c.by].n.split(' ')[0]+" means business! 😎","Baaga pettaru! 🔥"];
 const WARL=["BIDDING WAR!! 🔥","Fight! Fight! Fight!","Naa gavel sweating ra! 💦",()=>S.t[S.c.by].n.split(' ')[0]+" back down kaadu! 😤","Ayyo ramaa, em war ra idi! 🤯"];
 const WOW=["Arey wahhh! 😘","Ayyo ramaa! 🤩","Mind block ayindi maama! 😍","Em rate ra babu! 😲💋","Super super super! 🥰"];
-const SOLDL=[()=>"SOLD to "+S.t[S.c.by].n+"! 🎉",()=>"Bang! "+m(S.c.bid)+" — done deal! 🔨",()=>"Cha-ching! 💰 Mubarak!",()=>"Ee rate ki Hyderabad lo 2BHK vachestundi anukunnara? 😂 SOLD!"];
+const SOLDL=[()=>"SOLD to "+S.t[S.c.by].n+"! 🎉",()=>"Bang! "+m(S.c.bid)+" — done deal! 🔨",()=>"Cha-ching! 💰 Mubarak!",()=>"Ee rate ki Hyderabad lo 2BHK vachestundi anukuntunnara? 😂 SOLD!"];
 const UNL=["Unsold! 'Baagundi kani vaddu' antunnaru 😂","Nobody? Naa face ippudu Brahmi meme! 😭","Unsold... gavel kuda sad ayyindi 😢","Takers ledu ra babu! 🤷"];
 const ONCE=["Going once...","Going twice...","Last chance, ayyo! 😬"];
 const pj=p=>{const n=p.n.toLowerCase();for(const k in PJ)if(n.includes(k))return PJ[k];return[]};
@@ -438,12 +589,43 @@ function burst(list,n){
   e.style.setProperty('--dx',(Math.random()*80-40)+'px');e.style.setProperty('--rt',(Math.random()*60-30)+'deg');
   h.appendChild(e);setTimeout(()=>e.remove(),2800)}
 }
-let last='',line='',lot=-1,pn=0,pb=0,wowT=0;
+const MV=[
+ "Pushpa style: bid thaggedhe le! 🔥","Baahubali ni lift chesaru, mee wallet ni lift cheyyandi! 💪","Katappa kuda ee rate ki shock ayyadu! 😲",
+ "Magadheera laaga 100 mandi lo okkadu bid cheyyandi! ⚔️","Eega laaga chinna ga vachi, bid lo ekkesaadu! 🪰","Mass Maharaja laaga mass bid pettandi! 💥",
+ "Balayya style: gavel tho train aapestha! 🚂😂","Butta Bomma laaga muddhu ga bid cheyyandi 😍","RRR laaga fire + water: wallet + bid! 🔥💧",
+ "Naatu Naatu step veyyala? Bid pettaru anandi! 🕺","Jathi Ratnalu laaga comedy ga bid cheyyandi, serious ga kaadu! 🤣",
+ "Yamadonga laaga Yamudu kuda ee auction lo bid pettali! 😈","Hero ki entry BGM undali, naa entry ki gavel sound! 🔨",
+ "Interval bang! Bidding lo twist! 🎬","Climax fight laaga last 5 seconds lo bid pettandi! 🥊","Telugu hero 10 mandi ni kodtadu, meeru 10 bids tho kottandi! 👊",
+ "Pokiri laaga commit ayithe venakki tippakandi! 😎","Mahishmati rates ivi — raja lu ye bid cheyyali! 👑","Arjun Reddy attitude tho bid pettaku, dabbulu poguduthayi! 😅"];
+const ACTS={
+ dance:{d:3200,l:["Naatu step veyyala? 🕺 Ready, steady, bid!","Disco auctioneer! 💃 Mee bids ki dance chesta!","Naa dance chusi bid pettandi ra! 🎶"],e:['🎵','🎶','🕺','💃']},
+ tongue:{d:2600,l:["Brahmi expression: 'Ayyo… ee rate aa?' 🤪","Cross-eyed ayipoya rates chusi! 😵‍💫","Bleh! Bid pettakapothe ila untanu! 😝"],e:['😝','🤪','😂']},
+ wink:{d:2400,l:["Ey! Wink wink… bid pettandi! 😉","Ee wink ki oka bid free! 😘","Naa wink mee wallet ki ✔ ante! 😉"],e:['😉','😘','💋']},
+ hat:{d:2600,l:["Hat toss! 🎩 Magic chusara?","Mass hat spin ra! 🌀","Hat ekkadiki poindi? Bid ki poindi! 😂"],e:['🎩','✨','🌀']},
+ flex:{d:3000,l:["Baahubali laaga gavel lift! 💪","Gym lo vunnaa ra, bid ki ready! 💪","Muscle chusi bid pettandi! 🏋️"],e:['💪','🔥','😤']},
+ faint:{d:3000,l:["Rates chusi faint ayyanu... 😵","Thud! Wallet kuda faint ayindi! 💀","Doctor! Bid cheyyandi, lekapothe nenu levanu! 🚑"],e:['😵','💫','🚑']},
+ hero:{d:3200,l:["Hero entry! Slow-mo, BGM, mass! 🎬😎","Mass entry ra! Gaali, dhool, gavel! 🌪️","Interval bang! Ippudu bidding ki mass! 🔥"],e:['😎','🔥','🎬','⭐']},
+ pushpa:{d:2800,l:["Pushpa… thaggedhe le! (chin sweep) 🔥","Bid thaggedhe le! Shoulder shrug ra! 😎","Fire kaadu… wildfire! 🔥 (beard flick)"],e:['🔥','😎','🌟']},
+ cry:{d:2800,l:["Bid ledu ani edustunna! 😭","Waaaa! Wallets close chesaru! 😭","Naa gavel ki kanneellu vachayi! 💧"],e:['😭','💧','🥺']}};
+const ACTN=Object.keys(ACTS);
+const DUOS={
+ duodance:{duo:1,au:'dance',d:3800,l:["Mugguru kalisi Naatu step! Mass! 🎶","👦 Chinnodu: Anna, naa step chudu! 🕺","😤 Pedda Babu: Naa step bigger ra! 💃","Triple dance masala! 🎉"],e:['🎵','🎶','🕺','💃','🎉']},
+ mimic:{duo:1,au:'',d:4200,l:["👦 Chinnodu copy kodthunnadu! 🐒","Auctioneer cheppina step, mugguru copy cheyyandi! 🪞","😤 Pedda Babu: Nenu copy kaadu… original! 😂 (copy chesthunnadu)","Monkey see, monkey do — Telugu edition! 🐵"],e:['🐒','🪞','😂','🤣']},
+ fight:{duo:1,au:'',d:3600,l:["😤 Pedda Babu ki gavel bonk! 🔨😵","👦 Chinnodu: Anna super hit! 👏","Auction lo fight kaadu, bid cheyyandi! 🥊😂","Bonk! Dizzy ayipoyaadu 😵‍💫"],e:['👊','🔨','😂'],t:[[1500,['💥','😵','⭐','🌟'],8]]},
+ brawl:{duo:1,au:'wink',d:3800,l:["Mugguru dhool lo fight! Nenu popcorn tho enjoy! 🍿😂","👦 vs 😤 — cartoon fight time! 💨👊","Fight chudandi, bid marchipokandi! 🍿","Dhoom dhaam fight! 💥 Bid cheyyandi ra! 🔨"],e:['🍿','😂','👊'],t:[[900,['💥','👊','😵','⭐'],7],[2200,['💥','🤕','⭐','👊'],7]]}};
+const DUON=Object.keys(DUOS);Object.assign(ACTS,DUOS);
+const CQ=["👦 Chinnodu: Anna, nenu kuda bid pettala? Pocket money tho! 😂","👦 Chinnodu: Anna, biryani ekkada? 🍗","👦 Chinnodu: Auctioneer anna, hat naaku ivvava? 🎩","👦 Chinnodu: 'Thaggedhe le' ante ee gavel naadhe! 🔨","😤 Pedda Babu: Ee auction naadhi ra, nuvvu aagu! 😤","😤 Pedda Babu: Naa gavel bigger! 🔨","😤 Pedda Babu: Mass entry naaku kavali! 😎","😤 Pedda Babu: Naa bid ki velu ledu ra! 💰"];
+HYPE.push("Mass ra! 💥","Blockbuster bid! 🎬");
+WARL.push("RRR laaga fire + water — bidding war! 🔥💧","Climax fight laaga bidding! 🥊");
+SOLDL.push(()=>"SOLD! Shubham card padindi — villain ki 'The End'! 🎬",()=>"Climax lo hero gelicharu: "+S.t[S.c.by].n+"! 🏆");
+UNL.push("Flop movie laaga unsold ayindi! 🎞️😂","Pre-release hype ekkuva, box office zero! 😂");
+
+let last='',line='',lot=-1,pn=0,pb=0,wowT=0,act='',actEnd=0,nextAct=Date.now()+5000;
 function upd(){
  if(!S||S.ph!='auc'||!S.c)return;
- const host=document.querySelector('.card.lg');if(!host)return;
- let w=host.querySelector('.au-wrap'),fresh=0;
- if(!w){const d=document.createElement('div');d.className='au-wrap';d.innerHTML=SVG;host.appendChild(d);w=d;fresh=1}
+ const hc=document.querySelector('.card.lg');if(!hc)return;
+ let w=hc.querySelector('.au-wrap'),fresh=0;
+ if(!w){const d=document.createElement('div');d.className='au-wrap';d.innerHTML=SVG;hc.appendChild(d);w=d;fresh=1}
  const c=S.c,now=Date.now(),l=c.end-now;
  if(lot!=S.i){lot=S.i;pn=0;pb=0;wowT=0}
  if(c.n>pn){
@@ -455,24 +637,84 @@ function upd(){
  else if(c.by<0){mo='idle';ix=Math.max(0,Math.floor((now-(c.end-15000))/4500))}
  else if(l<4000){mo='once';ix=l>2700?0:l>1300?1:2}
  else if(c.n>=4)mo='war';else mo='bid';
- const key=mo+'|'+S.i+'|'+c.n+'|'+ix;
- const changed=key!==last;
- if(changed){
-  last=key;const P=pj(PL[c.p]),J=P.concat(G);
-  if(mo=='idle')line=ix==0&&P.length?f(P):f(J);
-  else if(mo=='bid')line=Math.random()<.45?f(J):run(f(HYPE));
+ const key=mo+'|'+S.i+'|'+c.n+'|'+ix,changed=key!==last;let pop=0;
+ if(act&&(mo=='sold'||mo=='unsold'||mo=='wow'||now>actEnd))act='';
+ if(!act&&now>nextAct&&(mo=='idle'||mo=='bid')){
+  act=Math.random()<.45?f(DUON):f(ACTN);const A0=ACTS[act];actEnd=now+A0.d;nextAct=actEnd+6000+Math.random()*5000;line=f(A0.l);burst(A0.e,6);if(A0.t)A0.t.forEach(x=>setTimeout(()=>burst(x[1],x[2]),x[0]));pop=1}
+ else if(changed&&!act){
+  const P=pj(PL[c.p]),J=P.concat(G,MV);pop=1;
+  if(mo=='idle')line=ix==0&&P.length?f(P):Math.random()<.2?f(CQ):f(J);
+  else if(mo=='bid')line=Math.random()<.16?f(CQ):Math.random()<.5?f(J):run(f(HYPE));
   else if(mo=='war')line=Math.random()<.5?f(J):run(f(WARL));
   else if(mo=='once')line=ONCE[ix];
   else if(mo=='wow')line=f(WOW);
   else if(mo=='sold'){line=run(f(SOLDL));burst(['🥳','😘','💰','🎉','😍','🤑'],11)}
   else{line=f(UNL);burst(['😂','🤣','😭'],6)}
  }
+ last=key;
  const au=w.querySelector('.au'),b=w.querySelector('.au-b');
- au.dataset.mood=mo;
- if(changed||fresh){b.textContent=line;if(changed){b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}}
+ au.dataset.mood=mo;const AC=act&&ACTS[act];
+ if(AC&&AC.duo){au.dataset.duo=act;if(AC.au)au.dataset.act=AC.au;else delete au.dataset.act}
+ else{delete au.dataset.duo;if(act)au.dataset.act=act;else delete au.dataset.act}
+ if(pop||fresh){b.textContent=line;if(pop){b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}}
 }
-const _r=render;render=function(){_r();upd()};
+const _r=render;render=function(){_r();upd();drawOpt();if(S&&S.ph=='lobby')lobbyBtns()};
 setInterval(upd,200);
+
+/* ---------- more teams + pick your team ---------- */
+const EXTRA=[['Hyderabad Sparks','#ff8a00'],['Vizag Vikings','#00c2a8'],['Delhi Dazzlers','#ff4fa3'],['Rajasthan Rockets','#7ad03a']];
+const ALL=[...TN,...EXTRA];let NT=4,MYT=0,pseen={};
+const applyTeams=()=>{TN.length=4;if(NT>4)TN.push(...EXTRA.slice(0,NT-4))};
+function swap(a,b){const x=S.t[a],y=S.t[b];y.ai=false;y.uid=x.uid;y.nm=x.nm;x.ai=true;x.uid=null;x.nm=''}
+const _so=A.solo;A.solo=function(){applyTeams();_so();if(S&&MYT>0&&MYT<S.t.length){swap(0,MYT);render()}};
+const _ho=A.host;A.host=async function(){applyTeams();await _ho();if(S&&MYT>0&&MYT<S.t.length){swap(0,MYT);sync()}};
+const _sk=A.skip;A.skip=function(){
+ if(!S||S.t.length<=4)return _sk();
+ const c=S.c;if(online||c.st!='bid'||c.by===S.t.findIndex(t=>t.uid===MY))return;
+ for(let n=0;n<300;n++){let hit=0;for(const k of S.t.map((_,i)=>i).sort(()=>Math.random()-.5)){const t=S.t[k],a=nb(c);if(t.ai&&c.by!==k&&a<=aiVal(t,c.p)&&can(t,c.p,a)){bid(k,1);hit=1;break}}if(!hit)break}
+ log('You skipped '+PL[c.p].n);c.end=Date.now();tick()};
+const _tk=tick;tick=function(){_tk();try{extraAI()}catch(e){}};
+function extraAI(){
+ if(!host||!S||S.ph!='auc'||S.t.length<=4)return;const c=S.c,n=Date.now();
+ if(c.st!='bid'||n-c.last<=2300)return;
+ for(const k of S.t.map((_,i)=>i).filter(i=>i>=4).sort(()=>Math.random()-.5)){const t=S.t[k],a=nb(c);
+  if(t.ai&&c.by!==k&&a<=aiVal(t,c.p)&&can(t,c.p,a)&&Math.random()<.2){bid(k);break}}}
+const _ea=endAuc;endAuc=function(){
+ try{if(S.t.length>4)for(const t of S.t)while(t.sq.length<11){
+  const d=S.t.filter(x=>x!==t&&x.sq.length>11).sort((a,b)=>b.sq.length-a.sq.length)[0];if(!d)break;
+  const lo=d.sq.reduce((a,b)=>PL[b].v<PL[a].v?b:a);d.sq.splice(d.sq.indexOf(lo),1);t.sq.push(lo)}}catch(e){}
+ _ea()};
+function seat(uid,nmv,ti){const t=S&&S.t[ti];if(!t||S.ph!='lobby'||!t.ai)return;
+ const o=S.t.find(x=>x.uid===uid);if(o){o.ai=true;o.uid=null;o.nm=''}
+ t.ai=false;t.uid=uid;t.nm=nmv||'Manager';sync()}
+const _hs=hostSnap;hostSnap=function(d){
+ if(d&&S)for(const k in d)if(k.slice(0,2)=='a_'){let a;try{a=JSON.parse(d[k])}catch(e){continue}
+  if(a.type=='pick'&&pseen[k]!==a.k){pseen[k]=a.k;seat(k.slice(2),a.nm,a.t)}}
+ _hs(d)};
+function lobbyBtns(){document.querySelectorAll('.card.c .tm').forEach((r,i)=>{
+ if(r.querySelector('.pk'))return;const t=S.t[i];if(!t)return;
+ const b=document.createElement('button');b.className='sm pk';
+ if(t.uid===MY){b.textContent='✔ Your team';b.classList.add('sel')}
+ else if(t.ai){b.textContent='🙋 Pick';b.dataset.pk=i}else{b.textContent='🔒';b.disabled=true}
+ r.appendChild(b)})}
+function drawOpt(){
+ if(S)return;const c=document.querySelector('.card.c');if(!c)return;
+ let o=c.querySelector('.au-opt');
+ if(!o){const p=c.querySelector('p.mu');if(!p)return;p.insertAdjacentHTML('afterend','<div class="au-opt"></div>');o=c.querySelector('.au-opt')}
+ o.innerHTML='<b>👥 More friends? Choose teams</b><br>'+[4,6,8].map(n=>`<button class="sm ${NT==n?'sel':''}" data-nt="${n}">${n} teams</button>`).join('')+
+ '<br><b>🏏 Pick your team</b><br>'+ALL.slice(0,NT).map((t,i)=>`<button class="sm ${MYT==i?'sel':''}" data-st="${i}" style="border-left:6px solid ${t[1]}">${t[0]}</button>`).join('')+
+ '<small>Extra seats are played by AI. Friends can pick their own team in the lobby.</small>'}
+document.addEventListener('click',e=>{
+ const n=e.target.closest('[data-nt]'),s2=e.target.closest('[data-st]'),k=e.target.closest('[data-pk]');
+ if(n){NT=+n.dataset.nt;if(MYT>=NT)MYT=0;drawOpt()}
+ else if(s2){MYT=+s2.dataset.st;drawOpt()}
+ else if(k){const ti=+k.dataset.pk,me=S.t.find(t=>t.uid===MY),name=me?me.nm:'Manager';host?seat(MY,name,ti):send({type:'pick',t:ti,nm:name})}});
+
+/* ---------- floating kid-friendly background ---------- */
+(function(){const bg=document.createElement('div');bg.id='au-bg';
+ bg.innerHTML=Array.from({length:16},(_,i)=>`<span style="left:${Math.random()*100}%;font-size:${22+Math.random()*26}px;animation-duration:${14+Math.random()*16}s;animation-delay:-${Math.random()*20}s">${['🎈','⭐','🏏','🍭','🎉','🪁','🧢','🌈'][i%8]}</span>`).join('');
+ document.body.prepend(bg)})();
+drawOpt();
 })();
 </script>
 </body>
