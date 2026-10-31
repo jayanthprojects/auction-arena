@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>IPL Auction Arena - 8 Player & Realistic Faces</title>
+<title>IPL Auction Arena - 8 Player, Realistic Faces & Extra Animations</title>
 
 <!-- Firebase Compat SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -111,9 +111,110 @@ body.hall #h-ticker{background:var(--cd);color:var(--mu);border:1px solid var(--
 .ha .flw{transform-box:fill-box;transform-origin:center;animation:hspin 2s linear infinite}
 @keyframes hfl{to{transform:translateY(-60vh) scale(1.5);opacity:0}}#h-say.on{animation-name:hpop2}@keyframes hpop2{0%{transform:translateX(-50%) scale(.6);opacity:0}70%{transform:translateX(-50%) scale(1.06)}}
 </style>
+
+<!-- ===== EXTRA ANIMATIONS ADD-ON (auctioneer + Chinnodu + Peddodu) ===== -->
+<style>
+/* ---- shared ---- */
+.ha .ey circle{transform-box:fill-box;transform-origin:center}
+.ha .x-pop{position:absolute;left:34px;top:112px;font-size:28px;display:none}
+.rg-f.c .fa{transform-origin:0% 50%}.rg-f.p .fa{transform-origin:100% 50%}
+.x-cloud{position:absolute;left:50%;bottom:26px;font-size:72px;display:none;z-index:2;transform:translateX(-50%)}
+.x-em{position:fixed;z-index:95;pointer-events:none;opacity:0;animation:xfloat 2.2s ease-out forwards}
+@keyframes xfloat{0%{transform:translate(0,0) scale(.4);opacity:0}15%{opacity:1}100%{transform:translate(var(--dx),-170px) scale(1.2);opacity:0}}
+
+/* ---- auctioneer solo acts (mouths) ---- */
+body[data-act] .ha[data-m] .mo{display:none}
+body[data-act=dance] .ha[data-m] .m-b,body[data-act=hop] .ha[data-m] .m-b,body[data-act=flex] .ha[data-m] .m-b,body[data-act=pushpa] .ha[data-m] .m-b,
+body[data-act=finger] .ha[data-m] .m-o,body[data-act=wink] .ha[data-m] .m-o,
+body[data-act=spin] .ha[data-m] .m-w,body[data-act=tongue] .ha[data-m] .m-w,body[data-act=faint] .ha[data-m] .m-u{display:inline}
+/* ---- auctioneer solo acts (motion) ---- */
+body[data-act=dance] .ha[data-m] .ha-svg{animation:xdance .45s infinite alternate}
+body[data-act=dance] .ha[data-m] .aL{animation:hxl .3s infinite alternate}
+body[data-act=dance] .ha[data-m] .aR{animation:hxr .3s infinite alternate}
+body[data-act=dance] .ha[data-m] .hd{animation:hxt .45s infinite alternate}
+body[data-act=hop] .ha[data-m] .ha-svg{animation:xhop .5s infinite}
+body[data-act=hop] .ha[data-m] .aL{animation:hxl .2s infinite alternate}
+body[data-act=hop] .ha[data-m] .aR{animation:hxr .2s infinite alternate}
+body[data-act=finger] .ha[data-m] .aL{animation:hxc 2.6s ease-in forwards}
+body[data-act=finger] .ha[data-m] .fg{animation:hxw .25s infinite alternate}
+body[data-act=finger] .ha[data-m] .hd{animation:hxt .8s infinite alternate}
+body[data-act=spin] .ha[data-m] .hd{animation:xspin 1s 2}
+body[data-act=spin] .ha[data-m] .prop{animation-duration:.08s}
+body[data-act=tongue] .ha[data-m] .hd{animation:hxs .12s infinite alternate}
+body[data-act=tongue] .ha .ey circle:nth-child(3){transform:translateX(7px)}
+body[data-act=tongue] .ha .ey circle:nth-child(4){transform:translateX(-7px)}
+body[data-act=wink] .ha .ey circle:nth-child(2),body[data-act=wink] .ha .ey circle:nth-child(4){transform:scaleY(.12)}
+body[data-act=wink] .ha[data-m] .ha-svg{animation:xlean .8s infinite alternate}
+body[data-act=flex] .ha[data-m] .ha-svg{animation:xflex .5s infinite alternate}
+body[data-act=flex] .ha[data-m] .aL{animation:xhc .5s infinite alternate}
+body[data-act=flex] .ha[data-m] .aR{animation:xarmr .5s infinite alternate}
+body[data-act=faint] .ha[data-m] .ha-svg{animation:xfaint 3s}
+body[data-act=faint] .ha[data-m] .ey{display:none}
+body[data-act=faint] .ha[data-m] .hp,body[data-act=faint] .ha[data-m] .sw{display:inline}
+body[data-act=pushpa] .ha[data-m] .hd{animation:xpush .7s infinite alternate}
+body[data-act=pushpa] .ha[data-m] .aL{animation:xchin .7s infinite alternate}
+
+/* ---- duo: dance together ---- */
+body[data-duo=dance] .ha[data-m] .ha-svg{animation:xdance .45s infinite alternate}
+body[data-duo=dance] .rg[data-s=idle] .rg-f.c svg{animation:xjig .35s infinite alternate}
+body[data-duo=dance] .rg[data-s=idle] .rg-f.p svg{animation:xjig .5s infinite alternate-reverse}
+body[data-duo=dance] .rg[data-s=idle] .rg-f .fa{animation:xfa .25s infinite alternate}
+/* ---- duo: copycat (he moves, Chinnodu copies after .5s, Peddodu after 1s) ---- */
+body[data-duo=copy] .ha[data-m] .ha-svg{animation:xcopy 4.4s}
+body[data-duo=copy] .ha[data-m] .aL{animation:xcarm 4.4s}
+body[data-duo=copy] .rg[data-s=idle] .rg-f.c svg{animation:xcopy 4.4s .5s}
+body[data-duo=copy] .rg[data-s=idle] .rg-f.p svg{animation:xcopy 4.4s 1s}
+body[data-duo=copy] .rg[data-s=idle] .rg-f.c .fa{animation:xcfa 4.4s .5s}
+body[data-duo=copy] .rg[data-s=idle] .rg-f.p .fa{animation:xcfa 4.4s 1s}
+/* ---- duo: gavel bonk ---- */
+body[data-duo=bonk] .ha[data-m] .aR{animation:xbonk 3.6s}
+body[data-duo=bonk] .ha[data-m] .ha-svg{animation:xrecoil 3.6s}
+body[data-duo=bonk] .ha[data-m] .bm{display:inline;opacity:0;animation:xbang 3.6s}
+body[data-duo=bonk] .rg[data-s=idle] .rg-f.p{animation:xknock 3.6s}
+body[data-duo=bonk] .rg[data-s=idle] .rg-f.c svg{animation:xjump .3s infinite alternate}
+body[data-duo=bonk] .rg[data-s=idle] .rg-f.c .fa{animation:xfa .25s infinite alternate}
+/* ---- duo: dust-cloud brawl while he eats popcorn ---- */
+body[data-duo=dust] .ha .x-pop{display:block;animation:xlean .5s infinite alternate}
+body[data-duo=dust] .rg[data-s=idle] .rg-f.c{animation:xdustc 3.8s}
+body[data-duo=dust] .rg[data-s=idle] .rg-f.p{animation:xdustp 3.8s}
+body[data-duo=dust] .rg[data-s=idle] .x-cloud{display:block;animation:xcloud 3.8s}
+
+/* ---- Chinnodu & Peddodu react to the auction ---- */
+body[data-m=sold] .rg[data-s=idle] .rg-f svg{animation:xjump .3s infinite alternate}
+body[data-m=sold] .rg[data-s=idle] .rg-f .fa{animation:xfa .25s infinite alternate}
+body[data-m=unsold] .rg[data-s=idle] .rg-f.c svg{animation:xdroop 1.2s infinite alternate}
+body[data-m=unsold] .rg[data-s=idle] .rg-f.p svg,body[data-m=war] .rg[data-s=idle] .rg-f svg{animation:xlaugh .18s infinite alternate}
+
+/* ---- keyframes ---- */
+@keyframes xdance{from{transform:rotate(-5deg)}to{transform:rotate(5deg) translateY(-10px)}}
+@keyframes xhop{0%,100%{transform:translateY(0) scale(1,1)}40%{transform:translateY(-26px) scale(.95,1.08)}85%{transform:translateY(0) scale(1.08,.92)}}
+@keyframes xflex{from{transform:scale(1)}to{transform:scale(1.1)}}
+@keyframes xarmr{from{transform:rotate(0)}to{transform:rotate(-55deg)}}
+@keyframes xhc{from{transform:rotate(115deg)}to{transform:rotate(160deg)}}
+@keyframes xfaint{0%,8%{transform:none}22%,85%{transform:translate(10px,44px) rotate(80deg)}100%{transform:none}}
+@keyframes xpush{from{transform:rotate(-13deg)}to{transform:rotate(-5deg) translateY(-5px)}}
+@keyframes xchin{from{transform:rotate(50deg)}to{transform:rotate(112deg)}}
+@keyframes xlean{from{transform:rotate(-4deg)}to{transform:rotate(4deg) translateY(-3px)}}
+@keyframes xspin{to{transform:rotate(720deg)}}
+@keyframes xcopy{0%{transform:none}12%{transform:rotate(-14deg)}26%{transform:rotate(14deg)}40%{transform:translateY(-20px)}54%{transform:scaleX(-1)}68%{transform:scaleX(1) rotate(-10deg) translateY(-6px)}82%{transform:scale(1.12)}100%{transform:none}}
+@keyframes xcarm{0%,10%{transform:none}25%{transform:rotate(60deg)}45%{transform:rotate(-20deg)}65%{transform:rotate(80deg)}100%{transform:none}}
+@keyframes xcfa{0%,10%{transform:none}25%{transform:rotate(-40deg)}45%{transform:rotate(30deg)}65%{transform:rotate(-50deg)}100%{transform:none}}
+@keyframes xbonk{0%,30%{transform:none}40%{transform:rotate(-80deg)}46%{transform:rotate(25deg)}60%,100%{transform:none}}
+@keyframes xbang{0%,40%{opacity:0;transform:scale(.4)}46%{opacity:1;transform:scale(1.5)}62%{opacity:1;transform:scale(1)}72%,100%{opacity:0}}
+@keyframes xrecoil{0%,42%{transform:none}46%{transform:rotate(-6deg) translateX(8px)}56%,100%{transform:none}}
+@keyframes xknock{0%,42%{transform:none}48%{transform:translateX(24px) rotate(18deg)}60%,86%{transform:translateX(34px) rotate(70deg) translateY(10px)}100%{transform:none}}
+@keyframes xjump{to{transform:translateY(-14px)}}
+@keyframes xjig{from{transform:rotate(-8deg)}to{transform:rotate(8deg) translateY(-14px)}}
+@keyframes xfa{from{transform:rotate(-25deg)}to{transform:rotate(30deg)}}
+@keyframes xdustc{0%{transform:none;opacity:1}18%{transform:translateX(70px);opacity:1}22%,78%{transform:translateX(70px);opacity:0}84%{transform:translateX(70px) rotate(-30deg);opacity:1}100%{transform:none;opacity:1}}
+@keyframes xdustp{0%{transform:none;opacity:1}18%{transform:translateX(-70px);opacity:1}22%,78%{transform:translateX(-70px);opacity:0}84%{transform:translateX(-70px) rotate(30deg);opacity:1}100%{transform:none;opacity:1}}
+@keyframes xcloud{0%,18%{opacity:0;transform:translateX(-50%) scale(.3)}24%{opacity:1;transform:translateX(-50%) scale(1)}32%{transform:translateX(-50%) rotate(10deg) scale(1.05)}44%{transform:translateX(-50%) rotate(-10deg)}56%{transform:translateX(-50%) rotate(8deg)}68%{transform:translateX(-50%) rotate(-8deg)}78%,100%{opacity:0;transform:translateX(-50%) scale(.3)}}
+@keyframes xdroop{to{transform:translateY(6px) rotate(4deg)}}
+@keyframes xlaugh{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+</style>
 </head>
 <body>
-<header><span>🏏 IPL AUCTION ARENA (Realistic Faces & 8-Player)</span><span id="rm"></span></header>
+<header><span>🏏 IPL AUCTION ARENA (Realistic Faces, 8-Player & Extra Animations)</span><span id="rm"></span></header>
 <div id="app"></div>
 
 <script>
@@ -239,11 +340,11 @@ Mustafizur Rahman|L|BD|80|d
 Shakib Al Hasan|A|BD|74|s`;
 
 const ALL_TEAMS=[
-  ['Mumbai Blasters', '#2f7bff'],
-  ['Chennai Lions', '#f5b800'],
-  ['Bengaluru Royals', '#e8344f'],
+  ['Mumbai Indians', '#2f7bff'],
+  ['Chennai Super kings', '#f5b800'],
+  ['Bengaluru Royal challengers', '#e8344f'],
   ['Kolkata Knights', '#9b4dd1'],
-  ['Hyderabad Strikers', '#ff6b00'],
+  ['Hyderabad Sunrisers', '#ff6b00'],
   ['Delhi Capitals', '#1a3c40'],
   ['Punjab Kings', '#ed1b24'],
   ['Rajasthan Royals', '#254aa5']
@@ -517,7 +618,7 @@ const RB=["{n} bid pettaadu! Dabbu ekkadi nundi vachiddi? Nanna pocket aa? 😂"
           "{n}: 'Nenu ready!' Wallet: 'Nenu ready kaadu!' 😭",
           "{n} mukham lo confidence, account lo 'balance enquiry' 😅",
           "{n} ni chusthe KGF Rocky bhai gurthostadu — kani wallet 'Rocky' kaadu 😆",
-          "Orey, ee player kosam bid chesthunnaru ante... vadu ordinary player kaadu, wildfire! 🔥 Thaggedhe le!",
+          "Orey, ee player kosam bid chesthunnaru inhante... vadu ordinary player kaadu, wildfire! 🔥 Thaggedhe le!",
           "Ee range lo crore-ulu karchu pedtunnarante... bayata evadanna choosthe, vere level daring ra idi! Ayya, meeru asalu thaggatledu ga!",
           "Bidding war chusthunte... naku Gurugobind Singh dialogues gurthostunnai. Ikkada aagadaniki ledu, kodthune undali!",
           "Mee wallet balance chusthunte... intlo telisi pothe amma slippers tho kottela undi saar! Koncham chusi bid veyyandi!",
@@ -604,6 +705,81 @@ setInterval(()=>{if(!S||S.ph!='auc'||!S.c)return;const c=S.c,p=PL[c.p],now=Date.
  if(c.st=='bid'&&now-idle>13000){idle=now;const hs=S.t.filter(t=>!t.ai&&t.nm&&t!==S.t[c.by]);if(hs.length&&Math.random()<.6)say(f(RI).replace('{n}',f(hs).nm),'🎤 Bala Subbarao');else scene(f(SC)(pn,p.v))}},400);
 
 const _rh=render;render=function(){_rh();floor();aucn();ringMount()};render();
+})();
+</script>
+
+<!-- ===== EXTRA ANIMATIONS ADD-ON SCRIPT ===== -->
+<script>
+(function(){
+const f=a=>a[Math.random()*a.length|0],B=document.body;
+
+/* ---------- auctioneer solo acts: d = duration ms ---------- */
+const ACT={
+ dance:{d:3600,l:["Bala Subbarao disco! Hop hop hop 🕺","Naatu step veyyala? Bid pettandi! 🎶","Naa dance chusi bid pettandi ra! 💃"],e:['🎵','🎶','🕺','💃']},
+ finger:{d:3200,l:["Crooked finger… up! ☝️ Bid OUT ayyindi!","Naa finger chusi bid pettandi saar! ☝️","Finger slowly… slowly… going up! 😬"],e:['☝️','😬','✨']},
+ hop:{d:3000,l:["Hop hop hop! Bala Subbarao hop! 🐇","Naa hop ki bid free! 🐇","Kangaroo kaadu, auctioneer ra! 🦘"],e:['🐇','🦘','✨']},
+ spin:{d:2400,l:["Hat propeller full speed! 🌀","Helicopter auctioneer! 🚁 Bid pettandi!","Gir gir gir! Tala tirigindi! 😵‍💫"],e:['🌀','🚁','😵‍💫']},
+ tongue:{d:2600,l:["Bleh! Bid pettakapothe ila untanu! 😝","Cross-eyed ayipoya rates chusi! 🤪","Brahmi expression: 'Ayyo… ee rate aa?' 😲"],e:['😝','🤪','😂']},
+ wink:{d:2400,l:["Ey! Wink wink… bid pettandi! 😉","Ee wink ki oka bid free! 😘","Naa wink mee wallet ki ✔ ante! 😉"],e:['😉','😘','💋']},
+ flex:{d:3000,l:["Baahubali laaga gavel lift! 💪","Gym lo vunnaa ra, bid ki ready! 💪","Muscle chusi bid pettandi! 🏋️"],e:['💪','🔥','😤']},
+ faint:{d:3000,l:["Rates chusi faint ayyanu… 😵","Thud! Wallet kuda faint ayindi! 💀","Doctor! Bid cheyyandi, lekapothe nenu levanu! 🚑"],e:['😵','💫','🚑']},
+ pushpa:{d:2800,l:["Pushpa… thaggedhe le! 🔥 (chin sweep)","Bid thaggedhe le! Shoulder shrug ra! 😎","Fire kaadu… wildfire! 🔥"],e:['🔥','😎','🌟']}};
+
+/* ---------- duo acts with Chinnodu (c) and Peddodu (p) ---------- */
+const DUO={
+ dance:{d:4000,act:'dance',rg:'🎶 DANCE OFF! 🕺',s:[['a',"Chinnodu! Peddodu! Naatu step ready aa? 🎶",0],['c',"Anna, ready! Naa step chudu! 🕺",1300],['p',"Naa step bigger ra! Peddodu ante peddodu! 💃",2600]],fx:[[300,['🎵','🎶','🕺','💃'],7,'.ha'],[900,['🎵','🎶','💃','🎉'],7,'#h-ring']]},
+ copy:{d:4600,act:'',rg:'🐒 COPYCAT! 🪞',s:[['a',"Nenu chesina step, meeru copy cheyyandi! 🪞",0],['c',"Anna, copy chesthunna! 🐒",1400],['p',"Nenu copy kaadu, original! 😂 (copy chesthunnadu)",2800]],fx:[[1500,['🐒','😂','🪞'],6,'#h-ring']]},
+ bonk:{d:3800,act:'',rg:'🔨 BONK! 💫',s:[['a',"Peddodu! Aagu ra, gavel bonk! 🔨",0],['p',"Ayyo naa thala! 😵",1700],['c',"Anna super hit! 👏 Peddodu ki padindi!",2600]],fx:[[1650,['💥','⭐','😵','🌟'],8,'.ha'],[1700,['💫','😵','⭐'],6,'#h-ring']]},
+ dust:{d:4000,act:'wink',rg:'💨 DHOOM DHAAM! 💥',s:[['a',"Ee fight chustu popcorn thintha! 🍿",0],['c',"Peddodu, raa ra! 👊",900],['p',"Chinnodu, nuvvu aagu ra! 💢",1800]],fx:[[900,['💥','👊','😵','⭐'],7,'#h-ring'],[2300,['💥','🤕','⭐','👊'],7,'#h-ring']]}};
+
+/* ---------- helpers ---------- */
+const ringEl=()=>document.querySelector('#h-ring .rg');
+const rgIdle=()=>{const r=ringEl();return !!r&&r.dataset.s=='idle'&&r.isConnected};
+let cur='',endT=0,tok=0,nxt=Date.now()+6000,curLine='';
+function burst(list,n,sel){const el=document.querySelector(sel);if(!el)return;const r=el.getBoundingClientRect();
+ for(let i=0;i<n;i++){const e=document.createElement('span');e.className='x-em';e.textContent=f(list);
+  e.style.left=(r.left+Math.random()*r.width)+'px';e.style.top=(r.top+r.height*.4)+'px';e.style.fontSize=(22+Math.random()*20)+'px';
+  e.style.animationDelay=(i*.09)+'s';e.style.setProperty('--dx',(Math.random()*90-45)+'px');B.appendChild(e);setTimeout(()=>e.remove(),2800)}}
+function setHa(t){curLine=t;const b=document.querySelector('.ha-b');if(b)b.textContent='[Bala Subbarao]: '+t}
+function say(w,t){
+ if(w=='a')return setHa(t);
+ const c=document.getElementById('rb-c'),p=document.getElementById('rb-p');if(!c||!p||!rgIdle())return;
+ c.className='rg-b'+(w=='c'?' on':'');p.className='rg-b r'+(w=='p'?' on':'');
+ (w=='c'?c:p).textContent=(w=='c'?'Chinnodu: ':'Peddodu: ')+t}
+function face(w,e){const x=document.querySelector('#h-ring .rg-f.'+w);if(x&&rgIdle())x.dataset.e=e}
+function fx(t){const x=document.getElementById('rg-fx');if(x&&rgIdle())x.textContent=t}
+function stop(){
+ tok++;cur='';curLine='';delete B.dataset.act;delete B.dataset.duo;nxt=Date.now()+7000+Math.random()*6000;
+ if(rgIdle()){face('c','n');face('p','n');fx('');const c=document.getElementById('rb-c'),p=document.getElementById('rb-p');if(c)c.className='rg-b';if(p)p.className='rg-b r'}}
+function start(){
+ const id=++tok;
+ if(rgIdle()&&Math.random()<.55){
+  const k=f(Object.keys(DUO)),D=DUO[k];cur=k;endT=Date.now()+D.d;B.dataset.duo=k;
+  if(D.act)B.dataset.act=D.act;else delete B.dataset.act;
+  D.s.forEach(([w,t,ms])=>setTimeout(()=>{if(tok==id)say(w,t)},ms));
+  D.fx.forEach(([ms,l,n,sel])=>setTimeout(()=>{if(tok==id)burst(l,n,sel)},ms));
+  fx(D.rg);
+  if(k=='bonk'){setTimeout(()=>{if(tok==id)face('p','k')},1650);setTimeout(()=>{if(tok==id)face('p','n')},3100)}
+ }else{
+  const k=f(Object.keys(ACT)),A=ACT[k];cur=k;endT=Date.now()+A.d;B.dataset.act=k;delete B.dataset.duo;
+  setHa(f(A.l));burst(A.e,6,'.ha')}}
+
+/* ---------- scheduler ---------- */
+setInterval(()=>{
+ if(!S||S.ph!='auc'||!S.c){if(cur)stop();delete B.dataset.m;return}
+ const c=S.c,now=Date.now(),l=c.end-now,
+  mo=c.st=='sold'?'sold':c.st=='unsold'?'unsold':c.by<0?'idle':l<4000?'once':c.n>=5?'war':'bid';
+ B.dataset.m=mo;
+ const ok=(mo=='idle'||mo=='bid')&&l>5000;
+ if(cur&&(now>endT||!ok))stop();
+ else if(!cur&&ok&&now>nxt)start()},300);
+
+/* ---------- inject extras after every render (keeps .ha-b as lastChild) ---------- */
+function inject(){
+ const rg=ringEl();if(rg&&!rg.querySelector('.x-cloud'))rg.insertAdjacentHTML('beforeend','<div class="x-cloud">💨</div>');
+ const ha=document.querySelector('.ha');if(ha&&!ha.querySelector('.x-pop')){const p=document.createElement('div');p.className='x-pop';p.textContent='🍿';ha.insertBefore(p,ha.lastChild)}}
+const _r=render;render=function(){_r();inject();if(cur&&curLine)setHa(curLine)};
+inject();
 })();
 </script>
 
