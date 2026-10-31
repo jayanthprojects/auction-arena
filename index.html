@@ -31,6 +31,81 @@ h1,h2,h3{margin:.2em 0}.mu,small{color:var(--mu)}.chip{display:inline-block;padd
 @keyframes pulse{50%{transform:scale(1.03)}}@keyframes pop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.2)}}@keyframes slide{from{transform:translateX(-24px);opacity:0}}
 @keyframes glow{to{box-shadow:0 0 14px var(--cl)}}@keyframes stamp{from{transform:scale(3);opacity:0}}@keyframes fall{to{transform:translateY(520px) rotate(720deg)}}@keyframes grow{from{transform:scaleX(0)}}
 </style>
+
+<!-- ===== AUCTION HALL ADD-ON v4 STYLES ===== -->
+<style>
+body.hall{--bg:#f3f4f6;--cd:#fff;--tx:#1f2937;--mu:#6b7280;--bd:#d9dde3;--ac:#e39b00;--ok:#15803d;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg)}
+@media(prefers-color-scheme:dark){body.hall{--bg:#16181d;--cd:#1f232b;--tx:#e9e6df;--mu:#9aa0ab;--bd:#343a46;--ac:#e0a92f}}
+#au-bg,.h-beam,#h-crowd,#h-duo,body.hall .au-wrap{display:none!important}
+body.hall header{background:#1f2937;color:#fff}
+body.hall .card{background:var(--cd);border:1px solid var(--bd);border-radius:10px;box-shadow:0 1px 3px #0002}
+body.hall .btn,body.hall .sm{font-family:inherit;border-radius:8px}body.hall .btn{background:var(--ac);color:#111;box-shadow:none}
+body.hall .sm{background:var(--bd);color:var(--tx);border:0}body.hall .sm.sel{background:var(--ac);color:#111}
+body.hall .bar i{background:var(--ac)}body.hall aside .tm{display:none}
+body.hall .fl-tbl{background:var(--bd)!important;border-color:var(--ac)!important;box-shadow:none!important}
+body.hall #h-ticker{background:var(--cd);color:var(--mu);border:1px solid var(--bd)}
+#h-say{position:fixed;left:50%;top:56px;transform:translateX(-50%);width:max-content;max-width:min(92vw,520px);z-index:73;background:#1b0f08;color:#f6e7c8;border:2px solid #e6b24a;border-radius:10px;padding:8px 14px;font-weight:700;text-align:center;display:none;box-shadow:0 6px 18px #000a}
+#h-say.on{display:block;animation:hpop .35s}#h-say small{display:block;color:#e6b24a;font-size:11px}
+#h-cb{position:fixed;right:10px;bottom:70px;z-index:76;font-size:22px;border:2px solid #b8862f;border-radius:50%;width:48px;height:48px;background:#2b1a0f;cursor:pointer;color:#fff}
+#h-bd{position:absolute;top:-4px;right:-4px;background:#e11d48;color:#fff;font:700 11px system-ui;border-radius:99px;padding:2px 6px;display:none}
+#h-chat{position:fixed;right:10px;bottom:126px;width:min(300px,92vw);height:300px;display:none;flex-direction:column;z-index:76;background:#1b0f08;border:2px solid #b8862f;border-radius:12px;overflow:hidden}#h-chat.on{display:flex}
+.h-ch{background:#2a1408;color:#e6b24a;font-weight:800;padding:6px 10px}#h-msgs{flex:1;overflow:auto;padding:6px;font:13px/1.35 system-ui;color:#f6e7c8}#h-msgs .me{text-align:right;color:#ffd86b}
+.h-q{display:flex;justify-content:space-around;padding:2px}.h-q button{border:0;background:none;font-size:20px;cursor:pointer}.h-in{display:flex}.h-in input{flex:1;margin:3px;padding:6px;min-width:0}.h-in .btn{padding:6px 10px;margin:3px}
+.h-fl{position:fixed;bottom:90px;font-size:34px;pointer-events:none;z-index:90;animation:hfl 2.2s forwards}
+#h-floor{padding:10px}.fl-tbl{position:relative;margin:6px auto 14px;max-width:520px;height:66px;border-radius:50%;background:radial-gradient(ellipse at 50% 30%,#8a5528,#3a2010 70%);border:4px solid #b8862f;display:flex;align-items:center;justify-content:center;gap:12px;text-align:center;box-shadow:0 10px 0 #1a0d05,0 18px 22px #000a}
+.fl-tbl.hot{animation:hshake .25s infinite}.fl-g{font-size:32px;transform-origin:80% 90%}.fl-g.bang{animation:hbang .7s}
+.fl-seats{display:flex;justify-content:space-around;flex-wrap:wrap;gap:6px}.fs{width:84px;text-align:center;position:relative;padding-top:34px}
+.fs .pd2{position:absolute;left:50%;top:0;transform:translateX(-50%) translateY(16px);background:#fff;color:#111;font:800 11px/1 system-ui;padding:5px 6px;border-radius:4px;border:2px solid var(--cl);min-width:44px;transition:transform .3s}
+.fs.in .pd2{transform:translateX(-50%) translateY(4px)}.fs.ld .pd2{animation:hraise .5s forwards;box-shadow:0 0 14px var(--cl)}
+.fs .hd{width:42px;height:42px;margin:0 auto 3px;border-radius:50%;background:var(--cl);display:grid;place-items:center;font-weight:900;color:#fff;border:3px solid #f6e7c8}
+.fs.ld .hd{animation:hbob .4s infinite alternate}.fs.me .hd{outline:3px solid var(--ac)}.fs small{display:block;font-size:11px}
+.fs .pb{height:6px;background:#000;border-radius:4px;overflow:hidden}.fs .pb i{display:block;height:100%;background:var(--cl);transition:width .6s}
+
+#h-ticker{background:#0d0f13;border-bottom:1px dashed #3d4452;color:#d9a93c;font:700 12px system-ui;padding:5px 10px;text-align:center;margin-bottom:8px;border-radius:6px}
+
+.ha{position:absolute;right:12px;top:6px;width:168px;height:182px;z-index:2;pointer-events:none}.ha-svg{width:100%;height:100%;overflow:visible}
+.ha-b{position:absolute;right:100%;top:8px;width:220px;margin-right:4px;background:#fff8e6;color:#2a1c08;border:2px solid #d9a93c;border-radius:12px;padding:6px 10px;font:700 12px/1.3 system-ui;box-shadow:0 4px 12px #0008}
+@media(max-width:800px){.ha{position:relative;right:auto;top:auto;width:100%;height:auto;display:flex;flex-direction:column;align-items:center}.ha-svg{width:150px;height:170px}.ha-b{position:static;order:-1;width:auto;margin:0 0 4px}}
+.ha .aL{transform-box:view-box;transform-origin:62px 134px}.ha .aR{transform-box:view-box;transform-origin:138px 134px}.ha .hd{transform-box:view-box;transform-origin:100px 110px}.ha .bdy{transform-box:view-box;transform-origin:100px 214px}
+.ha .fg{transform-box:fill-box;transform-origin:50% 0}.ha .bm,.ha .ey{transform-box:fill-box;transform-origin:center}
+.ha .mo,.ha .hp,.ha .sw,.ha .bm{display:none}.ey{animation:hxb 4s infinite}
+.ha[data-m=idle] .m-i,.ha[data-m=bid] .m-b,.ha[data-m=war] .m-w,.ha[data-m=once] .m-o,.ha[data-m=sold] .m-s,.ha[data-m=unsold] .m-u{display:inline}
+.ha[data-m=once] .sw,.ha[data-m=war] .sw,.ha[data-m=sold] .hp{display:inline}.ha[data-m=sold] .ey{display:none}
+.ha[data-m=idle] .hd,.ha[data-m=unsold] .hd{animation:hxt 2.2s infinite alternate ease-in-out}.ha.hop .ha-svg{animation:hxh .45s}
+.ha[data-m=bid] .aL,.ha[data-m=sold] .aL{transform:rotate(146deg)}.ha[data-m=bid] .fg,.ha[data-m=once] .fg{animation:hxw .35s infinite alternate}
+.ha[data-m=war] .aL{animation:hxl .28s infinite alternate}.ha[data-m=war] .aR{animation:hxr .28s infinite alternate}.ha[data-m=war] .hd{animation:hxs .14s infinite alternate}
+.ha[data-m=once] .aL{animation:hxc 3.2s ease-in forwards}.ha[data-m=sold] .aR{animation:hxm .3s 4 alternate}.ha[data-m=sold] .ha-svg{animation:hxj .5s infinite}.ha[data-m=sold] .bm{display:inline;animation:hxp .4s infinite alternate}
+.ha[data-m=unsold] .aL{transform:rotate(57deg)}.ha[data-m=unsold] .aR{transform:rotate(-40deg)}.ha[data-m=unsold] .bdy{transform:translateY(5px)}
+
+#h-ring{padding:10px}.rg-h{display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px}
+.rg{position:relative;height:188px;border-radius:8px;overflow:hidden;background:linear-gradient(#1c2740,#2b3a5e)}
+.rg::before{content:"";position:absolute;left:0;right:0;bottom:0;height:52px;background:linear-gradient(#cfc8b6,#b3ab96);border-top:3px solid #fff}
+.rp{position:absolute;left:8px;right:8px;height:4px;border-radius:2px;background:#d23}.rp.a{top:56px}.rp.b{top:82px;background:#eee}.rp.c{top:108px}
+.ps{position:absolute;bottom:34px;width:12px;height:118px;background:#8a8f99;border-radius:4px}.ps.l{left:2px}.ps.r{right:2px}
+.rg-f{position:absolute;bottom:14px;width:90px;text-align:center;transition:transform .3s}.rg-f.c{left:16%}.rg-f.p{right:16%}.rg-f .fh{font-size:40px;display:block}.rg-f.p .fh{font-size:58px}
+.gl{position:absolute;font-size:30px;top:10px}.rg-f.c .gl{right:-14px}.rg-f.p .gl{left:-14px;transform:scaleX(-1)}
+.rg-b{display:none;position:absolute;top:6px;max-width:58%;background:#fff;color:#17130a;font:700 12px/1.3 system-ui;padding:5px 9px;border-radius:10px;z-index:3}.rg-b.on{display:block;animation:hpop .3s}#rb-c{left:6px}#rb-p.r{right:6px;left:auto}
+#rg-fx{position:absolute;left:0;right:0;top:46%;text-align:center;font:900 19px system-ui;color:#ffd86b;text-shadow:0 2px 0 #000;z-index:2}
+.rg[data-s=idle] .fh{animation:hbob .8s infinite alternate}.rg[data-s=talk][data-w=c] .rg-f.c,.rg[data-s=talk][data-w=p] .rg-f.p,.rg[data-s=bell] .rg-f{animation:hbob .3s infinite alternate}
+.rg[data-s=fight] .rg-f.c{animation:rgc .28s infinite alternate}.rg[data-s=fight] .rg-f.p{animation:rgp .28s infinite alternate}
+@keyframes rgc{to{transform:translateX(44px) rotate(10deg)}}@keyframes rgp{to{transform:translateX(-44px) rotate(-10deg)}}
+.rg[data-s=ko][data-k=c] .rg-f.c{transform:rotate(-80deg) translateY(26px)}.rg[data-s=ko][data-k=p] .rg-f.p{transform:rotate(80deg) translateY(26px)}
+
+@keyframes hxb{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}@keyframes hxt{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}@keyframes hxh{40%{transform:translateY(-16px)}}
+@keyframes hxw{from{transform:rotate(-12deg)}to{transform:rotate(14deg)}}@keyframes hxl{from{transform:rotate(30deg)}to{transform:rotate(110deg)}}@keyframes hxr{from{transform:rotate(-20deg)}to{transform:rotate(-100deg)}}
+@keyframes hxs{from{transform:translateX(-3px) rotate(-3deg)}to{transform:translateX(3px) rotate(3deg)}}@keyframes hxc{from{transform:rotate(0)}to{transform:rotate(146deg)}}
+@keyframes hxm{from{transform:rotate(-35deg)}to{transform:rotate(30deg)}}@keyframes hxj{50%{transform:translateY(-14px)}}@keyframes hxp{from{transform:scale(.6);opacity:.4}to{transform:scale(1.3);opacity:1}}
+@keyframes hshake{0%{transform:translate(-2px,1px)}100%{transform:translate(2px,-1px)}}@keyframes hbang{0%{transform:rotate(0)}30%{transform:rotate(-70deg)}55%{transform:rotate(8deg) scale(1.3)}100%{transform:rotate(0)}}
+@keyframes hraise{from{transform:translateX(-50%) translateY(16px)}to{transform:translateX(-50%) translateY(-6px)}}@keyframes hbob{to{transform:translateY(-6px)}}@keyframes hpop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.06)}}
+.rg-f svg{width:100%;height:auto;display:block;overflow:visible}.rg-f.c{width:84px}.rg-f.p{width:128px}
+.rg-f .ee{display:none}.rg-f[data-e=n] .e-n,.rg-f[data-e=a] .e-a,.rg-f[data-e=h] .e-h,.rg-f[data-e=k] .e-k{display:inline}
+.rg[data-s=idle] .rg-f svg{animation:hbob .8s infinite alternate}.rg[data-s=idle] .rg-f.p svg{animation-duration:1.1s}
+.rg-f .fa{transform-box:fill-box}.rg[data-s=fight] .rg-f.c .fa{animation:jab .2s infinite alternate}.rg[data-s=fight] .rg-f.p .fa{animation:jabp .2s infinite alternate}
+@keyframes jab{to{transform:translateX(14px)}}@keyframes jabp{to{transform:translateX(-14px)}}
+.ha .prop{transform-box:fill-box;transform-origin:center;animation:hspin .3s linear infinite}@keyframes hspin{to{transform:rotate(360deg)}}
+.ha .flw{transform-box:fill-box;transform-origin:center;animation:hspin 2s linear infinite}
+@keyframes hfl{to{transform:translateY(-60vh) scale(1.5);opacity:0}}#h-say.on{animation-name:hpop2}@keyframes hpop2{0%{transform:translateX(-50%) scale(.6);opacity:0}70%{transform:translateX(-50%) scale(1.06)}}
+</style>
 </head>
 <body>
 <header><span>🏏 IPL AUCTION ARENA</span><span id="rm"></span></header>
@@ -181,7 +256,7 @@ function ev(x){const o=x.o,sg=(a,b,g)=>{const s=o.slice(a,b);return s.reduce((n,
  const top=sg(0,3,'o'),mid=sg(3,6,'m'),low=sg(6,11,'f'),[pp,a]=gp('p','p'),[md,b]=gp('m','s'),[dt,d]=gp('d','d'),n=a+b+d;
  const bat=.4*top+.35*mid+.25*low,bowl=.3*pp+.4*md+.3*dt-Math.max(0,5-n)*6-[a,b,d].filter(z=>z<2).length*4;
  let tot=(bat+bowl)/2;if(!o.some(i=>PL[i].role=='W'))tot-=5;tot+=2*PL[x.c].v/100+PL[x.vc].v/100;return{top,mid,low,pp,md,dt,bat,bowl,tot}}
-// ---------- host game logic
+
 function startAuc(){S.ord=PL.map(p=>p.i).sort((a,b)=>PL[b].v+Math.random()*14-PL[a].v-Math.random()*14);S.ph='auc';S.i=-1;next()}
 function next(){S.i++;if(S.i>=S.ord.length||S.t.every(t=>t.sq.length>=22))return endAuc();const n=Date.now();S.c={p:S.ord[S.i],bid:0,by:-1,st:'bid',end:n+15000,last:n,n:0,bd:[]};log('Now on the block: '+PL[S.c.p].n)}
 function endAuc(){const free=PL.filter(p=>!S.t.some(t=>t.sq.includes(p.i))).sort((a,b)=>(a.os-b.os)||b.v-a.v);S.t.forEach(t=>{while(t.sq.length<11&&free.length)t.sq.push(free.shift().i);if(t.ai)t.xi=auto(t)});S.ph='xi';log('Auction complete!');chk()}
@@ -196,7 +271,7 @@ async function sync(){render();if(online&&host&&doc)try{await doc.update({j:JSON
 function hostSnap(d){if(!d||!S)return;for(const k in d)if(k[0]=='a'&&k[1]=='_'){let a;try{a=JSON.parse(d[k])}catch(e){continue}if(seen[k]===a.k)continue;seen[k]=a.k;const u=k.slice(2),ti=S.t.findIndex(t=>t.uid===u);
  if(a.type=='join'&&S.ph=='lobby'&&ti<0){const f=S.t.find(t=>t.ai);if(f){f.ai=false;f.uid=u;f.nm=a.nm;sync()}}else if(a.type=='bid'&&ti>=0)bid(ti);else if(a.type=='xi'&&ti>=0&&S.ph=='xi'){S.t[ti].xi=a.x;chk()}}}
 const send=a=>{if(doc)doc.child('a_'+MY).set(JSON.stringify({k:Math.random(),...a}));};
-// ---------- actions
+
 const nm=()=>($('#nm')?.value||'Manager').slice(0,14);
 const A={
  toggleTeams(){extraTeams=!extraTeams;TN=extraTeams?[['Mumbai Blasters','#2f7bff'],['Chennai Lions','#f5b800'],['Bengaluru Royals','#e8344f'],['Kolkata Knights','#9b4dd1'],['Hyderabad Strikers','#ff6b00'],['Delhi Capitals','#1a3c40']]:[['Mumbai Blasters','#2f7bff'],['Chennai Lions','#f5b800'],['Bengaluru Royals','#e8344f'],['Kolkata Knights','#9b4dd1']];render()},
@@ -210,7 +285,7 @@ const A={
  auto(){ui=auto(S.t.find(t=>t.uid===MY));render()},lock(){ui.done=true;const x={o:ui.o,c:ui.c,vc:ui.vc,bw:ui.bw};if(host){S.t.find(t=>t.uid===MY).xi=x;chk()}else{send({type:'xi',x});render()}},again(){location.reload()}};
 document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b&&b.tagName!='SELECT')A[b.dataset.a]?.(b.dataset.v)});
 document.addEventListener('change',e=>{const b=e.target;if(b.dataset.a=='bw'){ui.bw[b.dataset.v]=b.value;render()}});
-// ---------- views
+
 const lab=t=>t.n+(t.ai?'':' 👤'+t.nm),conf=col=>`<div class="cf" style="--cc:${col}">${Array.from({length:30},()=>`<b style="--x:${Math.random()*100|0};--d:${Math.random().toFixed(2)}s"></b>`).join('')}</div>`;
 function render(){$('#rm').textContent=S&&S.code?'Room '+S.code:'';if(!S)return home();({lobby:lob,auc:auc,xi:xis,res:resv})[S.ph]()}
 function home(){app.innerHTML=`<div class="card c"><h1>🏏 Build your IPL squad</h1><p class="mu">Bid for real players with ₹100 Cr. 22 slots, max 8 overseas. Then pick your XI and battle for the title.</p>
@@ -245,7 +320,6 @@ function resv(){const r=S.res,w=S.t[r[0].i],mx=r[0].tot,f=x=>x.toFixed(0);
 <small>Top ${f(e.top)} · Middle ${f(e.mid)} · Lower ${f(e.low)} | Powerplay ${f(e.pp)} · Middle ${f(e.md)} · Death ${f(e.dt)}</small><br><small>C: ${PL[x.c].n} · VC: ${PL[x.vc].n}<br>${x.o.map(i=>PL[i].n).join(', ')}</small></div>`}).join('')}<div class="c"><button class="btn" data-a="again">New auction</button></div>`}
 setInterval(()=>{tick();if(S&&S.ph=='auc'&&S.c){const c=S.c,l=Math.max(0,c.end-Date.now()),b=$('#tb');if(b){b.style.width=Math.min(100,l/150)+'%';$('#tt').textContent=c.st=='bid'?Math.ceil(l/1000)+'s':'';b.parentNode.classList.toggle('hot',l<4000&&c.st=='bid')}}},250);
 
-// Initialize Firebase and set up your game database
 const firebaseConfig = {
   apiKey: "AIzaSyAuCDfEXr3TGjP2pnWFk3k5lxnf3XmwEpU",
   authDomain: "auction-arena-f2a9c.firebaseapp.com",
@@ -272,75 +346,15 @@ if (typeof render === 'function') {
 }
 </script>
 
-<!-- ===== AUCTION HALL ADD-ON v3: Billy Bala Subbarao, Expanded Dialogs, Chinnodu vs Peddodu Boxing Ring & Extra Characters ===== -->
-<style>
-body.hall{--bg:#15171c;--cd:#1f232b;--tx:#e9e6df;--mu:#9aa0ab;--bd:#343a46;--ac:#d9a93c;--ok:#4ade80;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:radial-gradient(ellipse at 50% -10%,#2a2f3a,#15171c 65%) fixed;padding-bottom:24px}
-#au-bg,.h-beam,#h-crowd,#h-duo,body.hall .au-wrap{display:none!important}
-body.hall header{background:#0d0f13;color:#d9a93c;border-bottom:2px solid #d9a93c;letter-spacing:1.5px}
-body.hall .card{background:#1f232b;border:1px solid #343a46;border-radius:10px;box-shadow:0 4px 14px #0006}
-body.hall .btn,body.hall .sm{font-family:inherit;border-radius:6px}body.hall .btn{background:#d9a93c;color:#16130a;box-shadow:none}
-body.hall .sm{background:#2b313c;color:#e9e6df;border:1px solid #3d4452}body.hall .sm.sel{background:#d9a93c;color:#16130a}
-body.hall .amt{font-family:"Courier New",monospace;color:#ffcf5a;background:#07080a;border:2px solid #3d4452;border-radius:6px;padding:2px 18px;display:inline-block;text-shadow:0 0 10px #ffb30088}
-body.hall .bar i{background:#d9a93c}body.hall .tm{border-radius:6px;background:#181b21}body.hall aside .tm{display:none}
-body.hall input,body.hall select{background:#14161a;color:#e9e6df;border:1px solid #3d4452}
-
-#h-floor{padding:10px}.fl-tbl{position:relative;margin:6px auto 14px;max-width:520px;height:66px;border-radius:50%;background:radial-gradient(ellipse at 50% 30%,#8a5528,#3a2010 70%);border:4px solid #b8862f;display:flex;align-items:center;justify-content:center;gap:12px;text-align:center;box-shadow:0 10px 0 #1a0d05,0 18px 22px #000a}
-.fl-tbl.hot{animation:hshake .25s infinite}.fl-g{font-size:32px;transform-origin:80% 90%}.fl-g.bang{animation:hbang .7s}
-.fl-seats{display:flex;justify-content:space-around;flex-wrap:wrap;gap:6px}.fs{width:84px;text-align:center;position:relative;padding-top:34px}
-.fs .pd2{position:absolute;left:50%;top:0;transform:translateX(-50%) translateY(16px);background:#fff;color:#111;font:800 11px/1 system-ui;padding:5px 6px;border-radius:4px;border:2px solid var(--cl);min-width:44px;transition:transform .3s}
-.fs.in .pd2{transform:translateX(-50%) translateY(4px)}.fs.ld .pd2{animation:hraise .5s forwards;box-shadow:0 0 14px var(--cl)}
-.fs .hd{width:42px;height:42px;margin:0 auto 3px;border-radius:50%;background:var(--cl);display:grid;place-items:center;font-weight:900;color:#fff;border:3px solid #f6e7c8}
-.fs.ld .hd{animation:hbob .4s infinite alternate}.fs.me .hd{outline:3px solid var(--ac)}.fs small{display:block;font-size:11px}
-.fs .pb{height:6px;background:#000;border-radius:4px;overflow:hidden}.fs .pb i{display:block;height:100%;background:var(--cl);transition:width .6s}
-
-/* Extra characters ticker banner */
-#h-ticker{background:#0d0f13;border-bottom:1px dashed #3d4452;color:#d9a93c;font:700 12px system-ui;padding:5px 10px;text-align:center;margin-bottom:8px;border-radius:6px}
-
-/* Auctioneer Bala Subbarao (Billy Bowden Style) */
-.ha{position:absolute;right:12px;top:6px;width:168px;height:182px;z-index:2;pointer-events:none}.ha-svg{width:100%;height:100%;overflow:visible}
-.ha-b{position:absolute;right:100%;top:8px;width:220px;margin-right:4px;background:#fff8e6;color:#2a1c08;border:2px solid #d9a93c;border-radius:12px;padding:6px 10px;font:700 12px/1.3 system-ui;box-shadow:0 4px 12px #0008}
-@media(max-width:800px){.ha{position:relative;right:auto;top:auto;width:100%;height:auto;display:flex;flex-direction:column;align-items:center}.ha-svg{width:150px;height:170px}.ha-b{position:static;order:-1;width:auto;margin:0 0 4px}}
-.ha .aL{transform-box:view-box;transform-origin:62px 134px}.ha .aR{transform-box:view-box;transform-origin:138px 134px}.ha .hd{transform-box:view-box;transform-origin:100px 110px}.ha .bdy{transform-box:view-box;transform-origin:100px 214px}
-.ha .fg{transform-box:fill-box;transform-origin:50% 0}.ha .bm,.ha .ey{transform-box:fill-box;transform-origin:center}
-.ha .mo,.ha .hp,.ha .sw,.ha .bm{display:none}.ey{animation:hxb 4s infinite}
-.ha[data-m=idle] .m-i,.ha[data-m=bid] .m-b,.ha[data-m=war] .m-w,.ha[data-m=once] .m-o,.ha[data-m=sold] .m-s,.ha[data-m=unsold] .m-u{display:inline}
-.ha[data-m=once] .sw,.ha[data-m=war] .sw,.ha[data-m=sold] .hp{display:inline}.ha[data-m=sold] .ey{display:none}
-.ha[data-m=idle] .hd,.ha[data-m=unsold] .hd{animation:hxt 2.2s infinite alternate ease-in-out}.ha.hop .ha-svg{animation:hxh .45s}
-.ha[data-m=bid] .aL,.ha[data-m=sold] .aL{transform:rotate(146deg)}.ha[data-m=bid] .fg,.ha[data-m=once] .fg{animation:hxw .35s infinite alternate}
-.ha[data-m=war] .aL{animation:hxl .28s infinite alternate}.ha[data-m=war] .aR{animation:hxr .28s infinite alternate}.ha[data-m=war] .hd{animation:hxs .14s infinite alternate}
-.ha[data-m=once] .aL{animation:hxc 3.2s ease-in forwards}.ha[data-m=sold] .aR{animation:hxm .3s 4 alternate}.ha[data-m=sold] .ha-svg{animation:hxj .5s infinite}.ha[data-m=sold] .bm{display:inline;animation:hxp .4s infinite alternate}
-.ha[data-m=unsold] .aL{transform:rotate(57deg)}.ha[data-m=unsold] .aR{transform:rotate(-40deg)}.ha[data-m=unsold] .bdy{transform:translateY(5px)}
-
-/* Boxing ring: Chinnodu vs Peddodu */
-#h-ring{padding:10px}.rg-h{display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px}
-.rg{position:relative;height:188px;border-radius:8px;overflow:hidden;background:linear-gradient(#1c2740,#2b3a5e)}
-.rg::before{content:"";position:absolute;left:0;right:0;bottom:0;height:52px;background:linear-gradient(#cfc8b6,#b3ab96);border-top:3px solid #fff}
-.rp{position:absolute;left:8px;right:8px;height:4px;border-radius:2px;background:#d23}.rp.a{top:56px}.rp.b{top:82px;background:#eee}.rp.c{top:108px}
-.ps{position:absolute;bottom:34px;width:12px;height:118px;background:#8a8f99;border-radius:4px}.ps.l{left:2px}.ps.r{right:2px}
-.rg-f{position:absolute;bottom:14px;width:90px;text-align:center;transition:transform .3s}.rg-f.c{left:16%}.rg-f.p{right:16%}.rg-f .fh{font-size:40px;display:block}.rg-f.p .fh{font-size:58px}
-.gl{position:absolute;font-size:30px;top:10px}.rg-f.c .gl{right:-14px}.rg-f.p .gl{left:-14px;transform:scaleX(-1)}
-.rg-b{display:none;position:absolute;top:6px;max-width:58%;background:#fff;color:#17130a;font:700 12px/1.3 system-ui;padding:5px 9px;border-radius:10px;z-index:3}.rg-b.on{display:block;animation:hpop .3s}#rb-c{left:6px}#rb-p.r{right:6px;left:auto}
-#rg-fx{position:absolute;left:0;right:0;top:46%;text-align:center;font:900 19px system-ui;color:#ffd86b;text-shadow:0 2px 0 #000;z-index:2}
-.rg[data-s=idle] .fh{animation:hbob .8s infinite alternate}.rg[data-s=talk][data-w=c] .rg-f.c,.rg[data-s=talk][data-w=p] .rg-f.p,.rg[data-s=bell] .rg-f{animation:hbob .3s infinite alternate}
-.rg[data-s=fight] .rg-f.c{animation:rgc .28s infinite alternate}.rg[data-s=fight] .rg-f.p{animation:rgp .28s infinite alternate}
-@keyframes rgc{to{transform:translateX(44px) rotate(10deg)}}@keyframes rgp{to{transform:translateX(-44px) rotate(-10deg)}}
-.rg[data-s=ko][data-k=c] .rg-f.c{transform:rotate(-80deg) translateY(26px)}.rg[data-s=ko][data-k=p] .rg-f.p{transform:rotate(80deg) translateY(26px)}
-
-@keyframes hxb{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}@keyframes hxt{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}@keyframes hxh{40%{transform:translateY(-16px)}}
-@keyframes hxw{from{transform:rotate(-12deg)}to{transform:rotate(14deg)}}@keyframes hxl{from{transform:rotate(30deg)}to{transform:rotate(110deg)}}@keyframes hxr{from{transform:rotate(-20deg)}to{transform:rotate(-100deg)}}
-@keyframes hxs{from{transform:translateX(-3px) rotate(-3deg)}to{transform:translateX(3px) rotate(3deg)}}@keyframes hxc{from{transform:rotate(0)}to{transform:rotate(146deg)}}
-@keyframes hxm{from{transform:rotate(-35deg)}to{transform:rotate(30deg)}}@keyframes hxj{50%{transform:translateY(-14px)}}@keyframes hxp{from{transform:scale(.6);opacity:.4}to{transform:scale(1.3);opacity:1}}
-@keyframes hshake{0%{transform:translate(-2px,1px)}100%{transform:translate(2px,-1px)}}@keyframes hbang{0%{transform:rotate(0)}30%{transform:rotate(-70deg)}55%{transform:rotate(8deg) scale(1.3)}100%{transform:rotate(0)}}
-@keyframes hraise{from{transform:translateX(-50%) translateY(16px)}to{transform:translateX(-50%) translateY(-6px)}}@keyframes hbob{to{transform:translateY(-6px)}}@keyframes hpop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.06)}}
-</style>
-
+<!-- ===== AUCTION HALL ADD-ON v4 SCRIPT ===== -->
 <script>
 (function(){
 const f=a=>a[Math.random()*a.length|0],fn=n=>n.split(' ')[0],mkd=(id,h,t)=>{const d=document.createElement(t||'div');d.id=id;if(h)d.innerHTML=h;document.body.appendChild(d);return d};
 document.body.classList.remove('kids');document.body.classList.add('hall');
 {const b=document.getElementById('au-bg');b&&b.remove()}
+const sy=mkd('h-say');let st;function say(t,tag){sy.innerHTML='<small>'+(tag||'🎤 Auctioneer')+'</small>';sy.appendChild(document.createTextNode(t));sy.classList.remove('on');void sy.offsetWidth;sy.classList.add('on');clearTimeout(st);st=setTimeout(()=>sy.classList.remove('on'),5200)}
+function fl(e){const s=document.createElement('span');s.className='h-fl';s.textContent=e;s.style.left=(8+Math.random()*80)+'%';document.body.appendChild(s);setTimeout(()=>s.remove(),2300)}
 
-// Extra ticker bar for Extra Characters (Anchor Ravi & Puranapul Punch Master)
 const ticker=mkd('h-ticker','🎙️ <b>Live Commentary:</b> Welcome to the craziest IPL auction of the century!');
 const EX_COMMENTS=[
   "🎙️ Overacting Anchor Ravi: Ohooo! Ee bid chusthunte naaku edho serial lo villain ki heart attack vachina scene gurthostundi! Wow, what a beauty!",
@@ -351,10 +365,9 @@ const EX_COMMENTS=[
 ];
 setInterval(()=>{ticker.innerHTML='<b>Live Commentary:</b> '+f(EX_COMMENTS)}, 9000);
 
-// ---- Boxing Ring: Chinnodu vs Peddodu
 const RG=document.createElement('section');RG.className='card';RG.id='h-ring';
-RG.innerHTML='<div class="rg-h"><b>🥊 Chinnodu vs Peddodu (Ring Arena)</b><span id="rg-r">Round 1 · 0 – 0</span></div><div class="rg" data-s="idle"><div class="rg-b" id="rb-c"></div><div class="rg-b r" id="rb-p"></div><div id="rg-fx"></div><i class="rp a"></i><i class="rp b"></i><i class="rp c"></i><i class="ps l"></i><i class="ps r"></i><div class="rg-f c"><span class="fh">🧒</span><span class="gl">🥊</span></div><div class="rg-f p"><span class="fh">🧔</span><span class="gl">🥊</span></div></div>';
-let busy=0,rd=1,sc=[0,0];const q=s=>RG.querySelector(s),g=()=>q('.rg'),faces=(a,b)=>{q('.rg-f.c .fh').textContent=a;q('.rg-f.p .fh').textContent=b};
+RG.innerHTML='<div class="rg-h"><b>🥊 Chinnodu vs Peddodu (Ring Arena)</b><span id="rg-r">Round 1 · 0 – 0</span></div><div class="rg" data-s="idle"><div class="rg-b" id="rb-c"></div><div class="rg-b r" id="rb-p"></div><div id="rg-fx"></div><i class="rp a"></i><i class="rp b"></i><i class="rp c"></i><i class="ps l"></i><i class="ps r"></i><div class="rg-f c" data-e="n"><svg viewBox="0 0 90 120"><path d="M36 86V108M54 86V108" stroke="#e8ab78" stroke-width="6"/><ellipse cx="34" cy="111" rx="9" ry="3.5" fill="#2ec4b6"/><ellipse cx="56" cy="111" rx="9" ry="3.5" fill="#2ec4b6"/><path d="M27 72H63L67 92H23Z" fill="#ffd23f"/><circle cx="34" cy="80" r="2.5" fill="#e11d48"/><circle cx="48" cy="86" r="2.5" fill="#e11d48"/><circle cx="56" cy="78" r="2.5" fill="#e11d48"/><circle cx="30" cy="89" r="2.5" fill="#e11d48"/><rect x="29" y="50" width="32" height="26" rx="9" fill="#fff"/><path d="M45 50V76" stroke="#e11d48" stroke-width="3"/><circle cx="38" cy="64" r="11" fill="#e11d48"/><g class="fa"><path d="M58 58L74 56" stroke="#e8ab78" stroke-width="6" stroke-linecap="round"/><circle cx="80" cy="55" r="13" fill="#e11d48"/><circle cx="76" cy="50" r="4" fill="#fff" opacity=".5"/></g><circle cx="45" cy="30" r="20" fill="#e8ab78"/><path d="M25 24L28 6L36 18L45 0L54 18L62 6L65 24Z" fill="#ff7a18"/><circle cx="36" cy="30" r="9.5" fill="#fff" stroke="#222" stroke-width="3"/><circle cx="55" cy="30" r="9.5" fill="#fff" stroke="#222" stroke-width="3"/><path d="M45 30H46" stroke="#222" stroke-width="3"/><g class="ee e-n"><circle cx="38" cy="31" r="2.6" fill="#111"/><circle cx="57" cy="31" r="2.6" fill="#111"/><path d="M38 42Q45 49 52 42" stroke="#7a1f2a" stroke-width="2.5" fill="none"/><rect x="43" y="42" width="4" height="5" fill="#fff" stroke="#999" stroke-width=".5"/></g><g class="ee e-a"><circle cx="38" cy="31" r="2.6" fill="#111"/><circle cx="57" cy="31" r="2.6" fill="#111"/><path d="M27 19L43 26M63 19L47 26" stroke="#222" stroke-width="3.5"/><ellipse cx="45" cy="45" rx="6" ry="5" fill="#7a1f2a"/></g><g class="ee e-h"><circle cx="38" cy="31" r="2.6" fill="#111"/><circle cx="57" cy="31" r="2.6" fill="#111"/><rect x="48" y="12" width="16" height="7" rx="2" fill="#f6d28b" transform="rotate(25 56 15)"/><path d="M38 46Q41 42 45 46Q49 42 52 46" stroke="#7a1f2a" stroke-width="2.5" fill="none"/></g><g class="ee e-k"><path d="M31 25L41 35M41 25L31 35M50 25L60 35M60 25L50 35" stroke="#222" stroke-width="3"/><path d="M40 43H50" stroke="#7a1f2a" stroke-width="2.5"/><ellipse cx="45" cy="47" rx="4" ry="5" fill="#ff6b81"/></g></svg></div><div class="rg-f p" data-e="n"><svg viewBox="0 0 130 130"><path d="M36 84H96L104 120H28Z" fill="#2a6fdb"/><path d="M44 84L40 120M58 84V120M72 84V120M86 84L90 120M30 100H102" stroke="#fff" stroke-width="1.5" opacity=".5"/><circle cx="78" cy="88" r="6" fill="#1d4fa8"/><ellipse cx="46" cy="124" rx="12" ry="4" fill="#8a5528"/><ellipse cx="86" cy="124" rx="12" ry="4" fill="#8a5528"/><ellipse cx="65" cy="64" rx="37" ry="30" fill="#f4f4f4"/><circle cx="65" cy="74" r="2.5" fill="#bbb"/><path d="M46 42Q65 62 84 42" stroke="#ffc400" stroke-width="3.5" fill="none"/><circle cx="65" cy="60" r="4" fill="#ffc400"/><rect x="90" y="36" width="12" height="42" rx="5" fill="#d6232f" transform="rotate(12 96 56)"/><circle cx="98" cy="66" r="14" fill="#16a34a"/><g class="fa"><path d="M42 58L22 60" stroke="#d4915f" stroke-width="11" stroke-linecap="round"/><circle cx="14" cy="60" r="17" fill="#16a34a"/><circle cx="18" cy="53" r="5" fill="#fff" opacity=".45"/></g><ellipse cx="65" cy="26" rx="25" ry="23" fill="#d4915f"/><path d="M58 6Q57 0 54 4M65 4V-2M72 6Q73 0 76 4" stroke="#222" stroke-width="2" fill="none"/><path d="M42 20Q55 14 63 20Q75 14 88 20" stroke="#2b1d12" stroke-width="5" fill="none" stroke-linecap="round"/><g class="ee e-n"><circle cx="54" cy="27" r="6" fill="#fff"/><circle cx="76" cy="27" r="6" fill="#fff"/><circle cx="55" cy="28" r="2.6" fill="#111"/><circle cx="75" cy="28" r="2.6" fill="#111"/></g><g class="ee e-a"><circle cx="54" cy="27" r="6" fill="#fff"/><circle cx="76" cy="27" r="6" fill="#fff"/><circle cx="55" cy="28" r="2.6" fill="#111"/><circle cx="75" cy="28" r="2.6" fill="#111"/><path d="M44 16L61 25M86 16L69 25" stroke="#2b1d12" stroke-width="6"/></g><g class="ee e-h"><path d="M49 28H59M71 28H81" stroke="#222" stroke-width="3"/><circle cx="84" cy="34" r="6" fill="#7c3aed" opacity=".6"/><rect x="50" y="4" width="18" height="8" rx="2" fill="#f6d28b" transform="rotate(-15 59 8)"/></g><g class="ee e-k"><path d="M49 22L59 32M59 22L49 32M71 22L81 32M81 22L71 32" stroke="#222" stroke-width="3"/></g><path d="M36 38Q52 30 65 38Q78 30 94 38Q80 52 65 45Q50 52 36 38Z" fill="#2b1d12"/><g class="ee e-n"><path d="M56 52Q65 58 74 52" stroke="#7a1f2a" stroke-width="3" fill="none"/></g><g class="ee e-a"><ellipse cx="65" cy="55" rx="9" ry="7" fill="#7a1f2a"/></g><g class="ee e-h"><path d="M56 56Q60 51 65 56Q70 51 74 56" stroke="#7a1f2a" stroke-width="3" fill="none"/></g><g class="ee e-k"><ellipse cx="65" cy="56" rx="5" ry="7" fill="#ff6b81"/></g></svg></div></div>';
+let busy=0,rd=1,sc=[0,0];const q=s=>RG.querySelector(s),g=()=>q('.rg'),faces=(a,b)=>{const E=x=>/😠|😡/.test(x)?'a':/🤕|😤/.test(x)?'h':/😵/.test(x)?'k':'n';q('.rg-f.c').dataset.e=E(a);q('.rg-f.p').dataset.e=E(b)};
 function bub(w,t,keep){q('#rb-c').className='rg-b'+(w=='c'?' on':'');q('#rb-p').className='rg-b r'+(w=='p'?' on':'');q(w=='c'?'#rb-c':'#rb-p').textContent=(w=='c'?'Chinnodu: ':'Peddodu: ')+t;if(!keep)g().dataset.s='talk';g().dataset.w=w}
 const CF=["Anna, jab jab jab! 🥊","Naa joke ki nuvvu navvali ra!","Ayyo naa chinna gunde!","Ee punch Telugu serial ki kuda ekkuva!","Skibidi toilet dance chestha chudu anna! 🕺","Instagram lo reel viral avthundi ra! 📱","Nuvvu cheppe kaburlu anni boothule!","Naa phone lo battery ledhu, aina fight chestha!","Biryani lo aloo veyyakapothe nenu koththa team pettukunta! 🥔","Pushpa song pettu anna, step vestha! 🔥","Nuvvu oka walking meme ra peddodu! 🤡","Ma intlo nannu hero antaru, mari ninnu? 😜","Neeku appu ichindi evaroo naaku telusu!","Ee player kosam nenu pranale istha!","Naa shoes brand chusava anna? Local road meeda dorkinavi!","Bidding apeshi konchem tea thaagudam ra! ☕","Nuvvu okka dialogue correct ga cheppalevu!","Naa Insta followers ninnu troll chestharu! 📉","Aagu anna, mummy phone chesthondi! 📞","Ee auction aagadu, manam aagakudadu!"];
 const PF=["Aagu ra chinnodu, naa punch bharisthava?","Peddodu ante peddodu ra! 💪","Naa biryani ki kuda kopam vachindi!","Ekkada ikkada ra, ring lo unnam!","Nuvvu reel lu aapara babu, thala noppi osthundi! 🤕","Nannu gelavadam ante Mahesh babu movie lo villain avvadam!","Neeku pelli ayyaka telustundi ee kastalu! 💍","Nee ooha lokam nunchi bayataki ra!","Naa daggara master plan undi, nuvvu silent ga undu!","Ee player gelisthe party naade! 🍗","Nuvvu chese overacting ki Oscar ivvali! 🏆","Mee nanna ki chepta nuvvu bid vesthe! 📢","Money tree undha ra backyard lo? 🌳","Nuvvu phone vaadadam aapeste world peace vachestundi!","Cricket gurinchi neeku em telusu ra gundu?","Naa stamina chusi referee shock ayyadu!","Bokka lo logic lu matladaku! 🕳️","Orey, koncham water ivvu, gala taddipoindi! 💧","Nuvvu okka six kottana life lo? 🏏","Poni le ra, chinnodu kabatti odilestunna!"];
@@ -367,10 +380,9 @@ function fight(cb){q('#rb-c').className='rg-b';q('#rb-p').className='rg-b r';g()
 function scene(a){if(busy||!a)return;busy=1;let i=0;const step=()=>{if(i>=a.length){g().dataset.s='idle';q('#rb-c').className='rg-b';q('#rb-p').className='rg-b r';faces('🧒','🧔');busy=0;return}const x=a[i++];if(x[0]=='F')return fight(step);bub(x[0],x[1]);setTimeout(step,Math.max(2500,x[1].length*55))};step()}
 function ringMount(){const as=document.querySelector('#app aside');if(S&&S.ph=='auc'&&as){if(as.firstChild!==RG)as.insertBefore(RG,as.firstChild)}else if(RG.parentNode)RG.remove()}
 
-// Expanded Chinnodu & Peddodu 20+ Dialogs Script Database
 const SC=[
 (p,r)=>[['c',`Anna! ${p} ni teesuko anna, sixes kodathaadu!`],['p',`Ra chinnodu, ${p} lo power undi, kani mana wallet lo power cut ra!`],['c',`Nuvvu cheppe jokes kante ${p} bowling better anna!`],['p',`Em annav ra?! Naa jokes ki Nandi award ostundi!`],['c',`Nandi award kaadu, Dustbin award ivvali!`],['p',`Aagu ra neeku chupistha!`],['F'],['c',`Ayyo anna, ${p} kosam fight enduku, bid pettudam!`],['p',`Sare ra, kani next time nenu cheppinatte!`]],
-(p,r)=>[['c',`${p} 'Rating ${r}' anta anna… Rating kaadu, 'Rating-u Raju' anali!`],['p',`Aagu ra, ee joke ki naaku BP vachindi!`],['c',`Anna ee joke ki navvandi, 'Chinnodu' ante comedy anna!`],['p',`Navvaledu, nidra potunna ra!`],['c',`Nidra poyetappudu kooda snoring lo 'Dhoni Dhoni' antav ga!`],['p',`Orey moothi musu ra!`],['F'],['c',`Okay okay, ${p} ni bid chedham!`]],
+(p,r)=>[['c',`${p} 'Rating ${r}' anta anna… Rating kaadu, 'Rating-u Raju' anali!`],['p',`Aagu ra, ee joke ki naaku BP vachiddi!`],['c',`Anna ee joke ki navvandi, 'Chinnodu' ante comedy anna!`],['p',`Navvaledu, nidra potunna ra!`],['c',`Nidra poyetappudu kooda snoring lo 'Dhoni Dhoni' antav ga!`],['p',`Orey moothi musu ra!`],['F'],['c',`Okay okay, ${p} ni bid chedham!`]],
 (p,r)=>[['p',`${p} ki ${r} rating ante, biryani lo ${r}% mutton anna!`],['c',`Mutton kaadu anna, ${p} lo masala undi!`],['p',`Masala ante Pushpa style aa?`],['c',`Pushpa ante flower kaadu, ${p} fire anna! 🔥`],['p',`Fire ante gas stove aa ra? Ha ha!`],['c',`Gas stove ayina parvaledu, tea pettadaniki panikosthundi!`],[['F']],['c',`Anna, biryani tho settle chedham!`]],
 (p,r)=>[['c',`${p} entry chusthe Baahubali theme vasthundi anna!`],['p',`Ayite Kattappa evaru ra? Mana wallet ni champedi evaru?`],['c',`Auctioneer anna, Kattappa laaga venaka nundi bid peduthaadu!`],['p',`Aa joke ki Kattappa kuda navvadu!`],['c',`Navvakapothe Kattappa sword tho podusthadu emo!`],['p',`Nuvvu ekkuva matladaku ra!`],['F'],['c',`Anna cool, ${p} ki bid pettandi andaru!`]],
 (p,r)=>[['p',`${p} bowling vesthe batsman ki 'Bumrah-Bumrah' kaadu, 'Pad-Pad' ani aadukuntaadu!`],['c',`Anna adhi 'Padi-padi' kaadu, 'Pandaga' anali!`],['p',`Nuvvu pandaga ki kuda pani chesthav ra, ee jokes ki bonus ivvali!`],['c',`Bonus isthe iPhone konukkunta anna!`],['p',`iPhone aa? Nene neeku dabba phone koniyali!`],['F'],['c',`Draw anna… ${p} ki bid chedham!`]]];
@@ -379,7 +391,6 @@ const WAR=t=>[['c',`Anna, bidding war! Naa gunde 'dhak dhak'!`],['p',`${t} ni aa
 const SOLD=(p,t)=>[['c',`SOLD ayyindi anna! ${t} ki ${p} dorikadu!`],['p',`Ee rate ki Hyderabad lo flat kontaaru ra! Ikapai em thintam? Gaddi aa? 🌾`],['c',`Gaddi kaadu anna, MG Road lo tea thaagudam!`],['p',`Nee tea pichi taggayya!`]];
 const UNS=p=>[['c',`Anna ${p} ki evaru teesukoru!`],['p',`Teesukokapothe nenu teesukuntaa… budget ledu ra! Mari enduku arupulu? 😭`],['c',`Edavaku anna, tissues istha!`],['p',`Naaku tissue kadhu, 10 crores kavali!`]];
 
-// ---- Auctioneer Bala Subbarao (Billy Bowden) Roasts & Trending Dialogs
 const RB=["{n} bid pettaadu! Dabbu ekkadi nundi vachiddi? Nanna pocket aa? 😂",
           "{n} garu bid pettaru — wallet ki 'RIP' pettandi 🦦",
           "{n}: 'Nenu ready!' Wallet: 'Nenu ready kaadu!' 😭",
@@ -403,16 +414,13 @@ const RI=["{n} sleeping aa? Bid pettandi anna! 😴",
           "Ayyoo paapam! Inka ee player ni evarru konaledu. Vadi paristhiti chusthe... *'Evaru manam? Manam ekkadunnam?'* meme gurthostundi!",
           "Nidra potunnara andaru? Gavel sound ki legavandi saar! 🔨"];
 
-// Animated auction floor
 function floor(){const a=document.getElementById('app');if(!S||S.ph!='auc'||!S.c||!a.querySelector('.g'))return;const c=S.c,p=PL[c.p],me=S.t.findIndex(t=>t.uid===MY),e=document.createElement('section');e.className='card';e.id='h-floor';
  e.innerHTML=`<div class="fl-tbl ${c.st=='bid'&&c.n>=5?'hot':''}"><span class="fl-g ${c.st!='bid'?'bang':''}">🔨</span><div><b>${p.n}</b><br><small>${c.st=='sold'?'SOLD! '+m(c.bid):c.st=='unsold'?'UNSOLD':c.by<0?'Opening '+m(nb(c)):'Current '+m(c.bid)}</small></div><span class="fl-g">📒</span></div><div class="fl-seats">`+S.t.map((t,i)=>`<div class="fs ${c.by==i?'ld':''} ${c.bd.includes(i)?'in':''} ${i==me?'me':''}" style="--cl:${t.col}"><div class="pd2">${c.by==i?m(c.bid):'🪧'}</div><div class="hd">${ini(t.n)}</div><small><b>${t.n.split(' ')[0]}${t.ai?'':' 👤'}</b></small><div class="pb"><i style="width:${Math.max(0,t.pu)}%"></i></div><small>${m(t.pu)} · ${t.sq.length}/22</small></div>`).join('')+'</div>';a.insertBefore(e,a.firstChild)}
 
-// Bots toggle
 let bots=true;function lobBots(){if(!S||S.ph!='lobby'||!host||!online||document.querySelector('.h-bots'))return;const b=document.querySelector('[data-a=start]');if(!b)return;const d=document.createElement('div');d.className='h-bots';d.innerHTML=`<button class="sm ${bots?'sel':''}" data-hb>🤖 Bots: ${bots?'ON':'OFF'}</button><br><small>${bots?'Empty seats are played by AI bots.':'Empty seats are removed. Needs at least 2 human players.'}</small>`;b.before(d)}
 const _st=A.start;A.start=function(){if(online&&!bots){if(S.t.filter(t=>!t.ai).length<2){say('Need at least 2 human players, or turn Bots ON','⚠️ Lobby');return}S.t=S.t.filter(t=>!t.ai)}_st()};
 const _tb=tick;tick=function(){try{_tb()}catch(e){}};
 
-// Room Chat
 let room=null,unread=0,lt=0;const cb=mkd('h-cb','💬<i id="h-bd"></i>','button'),ch=mkd('h-chat','<div class="h-ch">💬 Room chat</div><div id="h-msgs"></div><div class="h-q">'+['😂','👏','🔥','🤡','😭','💸'].map(e=>`<button data-hr="${e}">${e}</button>`).join('')+'</div><div class="h-in"><input id="h-ci" maxlength="120" placeholder="Type a message…"><button class="btn" data-hs>Send</button></div>'),bd=document.getElementById('h-bd');cb.style.display='none';
 const myName=()=>{const t=S&&S.t.find(t=>t.uid===MY);return t&&t.nm||'Guest'},put=o=>{if(Date.now()-lt<500)return;lt=Date.now();try{doc.child('chat').push(Object.assign({u:myName(),id:MY,ts:Date.now()},o))}catch(e){}};
 function addMsg(v){if(!v)return;const box=document.getElementById('h-msgs'),d=document.createElement('div');if(v.r&&Date.now()-v.ts<6000)fl(v.r);d.innerHTML='<b></b> <span></span>';d.firstChild.textContent=(v.u||'?')+':';d.lastChild.textContent=v.r||v.t||'';if(v.id===MY)d.className='me';box.appendChild(d);box.scrollTop=1e9;if(!ch.classList.contains('on')&&v.id!==MY&&!v.r){unread++;bd.textContent=unread;bd.style.display='block'}}
@@ -421,17 +429,16 @@ function sendT(){const i=document.getElementById('h-ci'),t=i.value.trim();if(t){
 document.addEventListener('click',e=>{const b=e.target.closest('#h-cb,[data-hr],[data-hs],[data-hb]');if(!b)return;if(b.id=='h-cb'){ch.classList.toggle('on');unread=0;bd.style.display='none'}else if(b.dataset.hr)put({r:b.dataset.hr});else if(b.dataset.hs!==undefined)sendT();else{bots=!bots;render()}});
 document.addEventListener('keydown',e=>{if(e.key=='Enter'&&e.target.id=='h-ci')sendT()});
 
-// Bala Subbarao (Billy Bowden) SVG & Dialogs
 const AU=`<svg class="ha-svg" viewBox="0 0 200 220"><rect x="14" y="200" width="172" height="18" rx="4" fill="#5a3b1a"/><rect x="146" y="180" width="42" height="12" rx="3" fill="#8a5f2a"/>
-<g class="bdy"><path d="M56 214V128Q100 112 144 128V214Z" fill="#2b2f3a"/><path d="M84 122L100 170L116 122Z" fill="#fff"/><path d="M100 126L86 118V134ZM100 126L114 118V134Z" fill="#d6232f"/><circle cx="100" cy="126" r="4" fill="#a31622"/>
+<g class="bdy"><path d="M56 214V128Q100 112 144 128V214Z" fill="#2b2f3a"/><path d="M84 122L100 170L116 122Z" fill="#fff"/><path d="M100 126L86 118V134ZM100 126L114 118V134Z" fill="#d6232f"/><circle cx="100" cy="126" r="4" fill="#a31622"/><rect x="108" y="150" width="30" height="14" rx="2" fill="#fff8e6"/><text x="123" y="161" font-size="9" text-anchor="middle" font-weight="800" fill="#2b2f3a">BALA</text><g class="flw"><circle cx="72" cy="142" r="8" fill="#ffd23f"/><circle cx="72" cy="142" r="3.5" fill="#8a5528"/></g>
 <g class="aL"><path d="M62 134L34 176" stroke="#2b2f3a" stroke-width="17" stroke-linecap="round"/><circle cx="32" cy="180" r="9" fill="#e8ab78"/><path class="fg" d="M30 186L24 198L32 203" stroke="#e8ab78" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>
 <g class="aR"><path d="M138 134L160 164L170 132" stroke="#2b2f3a" stroke-width="17" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="171" cy="128" r="9" fill="#e8ab78"/><rect x="164" y="94" width="8" height="42" rx="3" fill="#a56a2a" transform="rotate(-18 168 130)"/><rect x="146" y="84" width="36" height="16" rx="4" fill="#c58a3a" transform="rotate(-18 168 94)"/></g></g>
 <g class="hd"><ellipse cx="55" cy="72" rx="7" ry="10" fill="#d4915f"/><ellipse cx="145" cy="72" rx="7" ry="10" fill="#d4915f"/><ellipse cx="100" cy="70" rx="42" ry="46" fill="#e8ab78"/>
-<path d="M56 50Q100 8 144 50Z" fill="#eee8d6"/><rect x="50" y="47" width="100" height="9" rx="4" fill="#d9d1b8"/>
+<path d="M58 52Q100 6 142 52Z" fill="#4361ee"/><rect x="52" y="48" width="96" height="9" rx="4" fill="#2b44c4"/><rect x="98" y="6" width="4" height="12" fill="#888"/><ellipse class="prop" cx="100" cy="6" rx="22" ry="3.5" fill="#ff4d6d"/>
 <g class="ey"><circle cx="82" cy="68" r="11" fill="#fff"/><circle cx="118" cy="68" r="11" fill="#fff"/><circle cx="84" cy="70" r="4.5" fill="#111"/><circle cx="120" cy="70" r="4.5" fill="#111"/></g>
-<path class="hp" d="M72 70Q82 56 92 70M108 70Q118 56 128 70" stroke="#222" stroke-width="4" fill="none" stroke-linecap="round"/>
+<circle cx="82" cy="68" r="15" fill="none" stroke="#111" stroke-width="3.5"/><circle cx="118" cy="68" r="15" fill="none" stroke="#111" stroke-width="3.5"/><path d="M97 68H103" stroke="#111" stroke-width="3.5"/><path class="hp" d="M72 70Q82 56 92 70M108 70Q118 56 128 70" stroke="#222" stroke-width="4" fill="none" stroke-linecap="round"/>
 <path d="M68 56Q82 46 96 56M104 56Q118 46 132 56" stroke="#5a3a1a" stroke-width="6" fill="none" stroke-linecap="round"/>
-<ellipse cx="100" cy="84" rx="9" ry="12" fill="#d98e5a"/><path d="M70 96Q85 88 100 96Q115 88 130 96Q115 104 100 100Q85 104 70 96Z" fill="#6b4423"/>
+<ellipse cx="100" cy="84" rx="9" ry="12" fill="#d98e5a"/><circle cx="100" cy="86" r="8" fill="#e11d48"/><circle cx="97" cy="83" r="2.5" fill="#fff" opacity=".6"/><path d="M70 96Q85 88 100 96Q115 88 130 96Q115 104 100 100Q85 104 70 96Z" fill="#6b4423"/>
 <path class="mo m-i" d="M86 108Q100 118 114 108" stroke="#7a1f2a" stroke-width="4" fill="none" stroke-linecap="round"/>
 <g class="mo m-b"><path d="M82 105Q100 130 118 105Z" fill="#7a1f2a"/><rect x="86" y="105" width="28" height="5" fill="#fff"/></g>
 <g class="mo m-w"><ellipse cx="100" cy="114" rx="13" ry="14" fill="#7a1f2a"/><ellipse cx="100" cy="122" rx="7" ry="4" fill="#ff6b81"/></g>
@@ -480,7 +487,6 @@ function aucn(){const card=document.querySelector('#app .g section.card');if(!S|
 setInterval(()=>{if(!S||S.ph!='auc'||!S.c)return;const m=moodNow(),c=S.c,l=c.end-Date.now(),k=m=='once'?(l>2700?0:l>1300?1:2):0,key=m+'|'+S.i+'|'+(m=='bid'||m=='war'?c.n:'')+'|'+k;if(key==ak)return;ak=key;am=m;al=m=='once'?AL.once[k]:f(AL[m]);const d=document.querySelector('.ha');
  if(d){d.dataset.m=m;d.lastChild.textContent='[Bala Subbarao]: '+al;if(m=='bid'||m=='war'||m=='sold'){d.classList.remove('hop');void d.offsetWidth;d.classList.add('hop')}}},250);
 
-// Director for automated commentary and fights
 let L=-1,N=0,SS='',lastR=0,warD=0,idle=Date.now();
 setInterval(()=>{if(!S||S.ph!='auc'||!S.c)return;const c=S.c,p=PL[c.p],now=Date.now(),pn=fn(p.n);
  if(L!=S.i){L=S.i;N=0;SS='bid';warD=0;idle=now;const lot=S.i;setTimeout(()=>{if(S&&L==lot&&S.c&&S.c.st=='bid')scene(f(SC)(pn,p.v))},3200)}
