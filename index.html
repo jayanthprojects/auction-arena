@@ -340,11 +340,11 @@ Mustafizur Rahman|L|BD|80|d
 Shakib Al Hasan|A|BD|74|s`;
 
 const ALL_TEAMS=[
-  ['Mumbai Indians', '#2f7bff'],
-  ['Chennai Super kings', '#f5b800'],
-  ['Bengaluru Royal challengers', '#e8344f'],
+  ['Mumbai Blasters', '#2f7bff'],
+  ['Chennai Lions', '#f5b800'],
+  ['Bengaluru Royals', '#e8344f'],
   ['Kolkata Knights', '#9b4dd1'],
-  ['Hyderabad Sunrisers', '#ff6b00'],
+  ['Hyderabad Strikers', '#ff6b00'],
   ['Delhi Capitals', '#1a3c40'],
   ['Punjab Kings', '#ed1b24'],
   ['Rajasthan Royals', '#254aa5']
@@ -477,11 +477,13 @@ const A={
  solo(){S=mk(activeTeamCount);const t=S.t[chosenTeamIndex];t.uid=MY;t.ai=false;t.nm=nm();host=true;online=false;startAuc();sync()},
  async host(){const c=Math.random().toString(36).slice(2,6).toUpperCase();S=mk(activeTeamCount);S.code=c;const t=S.t[chosenTeamIndex];t.uid=MY;t.ai=false;t.nm=nm();host=online=true;doc=db.ref('rooms/'+c);try{await doc.set({j:JSON.stringify(S)});doc.on('value',s=>{const d=s.val();if(d){if(d.j)S=JSON.parse(d.j);hostSnap(d);render()}})}catch(e){msg='Could not create room.';S=null;online=host=false}render()},
  async join(){const c=($('#cd').value||'').trim().toUpperCase();doc=db.ref('rooms/'+c);try{const s=await doc.once('value');if(!s.exists()){msg='Room not found';return render()}online=true;host=false;doc.on('value',s=>{const d=s.val();if(d&&d.j){S=JSON.parse(d.j);render()}});send({type:'join',nm:nm()})}catch(e){msg='Could not join room';render()}},
- start(){startAuc();sync()},skip(){const c=S.c;if(online||c.st!='bid'||c.by===S.t.findIndex(t=>t.uid===MY))return;for(let n=0;n<300;n++){let hit=0;for(const k of S.t.map((_,idx)=>idx).sort(()=>Math.random()-.5)){const t=S.t[k],a=nb(c);if(t.ai&&c.by!==k&&a<=aiVal(t,c.p)&&can(t,c.p,a)){bid(k,1);hit=1;break}}if(!hit)break}log('You skipped '+PL[c.p].n);c.end=Date.now();tick()},bid(){const i=S.t.findIndex(t=>t.uid===MY);host?bid(i):send({type:'bid'})},force(){fin()},
+ start(){startAuc();sync()},skip(){const c=S.c;if(online||c.st!='bid'||c.by===S.t.findIndex(t=>t.uid==MY))return;for(let n=0;n<300;n++){let hit=0;for(const k of S.t.map((_,idx)=>idx).sort(()=>Math.random()-.5)){const t=S.t[k],a=nb(c);if(t.ai&&c.by!==k&&a<=aiVal(t,c.p)&&can(t,c.p,a)){bid(k,1);hit=1;break}}if(!hit)break}log('You skipped '+PL[c.p].n);c.end=Date.now();tick()},bid(){const i=S.t.findIndex(t=>t.uid==MY);host?bid(i):send({type:'bid'})},force(){fin()},
  tog(v){v=+v;const o=ui.o,k=o.indexOf(v);if(k>=0){o.splice(k,1);delete ui.bw[v];if(ui.c==v)ui.c=null;if(ui.vc==v)ui.vc=null}else o.push(v);render()},
- up(v){v=+v;const o=ui.o;if(v>0)[o[v-1],o[v]]=[o[v],o[v-1]];render()},dn(v){v=+v;const o=ui.o;if(v<o.length-1)[o[v+1],o[v]]=[o[v],o[v+1]];render()},
- cap(v){v=+v;ui.c=v;if(ui.vc==v)ui.vc=null;render()},vc(v){v=+v;ui.vc=v;if(ui.c==v)ui.c=null;render()},
- auto(){ui=auto(S.t.find(t=>t.uid===MY));render()},lock(){ui.done=true;const x={o:ui.o,c:ui.c,vc:ui.vc,bw:ui.bw};if(host){S.t.find(t=>t.uid===MY).xi=x;chk()}else{send({type:'xi',x});render()}},again(){location.reload()}};
+ up(v){v=+v;const o=ui.o;if(v>0)[o[v-1],o[v]]=[o[v],o[v-1]];render()},
+ dn(v){v=+v;const o=ui.o;if(v<o.length-1)[o[v+1],o[v]]=[o[v],o[v+1]];render()},
+ cap(v){v=+v;ui.c=v;if(ui.vc==v)ui.vc=null;render()},
+ vc(v){v=+v;ui.vc=v;if(ui.c==v)ui.c=null;render()},
+ auto(){ui=auto(S.t.find(t=>t.uid==MY));render()},lock(){ui.done=true;const x={o:ui.o,c:ui.c,vc:ui.vc,bw:ui.bw};if(host){S.t.find(t=>t.uid==MY).xi=x;chk()}else{send({type:'xi',x});render()}},again(){location.reload()}};
 
 document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b&&b.tagName!='SELECT')A[b.dataset.a]?.(b.dataset.v)});
 document.addEventListener('change',e=>{const b=e.target;if(b.dataset.a=='bw'){ui.bw[b.dataset.v]=b.value;render()}});
@@ -510,24 +512,24 @@ function home(){
   </div>`;
 }
 
-function lob(){const me=S.t.findIndex(t=>t.uid===MY);app.innerHTML=`<div class="card c"><h2>Lobby · Room Code <span style="color:var(--ac)">${S.code}</span></h2><p class="mu">Share code with friends (up to ${S.t.length} slots). Empty slots are controlled by AI.</p>
+function lob(){const me=S.t.findIndex(t=>t.uid==MY);app.innerHTML=`<div class="card c"><h2>Lobby · Room Code <span style="color:var(--ac)">${S.code}</span></h2><p class="mu">Share code with friends (up to ${S.t.length} slots). Empty slots are controlled by AI.</p>
 ${S.t.map(t=>`<div class="tm" style="--cl:${t.col}"><b>${t.n}</b><span>${t.ai?'🤖 AI':'👤 '+t.nm}</span></div>`).join('')}${host?'<button class="btn" data-a="start">Start Auction</button>':'<p>Waiting for host to start…</p>'}</div>`}
 
 function stamp(c){const t=S.t[c.by];return c.st=='sold'?`<div class="stamp">SOLD<small>${t.n} · ${m(c.bid)}</small></div>${conf(t.col)}`:`<div class="stamp unsold">UNSOLD</div>`}
 
-function auc(){const c=S.c,p=PL[c.p],me=S.t.findIndex(t=>t.uid===MY),mt=S.t[me],a=nb(c),ld=c.by>=0?S.t[c.by]:null;
+function auc(){const c=S.c,p=PL[c.p],me=S.t.findIndex(t=>t.uid==MY),mt=S.t[me],a=nb(c),ld=c.by>=0?S.t[c.by]:null;
  app.innerHTML=`<div class="g"><div><section class="card"><span class="chip">Lot ${S.i+1}/${S.ord.length}</span><span class="chip">${RL[p.role]}</span>${p.os?'<span class="chip os">OVERSEAS</span>':''}
 <div class="pl"><div class="av">${getRealisticFaceSvg(p.n, p.role, p.c)}</div><div><h2>${p.n}</h2><div>${FL[p.c]} ${p.c} · Rating <b>${p.v}</b></div><div>${tags(p)}</div><small>Base ${m(p.b)}</small></div></div>
 <div class="bidbox"><small>Current bid</small><div class="amt">${c.by<0?'—':m(c.bid)}</div><div class="ld" style="color:${ld?ld.col:'var(--mu)'}">${ld?'🔨 '+ld.n:'Waiting for the first bid…'}</div></div>
 <div class="bar"><i id="tb"></i><span id="tt"></span></div>
-${me>=0&&c.st=='bid'?`<button class="btn big" data-a="bid" ${c.by===me||!can(mt,c.p,a)?'disabled':''}>Bid ${m(a)}</button>`:''}
+${me>=0&&c.st=='bid'?`<button class="btn big" data-a="bid" ${c.by==me||!can(mt,c.p,a)?'disabled':''}>Bid ${m(a)}</button>`:''}
 ${!online&&c.st=='bid'&&c.by!==me?'<button class="btn" style="width:100%;background:var(--bd);color:var(--tx)" data-a="skip">⏭ Skip this player</button>':''}
-<div>${S.t.map((t,i)=>`<span class="chip" style="${c.by===i?'background:'+t.col+';color:#fff;font-weight:800':''}">${t.n.split(' ')[0]}: ${c.by===i?'LEADING':c.bd.includes(i)?'raised':'watching'}</span>`).join('')}</div>${c.st!='bid'?stamp(c):''}</section>
+<div>${S.t.map((t,i)=>`<span class="chip" style="${c.by==i?'background:'+t.col+';color:#fff;font-weight:800':''}">${t.n.split(' ')[0]}: ${c.by==i?'LEADING':c.bd.includes(i)?'raised':'watching'}</span>`).join('')}</div>${c.st!='bid'?stamp(c):''}</section>
 <section class="card lg"><h3>Live bid feed</h3>${[...S.lg].reverse().map(l=>`<div>${l}</div>`).join('')}</section></div>
-<aside>${S.t.map((t,i)=>`<div class="tm ${i==me?'me':''} ${c.by===i?'lead':''}" style="--cl:${t.col}"><span><b>${lab(t)}</b><br><small>${t.sq.length}/22 · overseas ${osn(t)}/8</small></span><b>${m(t.pu)}</b></div>`).join('')}
+<aside>${S.t.map((t,i)=>`<div class="tm ${i==me?'me':''} ${c.by==i?'lead':''}" style="--cl:${t.col}"><span><b>${lab(t)}</b><br><small>${t.sq.length}/22 · overseas ${osn(t)}/8</small></span><b>${m(t.pu)}</b></div>`).join('')}
 ${mt?`<section class="card"><h3>Your squad (${mt.sq.length}/22)</h3><small>${mt.sq.map(i=>(PL[i].os?'✈ ':'')+PL[i].n).join(' · ')||'No players yet'}</small></section>`:''}</aside></div>`}
 
-function xis(){const me=S.t.findIndex(t=>t.uid===MY),mt=S.t[me];ui=ui||{o:[],c:null,vc:null,bw:{}};
+function xis(){const me=S.t.findIndex(t=>t.uid==MY),mt=S.t[me];ui=ui||{o:[],c:null,vc:null,bw:{}};
  if(me<0||mt.xi||ui.done){const w=S.t.filter(t=>!t.ai&&!t.xi);app.innerHTML=`<div class="card c"><h2>Waiting for managers to lock their XI…</h2><p>${w.map(lab).join(', ')||'Everyone is ready'}</p>${host?'<button class="btn" data-a="force">Auto-pick for waiting players and reveal winner</button>':''}</div>`;return}
  const o=ui.o,os=o.filter(i=>PL[i].os).length,wk=o.some(i=>PL[i].role=='W'),nbw=o.filter(i=>ui.bw[i]).length,ok=o.length==11&&wk&&ui.c!=null&&ui.vc!=null&&nbw>=5,sg=k=>k<3?'TOP':k<6?'MIDDLE':'LOWER';
  const pv=o.length==11&&ui.c!=null&&ui.vc!=null?ev(ui):null;
@@ -636,8 +638,8 @@ const RI=["{n} sleeping aa? Bid pettandi anna! 😴",
           "Ayyoo paapam! Inka ee player ni evarru konaledu. Vadi paristhiti chusthe... *'Evaru manam? Manam ekkadunnam?'* meme gurthostundi!",
           "Nidra potunnara andaru? Gavel sound ki legavandi saar! 🔨"];
 
-function floor(){const a=document.getElementById('app');if(!S||S.ph!='auc'||!S.c||!a.querySelector('.g'))return;const c=S.c,p=PL[c.p],me=S.t.findIndex(t=>t.uid===MY),e=document.createElement('section');e.className='card';e.id='h-floor';
- e.innerHTML=`<div class="fl-tbl ${c.st=='bid'&&c.n>=5?'hot':''}"><span class="fl-g ${c.st!='bid'?'bang':''}">🔨</span><div><b>${p.n}</b><br><small>${c.st=='sold'?'SOLD! '+m(c.bid):c.st=='unsold'?'UNSOLD':c.by<0?'Opening '+m(nb(c)):'Current '+m(c.bid)}</small></div><span class="fl-g">📒</span></div><div class="fl-seats">`+S.t.map((t,i)=>`<div class="fs ${c.by==i?'ld':''} ${c.bd.includes(i)?'in':''} ${i==me?'me':''}" style="--cl:${t.col}"><div class="pd2">${c.by==i?m(c.bid):'🪧'}</div><div class="hd">${ini(t.n)}</div><small><b>${t.n.split(' ')[0]}${t.ai?'':' 👤'}</b></small><div class="pb"><i style="width:${Math.max(0,t.pu)}%"></i></div><small>${m(t.pu)} · ${t.sq.length}/22</small></div>`).join('')+'</div>';a.insertBefore(e,a.firstChild)}
+function floor(){const a=document.getElementById('app');if(!S||S.ph!='auc'||!S.c||!a.querySelector('.g'))return;const c=S.c,p=PL[c.p],me=S.t.findIndex(t=>t.uid==MY),e=document.createElement('section');e.className='card';e.id='h-floor';
+ e.innerHTML=`<div class="fl-tbl ${c.st=='bid'&&c.n>=5?'hot':''}"><span class="fl-g ${c.st!='bid'?'bang':''}">🔨</span><div><b>${p.n}</b><br><small>${c.st=='sold'?'SOLD! '+m(c.bid):c.st=='unsold'?'UNSOLD':c.by<0?'Opening '+m(nb(c)):'Current '+m(c.bid)}</small></div><span class="fl-g">📒</span></div><div class="fl-seats">`+S.t.map((t,i)=>`<div class="fs ${c.by==i?'ld':''} ${c.bd.includes(i)?'in':''} ${i==me?'me':''}" style="--cl:${t.col}"><div class="pd2">${c.by==i?m(c.bid):'🪧'}</div><div class="hd">${window.ini(t.n)}</div><small><b>${t.n.split(' ')[0]}${t.ai?'':' 👤'}</b></small><div class="pb"><i style="width:${Math.max(0,t.pu)}%"></i></div><small>${m(t.pu)} · ${t.sq.length}/22</small></div>`).join('')+'</div>';a.insertBefore(e,a.firstChild)}
 
 const AU=`<svg class="ha-svg" viewBox="0 0 200 220"><rect x="14" y="200" width="172" height="18" rx="4" fill="#5a3b1a"/><rect x="146" y="180" width="42" height="12" rx="3" fill="#8a5f2a"/>
 <g class="bdy"><path d="M56 214V128Q100 112 144 128V214Z" fill="#2b2f3a"/><path d="M84 122L100 170L116 122Z" fill="#fff"/><path d="M100 126L86 118V134ZM100 126L114 118V134Z" fill="#d6232f"/><circle cx="100" cy="126" r="4" fill="#a31622"/><rect x="108" y="150" width="30" height="14" rx="2" fill="#fff8e6"/><text x="123" y="161" font-size="9" text-anchor="middle" font-weight="800" fill="#2b2f3a">BALA</text><g class="flw"><circle cx="72" cy="142" r="8" fill="#ffd23f"/><circle cx="72" cy="142" r="3.5" fill="#8a5528"/></g>
@@ -708,10 +710,17 @@ const _rh=render;render=function(){_rh();floor();aucn();ringMount()};render();
 })();
 </script>
 
-<!-- ===== EXTRA ANIMATIONS ADD-ON SCRIPT ===== -->
+<!-- ===== EXTRA ANIMATIONS ADD-ON (auctioneer + Chinnodu + Peddodu) FIX & SCRIPT ===== -->
+<script>
+/* FIX: missing helpers (window.* so they work whatever the host page wraps around scripts) */
+window.ini=window.ini||function(n){return String(n||'').split(' ').map(function(w){return w[0]||''}).slice(0,2).join('').toUpperCase()};
+window.hue=window.hue||function(s){return Array.from(String(s)).reduce(function(a,c){return a*31+c.charCodeAt(0)},7)%360};
+</script>
 <script>
 (function(){
+try{
 const f=a=>a[Math.random()*a.length|0],B=document.body;
+const G=()=>typeof S!=='undefined'?S:null;
 
 /* ---------- auctioneer solo acts: d = duration ms ---------- */
 const ACT={
@@ -765,21 +774,23 @@ function start(){
   setHa(f(A.l));burst(A.e,6,'.ha')}}
 
 /* ---------- scheduler ---------- */
-setInterval(()=>{
+setInterval(()=>{try{
+ const S=G();
  if(!S||S.ph!='auc'||!S.c){if(cur)stop();delete B.dataset.m;return}
  const c=S.c,now=Date.now(),l=c.end-now,
   mo=c.st=='sold'?'sold':c.st=='unsold'?'unsold':c.by<0?'idle':l<4000?'once':c.n>=5?'war':'bid';
  B.dataset.m=mo;
  const ok=(mo=='idle'||mo=='bid')&&l>5000;
  if(cur&&(now>endT||!ok))stop();
- else if(!cur&&ok&&now>nxt)start()},300);
+ else if(!cur&&ok&&now>nxt)start()}catch(e){}},300);
 
 /* ---------- inject extras after every render (keeps .ha-b as lastChild) ---------- */
 function inject(){
  const rg=ringEl();if(rg&&!rg.querySelector('.x-cloud'))rg.insertAdjacentHTML('beforeend','<div class="x-cloud">💨</div>');
  const ha=document.querySelector('.ha');if(ha&&!ha.querySelector('.x-pop')){const p=document.createElement('div');p.className='x-pop';p.textContent='🍿';ha.insertBefore(p,ha.lastChild)}}
-const _r=render;render=function(){_r();inject();if(cur&&curLine)setHa(curLine)};
+if(typeof render==='function'){const _r=render;render=function(){_r();try{inject();if(cur&&curLine)setHa(curLine)}catch(e){}}}
 inject();
+}catch(e){console.warn('animations add-on skipped:',e)}
 })();
 </script>
 
