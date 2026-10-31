@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>IPL Auction Arena - 8 Player, Realistic Faces, Extra Animations & Room Chat</title>
+<title>IPL Auction Arena - 8 Player, Realistic Faces, Extra Animations, Room Chat & Ring Toggle</title>
 
 <!-- Firebase Compat SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -114,7 +114,6 @@ body.hall #h-ticker{background:var(--cd);color:var(--mu);border:1px solid var(--
 
 <!-- ===== EXTRA ANIMATIONS ADD-ON (auctioneer + Chinnodu + Peddodu) ===== -->
 <style>
-/* ---- shared ---- */
 .ha .ey circle{transform-box:fill-box;transform-origin:center}
 .ha .x-pop{position:absolute;left:34px;top:112px;font-size:28px;display:none}
 .rg-f.c .fa{transform-origin:0% 50%}.rg-f.p .fa{transform-origin:100% 50%}
@@ -122,12 +121,10 @@ body.hall #h-ticker{background:var(--cd);color:var(--mu);border:1px solid var(--
 .x-em{position:fixed;z-index:95;pointer-events:none;opacity:0;animation:xfloat 2.2s ease-out forwards}
 @keyframes xfloat{0%{transform:translate(0,0) scale(.4);opacity:0}15%{opacity:1}100%{transform:translate(var(--dx),-170px) scale(1.2);opacity:0}}
 
-/* ---- auctioneer solo acts (mouths) ---- */
 body[data-act] .ha[data-m] .mo{display:none}
 body[data-act=dance] .ha[data-m] .m-b,body[data-act=hop] .ha[data-m] .m-b,body[data-act=flex] .ha[data-m] .m-b,body[data-act=pushpa] .ha[data-m] .m-b,
 body[data-act=finger] .ha[data-m] .m-o,body[data-act=wink] .ha[data-m] .m-o,
 body[data-act=spin] .ha[data-m] .m-w,body[data-act=tongue] .ha[data-m] .m-w,body[data-act=faint] .ha[data-m] .m-u{display:inline}
-/* ---- auctioneer solo acts (motion) ---- */
 body[data-act=dance] .ha[data-m] .ha-svg{animation:xdance .45s infinite alternate}
 body[data-act=dance] .ha[data-m] .aL{animation:hxl .3s infinite alternate}
 body[data-act=dance] .ha[data-m] .aR{animation:hxr .3s infinite alternate}
@@ -154,38 +151,32 @@ body[data-act=faint] .ha[data-m] .hp,body[data-act=faint] .ha[data-m] .sw{displa
 body[data-act=pushpa] .ha[data-m] .hd{animation:xpush .7s infinite alternate}
 body[data-act=pushpa] .ha[data-m] .aL{animation:xchin .7s infinite alternate}
 
-/* ---- duo: dance together ---- */
 body[data-duo=dance] .ha[data-m] .ha-svg{animation:xdance .45s infinite alternate}
 body[data-duo=dance] .rg[data-s=idle] .rg-f.c svg{animation:xjig .35s infinite alternate}
 body[data-duo=dance] .rg[data-s=idle] .rg-f.p svg{animation:xjig .5s infinite alternate-reverse}
 body[data-duo=dance] .rg[data-s=idle] .rg-f .fa{animation:xfa .25s infinite alternate}
-/* ---- duo: copycat (he moves, Chinnodu copies after .5s, Peddodu after 1s) ---- */
 body[data-duo=copy] .ha[data-m] .ha-svg{animation:xcopy 4.4s}
 body[data-duo=copy] .ha[data-m] .aL{animation:xcarm 4.4s}
 body[data-duo=copy] .rg[data-s=idle] .rg-f.c svg{animation:xcopy 4.4s .5s}
 body[data-duo=copy] .rg[data-s=idle] .rg-f.p svg{animation:xcopy 4.4s 1s}
 body[data-duo=copy] .rg[data-s=idle] .rg-f.c .fa{animation:xcfa 4.4s .5s}
 body[data-duo=copy] .rg[data-s=idle] .rg-f.p .fa{animation:xcfa 4.4s 1s}
-/* ---- duo: gavel bonk ---- */
 body[data-duo=bonk] .ha[data-m] .aR{animation:xbonk 3.6s}
 body[data-duo=bonk] .ha[data-m] .ha-svg{animation:xrecoil 3.6s}
 body[data-duo=bonk] .ha[data-m] .bm{display:inline;opacity:0;animation:xbang 3.6s}
 body[data-duo=bonk] .rg[data-s=idle] .rg-f.p{animation:xknock 3.6s}
 body[data-duo=bonk] .rg[data-s=idle] .rg-f.c svg{animation:xjump .3s infinite alternate}
 body[data-duo=bonk] .rg[data-s=idle] .rg-f.c .fa{animation:xfa .25s infinite alternate}
-/* ---- duo: dust-cloud brawl while he eats popcorn ---- */
 body[data-duo=dust] .ha .x-pop{display:block;animation:xlean .5s infinite alternate}
 body[data-duo=dust] .rg[data-s=idle] .rg-f.c{animation:xdustc 3.8s}
 body[data-duo=dust] .rg[data-s=idle] .rg-f.p{animation:xdustp 3.8s}
 body[data-duo=dust] .rg[data-s=idle] .x-cloud{display:block;animation:xcloud 3.8s}
 
-/* ---- Chinnodu & Peddodu react to the auction ---- */
 body[data-m=sold] .rg[data-s=idle] .rg-f svg{animation:xjump .3s infinite alternate}
 body[data-m=sold] .rg[data-s=idle] .rg-f .fa{animation:xfa .25s infinite alternate}
 body[data-m=unsold] .rg[data-s=idle] .rg-f.c svg{animation:xdroop 1.2s infinite alternate}
 body[data-m=unsold] .rg[data-s=idle] .rg-f.p svg,body[data-m=war] .rg[data-s=idle] .rg-f svg{animation:xlaugh .18s infinite alternate}
 
-/* ---- keyframes ---- */
 @keyframes xdance{from{transform:rotate(-5deg)}to{transform:rotate(5deg) translateY(-10px)}}
 @keyframes xhop{0%,100%{transform:translateY(0) scale(1,1)}40%{transform:translateY(-26px) scale(.95,1.08)}85%{transform:translateY(0) scale(1.08,.92)}}
 @keyframes xflex{from{transform:scale(1)}to{transform:scale(1.1)}}
@@ -219,7 +210,7 @@ body[data-m=unsold] .rg[data-s=idle] .rg-f.p svg,body[data-m=war] .rg[data-s=idl
 
 <script>
 const RAW=`Virat Kohli|B|IN|93|om
-Rohit Sharma|B|IN|90|o
+Rohit Sharma|B|IN|97|o
 Shubman Gill|B|IN|90|o
 Yashasvi Jaiswal|B|IN|89|o
 Suryakumar Yadav|B|IN|91|m
@@ -872,6 +863,56 @@ setInterval(()=>{
  btn.style.display=c?'block':'none';if(!c)box.classList.remove('on');
  if(s){const n=s.t.filter(t=>!t.ai&&t.uid).length;document.getElementById('xc-who').textContent=n+' player'+(n==1?'':'s')+' online'}},700);
 }catch(e){console.warn('commentary/chat add-on skipped:',e)}
+})();
+</script>
+
+<!-- ===== OPTIONAL "WATCH CHINNODU vs PEDDODU" BUTTON ADD-ON ===== -->
+<style>
+body:not(.xr-on) #h-ring{display:none!important}
+#xr-btn{display:none;position:fixed;right:76px;bottom:16px;z-index:85;width:54px;height:54px;border-radius:50%;border:2px solid #b8862f;background:#2b1a0f;color:#fff;font-size:24px;cursor:pointer;box-shadow:0 6px 18px #0008;transition:background .2s}
+#xr-btn.on{background:#e6b24a;box-shadow:0 0 0 4px #e6b24a66,0 6px 18px #0008}
+#xr-btn.nudge{animation:xrnudge 1.1s infinite}
+#xr-tip{display:none;position:fixed;right:76px;bottom:80px;z-index:86;max-width:230px;background:#fff8e6;color:#2a1c08;border:2px solid #d9a93c;border-radius:12px;padding:8px 12px;font:700 13px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;box-shadow:0 6px 18px #0007}
+#xr-tip.show{display:block;animation:xrpop .35s}
+#xr-tip::after{content:"";position:absolute;right:20px;bottom:-9px;border:9px solid transparent;border-top-color:#d9a93c;border-bottom:0}
+#xr-close{border:0;background:#e11d48;color:#fff;border-radius:99px;width:22px;height:22px;margin-left:8px;cursor:pointer;font-weight:900;line-height:1;padding:0;flex:none}
+#h-ring .rg-h{align-items:center}
+@keyframes xrnudge{50%{transform:scale(1.16)}}
+@keyframes xrpop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.06)}}
+</style>
+
+<script>
+(function(){
+try{
+const B=document.body,gS=()=>typeof S!=='undefined'?S:null;
+B.insertAdjacentHTML('beforeend','<button id="xr-btn" title="Bored? Watch Chinnodu vs Peddodu">🥊</button><div id="xr-tip">😴 Bored? Tap 🥊 and watch Chinnodu vs Peddodu — tap again to go back to the auction!</div>');
+const btn=document.getElementById('xr-btn'),tip=document.getElementById('xr-tip');
+let on=0,tipShown=0;
+
+function setOn(v){
+ on=v;B.classList.toggle('xr-on',!!on);btn.classList.toggle('on',!!on);tip.classList.remove('show');
+ const r=document.getElementById('h-ring');if(on&&r)r.classList.remove('xmin');
+}
+btn.onclick=()=>setOn(on?0:1);
+
+document.addEventListener('click',e=>{if(e.target.closest('#xr-close')){e.stopPropagation();setOn(0)}},true);
+function ensureClose(){
+ const h=document.querySelector('#h-ring .rg-h');
+ if(h&&!h.querySelector('#xr-close')){const b=document.createElement('button');b.id='xr-close';b.textContent='✕';b.title='Close and go back to the auction';h.appendChild(b)}}
+
+setInterval(()=>{try{
+ const s=gS(),auc=!!(s&&s.ph=='auc'&&s.c);
+ btn.style.display=auc?'block':'none';
+ const cb=document.getElementById('xc-btn'),chatOn=!!cb&&getComputedStyle(cb).display!='none';
+ btn.style.right=chatOn?'76px':'12px';tip.style.right=chatOn?'76px':'12px';
+ if(!auc){tip.classList.remove('show');return}
+ ensureClose();
+ const rg=document.querySelector('#h-ring .rg');
+ if(rg){if(!on&&rg.dataset.s=='idle')rg.dataset.s='hide';else if(on&&rg.dataset.s=='hide')rg.dataset.s='idle'}
+ btn.classList.toggle('nudge',!on&&s.c.st=='bid'&&s.c.by<0);
+ if(!tipShown){tipShown=1;tip.classList.add('show');setTimeout(()=>tip.classList.remove('show'),7000)}
+}catch(e){}},300);
+}catch(e){console.warn('ring-toggle add-on skipped:',e)}
 })();
 </script>
 
