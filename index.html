@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>IPL Auction Arena - 8 Player, Realistic Faces & Extra Animations</title>
+<title>IPL Auction Arena - 8 Player, Realistic Faces, Extra Animations & Room Chat</title>
 
 <!-- Firebase Compat SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -356,7 +356,6 @@ const PL=RAW.split('\n').map((l,i)=>{const[n,role,c,v,t]=l.split('|');return{i,n
 
 const $=s=>document.querySelector(s),app=$('#app'),m=x=>'₹'+(+(+x).toFixed(2))+' Cr',osn=t=>t.sq.filter(i=>PL[i].os).length;
 
-// Realistic face avatar generator using SVG based on player name hash & characteristics
 const getRealisticFaceSvg = (name, role, country) => {
   const seed = [...name].reduce((acc, char) => acc + char.charCodeAt(0), 0);
   const skinTone = ['#e0ac69', '#f5d0b1', '#c68642', '#8d5524', '#ffdbac'][seed % 5];
@@ -366,7 +365,6 @@ const getRealisticFaceSvg = (name, role, country) => {
   const capColor = ['#1b263b', '#e63946', '#2a9d8f', '#f4a261', '#457b9d'][seed % 5];
   
   return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <!-- Background Gradient Jersey / Shoulders -->
     <defs>
       <linearGradient id="bgGrad${seed}" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="#1e3a8a"/>
@@ -374,47 +372,27 @@ const getRealisticFaceSvg = (name, role, country) => {
       </linearGradient>
     </defs>
     <rect width="100" height="100" fill="url(#bgGrad${seed})"/>
-    
-    <!-- Shoulders & Jersey -->
     <path d="M 20 100 Q 20 75 50 75 Q 80 75 80 100 Z" fill="${capColor}"/>
     <path d="M 35 85 L 50 95 L 65 85" stroke="#fff" stroke-width="2" fill="none"/>
-
-    <!-- Neck -->
     <rect x="42" y="62" width="16" height="16" fill="${skinTone}" rx="3"/>
-
-    <!-- Ears -->
     <circle cx="31" cy="48" r="6" fill="${skinTone}"/>
     <circle cx="69" cy="48" r="6" fill="${skinTone}"/>
-
-    <!-- Head / Face Base -->
     <ellipse cx="50" cy="48" rx="19" ry="23" fill="${skinTone}"/>
-
-    <!-- Hair or Cap -->
     ${hasCap ? `
       <path d="M 30 40 Q 50 20 70 40 L 73 45 Q 50 35 27 45 Z" fill="${capColor}"/>
       <path d="M 40 38 Q 65 35 78 44 L 75 48 Q 55 41 40 42 Z" fill="${capColor}"/>
     ` : `
       <path d="M 31 38 Q 50 18 69 38 Q 70 30 50 24 Q 30 30 31 38 Z" fill="${hairColor}"/>
     `}
-
-    <!-- Eyes & Eyebrows -->
     <ellipse cx="42" cy="46" rx="2.5" ry="1.5" fill="#111"/>
     <ellipse cx="58" cy="46" rx="2.5" ry="1.5" fill="#111"/>
     <path d="M 39 42 Q 42 40 45 43" stroke="#222" stroke-width="1.5" fill="none" stroke-linecap="round"/>
     <path d="M 55 43 Q 58 40 61 42" stroke="#222" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-
-    <!-- Nose -->
     <path d="M 50 44 L 48 55 Q 50 57 52 55 Z" fill="rgba(0,0,0,0.1)"/>
-
-    <!-- Facial Hair / Beard -->
     ${hasBeard ? `
       <path d="M 36 54 Q 50 68 64 54 Q 63 66 50 69 Q 37 66 36 54 Z" fill="${hairColor}" opacity="0.8"/>
     ` : ''}
-
-    <!-- Mouth / Expression -->
     <path d="M 45 61 Q 50 65 55 61" stroke="#8b3a3a" stroke-width="2" fill="none" stroke-linecap="round"/>
-
-    <!-- Subtle highlights / depth -->
     <circle cx="50" cy="30" r="1" fill="#fff" opacity="0.3"/>
   </svg>`;
 };
@@ -710,9 +688,8 @@ const _rh=render;render=function(){_rh();floor();aucn();ringMount()};render();
 })();
 </script>
 
-<!-- ===== EXTRA ANIMATIONS ADD-ON (auctioneer + Chinnodu + Peddodu) FIX & SCRIPT ===== -->
+<!-- ===== EXTRA ANIMATIONS ADD-ON (auctioneer + Chinnodu + Peddodu) ===== -->
 <script>
-/* FIX: missing helpers (window.* so they work whatever the host page wraps around scripts) */
 window.ini=window.ini||function(n){return String(n||'').split(' ').map(function(w){return w[0]||''}).slice(0,2).join('').toUpperCase()};
 window.hue=window.hue||function(s){return Array.from(String(s)).reduce(function(a,c){return a*31+c.charCodeAt(0)},7)%360};
 </script>
@@ -722,7 +699,6 @@ try{
 const f=a=>a[Math.random()*a.length|0],B=document.body;
 const G=()=>typeof S!=='undefined'?S:null;
 
-/* ---------- auctioneer solo acts: d = duration ms ---------- */
 const ACT={
  dance:{d:3600,l:["Bala Subbarao disco! Hop hop hop 🕺","Naatu step veyyala? Bid pettandi! 🎶","Naa dance chusi bid pettandi ra! 💃"],e:['🎵','🎶','🕺','💃']},
  finger:{d:3200,l:["Crooked finger… up! ☝️ Bid OUT ayyindi!","Naa finger chusi bid pettandi saar! ☝️","Finger slowly… slowly… going up! 😬"],e:['☝️','😬','✨']},
@@ -734,14 +710,12 @@ const ACT={
  faint:{d:3000,l:["Rates chusi faint ayyanu… 😵","Thud! Wallet kuda faint ayindi! 💀","Doctor! Bid cheyyandi, lekapothe nenu levanu! 🚑"],e:['😵','💫','🚑']},
  pushpa:{d:2800,l:["Pushpa… thaggedhe le! 🔥 (chin sweep)","Bid thaggedhe le! Shoulder shrug ra! 😎","Fire kaadu… wildfire! 🔥"],e:['🔥','😎','🌟']}};
 
-/* ---------- duo acts with Chinnodu (c) and Peddodu (p) ---------- */
 const DUO={
  dance:{d:4000,act:'dance',rg:'🎶 DANCE OFF! 🕺',s:[['a',"Chinnodu! Peddodu! Naatu step ready aa? 🎶",0],['c',"Anna, ready! Naa step chudu! 🕺",1300],['p',"Naa step bigger ra! Peddodu ante peddodu! 💃",2600]],fx:[[300,['🎵','🎶','🕺','💃'],7,'.ha'],[900,['🎵','🎶','💃','🎉'],7,'#h-ring']]},
  copy:{d:4600,act:'',rg:'🐒 COPYCAT! 🪞',s:[['a',"Nenu chesina step, meeru copy cheyyandi! 🪞",0],['c',"Anna, copy chesthunna! 🐒",1400],['p',"Nenu copy kaadu, original! 😂 (copy chesthunnadu)",2800]],fx:[[1500,['🐒','😂','🪞'],6,'#h-ring']]},
  bonk:{d:3800,act:'',rg:'🔨 BONK! 💫',s:[['a',"Peddodu! Aagu ra, gavel bonk! 🔨",0],['p',"Ayyo naa thala! 😵",1700],['c',"Anna super hit! 👏 Peddodu ki padindi!",2600]],fx:[[1650,['💥','⭐','😵','🌟'],8,'.ha'],[1700,['💫','😵','⭐'],6,'#h-ring']]},
  dust:{d:4000,act:'wink',rg:'💨 DHOOM DHAAM! 💥',s:[['a',"Ee fight chustu popcorn thintha! 🍿",0],['c',"Peddodu, raa ra! 👊",900],['p',"Chinnodu, nuvvu aagu ra! 💢",1800]],fx:[[900,['💥','👊','😵','⭐'],7,'#h-ring'],[2300,['💥','🤕','⭐','👊'],7,'#h-ring']]}};
 
-/* ---------- helpers ---------- */
 const ringEl=()=>document.querySelector('#h-ring .rg');
 const rgIdle=()=>{const r=ringEl();return !!r&&r.dataset.s=='idle'&&r.isConnected};
 let cur='',endT=0,tok=0,nxt=Date.now()+6000,curLine='';
@@ -773,7 +747,6 @@ function start(){
   const k=f(Object.keys(ACT)),A=ACT[k];cur=k;endT=Date.now()+A.d;B.dataset.act=k;delete B.dataset.duo;
   setHa(f(A.l));burst(A.e,6,'.ha')}}
 
-/* ---------- scheduler ---------- */
 setInterval(()=>{try{
  const S=G();
  if(!S||S.ph!='auc'||!S.c){if(cur)stop();delete B.dataset.m;return}
@@ -784,13 +757,121 @@ setInterval(()=>{try{
  if(cur&&(now>endT||!ok))stop();
  else if(!cur&&ok&&now>nxt)start()}catch(e){}},300);
 
-/* ---------- inject extras after every render (keeps .ha-b as lastChild) ---------- */
 function inject(){
  const rg=ringEl();if(rg&&!rg.querySelector('.x-cloud'))rg.insertAdjacentHTML('beforeend','<div class="x-cloud">💨</div>');
  const ha=document.querySelector('.ha');if(ha&&!ha.querySelector('.x-pop')){const p=document.createElement('div');p.className='x-pop';p.textContent='🍿';ha.insertBefore(p,ha.lastChild)}}
 if(typeof render==='function'){const _r=render;render=function(){_r();try{inject();if(cur&&curLine)setHa(curLine)}catch(e){}}}
 inject();
 }catch(e){console.warn('animations add-on skipped:',e)}
+})();
+</script>
+
+<!-- ===== COMMENTARY + SIDE-DOCKED RING + ONLINE CHAT ADD-ON ===== -->
+<style>
+body.hall #h-ticker.xlive{position:sticky;top:6px;z-index:60;max-width:1072px;margin:10px auto;padding:10px 16px 10px 92px;text-align:left;
+ font:700 15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#fff;border:2px solid #ffffff55;border-radius:14px;
+ background:linear-gradient(90deg,#d6246e,#7a3cff 55%,#0a8fd6);box-shadow:0 8px 24px #7a3cff66}
+body.hall #h-ticker.xlive::before{content:"● LIVE";position:absolute;left:12px;top:50%;transform:translateY(-50%);background:#e11d48;color:#fff;
+ font-weight:900;font-size:12px;letter-spacing:1px;padding:4px 10px;border-radius:99px;box-shadow:0 0 0 3px #fff4;animation:xcblink 1s infinite}
+#h-ticker .xsp{display:inline-block;margin-right:6px;padding:1px 9px;border-radius:99px;font-weight:900;font-size:13px;background:#ffd23f;color:#2a1650}
+#h-ticker .xsp.s1{background:#ffb347}
+#h-ticker.xflash{animation:xcflash 1s}
+@keyframes xcblink{50%{opacity:.45}}
+@keyframes xcflash{0%{transform:scale(.97);box-shadow:0 0 0 0 #ffd23f}35%{transform:scale(1.015);box-shadow:0 0 28px 6px #ffd23faa}100%{transform:none}}
+@media(max-width:800px){body.hall #h-ticker.xlive{font-size:13px;padding:9px 12px 9px 12px;padding-top:30px}
+ body.hall #h-ticker.xlive::before{top:9px;transform:none;left:10px}}
+
+#h-ring{position:sticky;top:76px;margin:0 0 14px;padding:8px;z-index:30;border:2px solid #b8862f;box-shadow:0 8px 28px #0007}
+#h-ring .rg-h{cursor:pointer;user-select:none}
+#h-ring .rg-h::after{content:"▾";margin-left:8px}
+#h-ring.xmin .rg-h::after{content:"▸"}
+#h-ring.xmin .rg{display:none}#h-ring.xmin .rg-h{margin-bottom:0}
+@media(min-width:1740px){#h-ring{position:fixed;left:calc(50% - 866px);top:150px;width:310px;z-index:70}}
+@media(max-width:800px){#h-ring{position:fixed;left:10px;bottom:10px;width:230px;zoom:.75;z-index:70}}
+
+#xc-btn{display:none;position:fixed;right:12px;bottom:16px;z-index:85;width:54px;height:54px;border-radius:50%;border:2px solid #b8862f;background:#2b1a0f;color:#fff;font-size:24px;cursor:pointer;box-shadow:0 6px 18px #0008}
+#xc-bd{position:absolute;top:-4px;right:-4px;background:#e11d48;color:#fff;font:700 11px system-ui;border-radius:99px;padding:2px 6px;display:none;font-style:normal}
+#xc-box{display:none;position:fixed;right:12px;bottom:80px;z-index:85;width:min(320px,92vw);height:360px;flex-direction:column;background:#1b0f08;border:2px solid #b8862f;border-radius:14px;overflow:hidden;box-shadow:0 10px 30px #000a;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#xc-box.on{display:flex}
+.xc-h{display:flex;align-items:center;gap:8px;background:#2a1408;color:#e6b24a;font-weight:800;padding:8px 10px}
+.xc-h span{flex:1;font-size:11px;font-weight:600;color:#c9a35a}.xc-h button{border:0;background:none;color:#e6b24a;font-size:16px;cursor:pointer}
+#xc-msgs{flex:1;overflow:auto;padding:8px;font-size:13px;line-height:1.35;color:#f6e7c8}
+.xc-m{margin:4px 0;padding:5px 9px;border-radius:10px;background:#2b1a0f;max-width:88%;word-wrap:break-word;animation:xcpop .25s}
+.xc-m b{display:block;font-size:11px}.xc-m.me{margin-left:auto;background:#5a3b12;text-align:right}
+.xc-m.sys{margin:6px auto;background:none;color:#c9a35a;text-align:center;font-size:11px}
+.xc-q{display:flex;flex-wrap:wrap;gap:4px;padding:4px 6px;border-top:1px solid #3a2410}
+.xc-q button{border:0;border-radius:99px;background:#2b1a0f;color:#f6e7c8;padding:3px 9px;font-size:13px;cursor:pointer}
+.xc-in{display:flex;border-top:1px solid #3a2410}
+.xc-in input{flex:1;min-width:0;margin:6px;padding:7px 10px;font-size:16px;border-radius:10px;border:1px solid #5a3b12;background:#120a05;color:#f6e7c8}
+.xc-in button{margin:6px 6px 6px 0;padding:0 14px;border:0;border-radius:10px;background:#e6b24a;color:#1b0f08;font-weight:800;cursor:pointer}
+.xc-em{position:fixed;z-index:95;pointer-events:none;font-size:34px;opacity:0;animation:xcfloat 2.4s ease-out forwards}
+@keyframes xcpop{from{transform:scale(.85);opacity:0}}
+@keyframes xcfloat{0%{transform:translateY(0) scale(.5);opacity:0}15%{opacity:1}100%{transform:translateY(-55vh) scale(1.5);opacity:0}}
+</style>
+
+<script>
+(function(){
+try{
+const gS=()=>typeof S!=='undefined'?S:null,gOn=()=>typeof online!=='undefined'&&!!online,
+ gMY=()=>typeof MY!=='undefined'?MY:'me',gDb=()=>typeof db!=='undefined'?db:null;
+
+const tk=document.getElementById('h-ticker');
+if(tk){
+ tk.classList.add('xlive');const hd=document.querySelector('header');if(hd)hd.after(tk);
+ let busy=0;
+ const fmt=()=>{
+  if(busy)return;busy=1;
+  const raw=tk.textContent.replace(/^[^A-Za-z]*Live Commentary:\s*/i,'').trim(),m=raw.match(/^(\S+)\s+([^:]{3,40}):\s*([\s\S]+)$/);
+  tk.textContent='';
+  if(m){const sp=document.createElement('span');sp.className='xsp'+(m[1]=='🧆'?' s1':'');sp.textContent=m[1]+' '+m[2];tk.appendChild(sp);tk.appendChild(document.createTextNode(m[3]))}
+  else tk.appendChild(document.createTextNode('🎙️ '+raw));
+  tk.classList.remove('xflash');void tk.offsetWidth;tk.classList.add('xflash');
+  obs.takeRecords();busy=0};
+ const obs=new MutationObserver(fmt);obs.observe(tk,{childList:true,characterData:true,subtree:true});fmt();
+}
+
+document.addEventListener('click',e=>{const h=e.target.closest('#h-ring .rg-h');if(h)document.getElementById('h-ring').classList.toggle('xmin')});
+setInterval(()=>{const r=document.getElementById('h-ring');if(r&&!r._x){r._x=1;if(innerWidth<800)r.classList.add('xmin')}},500);
+
+document.body.insertAdjacentHTML('beforeend',
+ '<button id="xc-btn" title="Room chat">💬<i id="xc-bd"></i></button>'+
+ '<div id="xc-box"><div class="xc-h"><b>💬 Room chat</b><span id="xc-who"></span><button id="xc-x">✕</button></div><div id="xc-msgs"></div>'+
+ '<div class="xc-q"><button data-r="👏">👏</button><button data-r="🔥">🔥</button><button data-r="😂">😂</button><button data-r="😮">😮</button><button data-r="💰">💰</button>'+
+ '<button data-t="Bid cheyyandi! 🔨">Bid cheyyandi! 🔨</button><button data-t="Wallet ready ra 💰">Wallet ready ra 💰</button><button data-t="Nuvvu odipothav 😜">Nuvvu odipothav 😜</button></div>'+
+ '<div class="xc-in"><input id="xc-i" maxlength="120" placeholder="Type a message…" autocomplete="off"><button id="xc-s">Send</button></div></div>');
+const btn=document.getElementById('xc-btn'),box=document.getElementById('xc-box'),msgs=document.getElementById('xc-msgs'),bd=document.getElementById('xc-bd'),inp=document.getElementById('xc-i');
+let ref=null,code='',path='',fb=0,unread=0,last=0;
+const me=()=>{const s=gS(),t=s&&s.t.find(x=>x.uid===gMY());return t?{n:(t.nm||t.n.split(' ')[0]),c:t.col}:{n:'Guest',c:'#aaa'}};
+function sys(t){const d=document.createElement('div');d.className='xc-m sys';d.textContent=t;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight}
+function fly(e){const x=document.createElement('span');x.className='xc-em';x.textContent=e;x.style.left=(10+Math.random()*80)+'vw';x.style.bottom='80px';document.body.appendChild(x);setTimeout(()=>x.remove(),2600)}
+function show(m){
+ if(!m)return;const mine=m.u===gMY();
+ if(m.e){if(Date.now()-(m.ts||0)<5000)fly(m.e)}
+ const d=document.createElement('div');d.className='xc-m'+(mine?' me':'');
+ const b=document.createElement('b');b.style.color=m.c||'#e6b24a';b.textContent=m.n||'Player';d.appendChild(b);
+ d.appendChild(document.createTextNode(m.e||String(m.t||'').slice(0,120)));
+ msgs.appendChild(d);while(msgs.children.length>80)msgs.firstChild.remove();msgs.scrollTop=msgs.scrollHeight;
+ if(!box.classList.contains('on')&&!mine){unread++;bd.textContent=unread;bd.style.display='block'}}
+function sub(){ref=gDb().ref(path).limitToLast(50);ref.on('child_added',s=>show(s.val()),()=>{if(!fb){fb=1;path='rooms/'+code+'/chat';sub()}})}
+function detach(){if(ref){try{ref.off()}catch(e){}}ref=null;code='';fb=0;msgs.textContent='';unread=0;bd.style.display='none'}
+function attach(c){detach();if(!gDb())return;code=c;path='chats/'+c;sub();sys('Chat connected · room '+c)}
+function send(o){
+ const d=gDb();if(!d||!code||Date.now()-last<900)return;last=Date.now();
+ const u=me(),m=Object.assign({u:gMY(),n:u.n,c:u.c,ts:Date.now()},o);
+ const p=d.ref(path).push(m);
+ if(p&&p.catch)p.catch(()=>{if(!fb){fb=1;try{ref.off()}catch(e){}path='rooms/'+code+'/chat';sub();last=0;send(o)}})}
+const say=()=>{const t=inp.value.trim();if(t){send({t:t.slice(0,120)});inp.value=''}};
+btn.onclick=()=>{box.classList.toggle('on');if(box.classList.contains('on')){unread=0;bd.style.display='none';msgs.scrollTop=msgs.scrollHeight;inp.focus()}};
+document.getElementById('xc-x').onclick=()=>box.classList.remove('on');
+document.getElementById('xc-s').onclick=say;
+inp.addEventListener('keydown',e=>{if(e.key==='Enter')say()});
+box.addEventListener('click',e=>{const q=e.target.closest('[data-r],[data-t]');if(!q)return;q.dataset.r?send({e:q.dataset.r}):send({t:q.dataset.t})});
+setInterval(()=>{
+ const s=gS(),c=gOn()&&s&&s.code?s.code:'';
+ if(c!==code){c?attach(c):detach()}
+ btn.style.display=c?'block':'none';if(!c)box.classList.remove('on');
+ if(s){const n=s.t.filter(t=>!t.ai&&t.uid).length;document.getElementById('xc-who').textContent=n+' player'+(n==1?'':'s')+' online'}},700);
+}catch(e){console.warn('commentary/chat add-on skipped:',e)}
 })();
 </script>
 
