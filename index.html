@@ -120,7 +120,7 @@ h1,h2,h3{margin:.2em 0}.mu,small{color:var(--mu)}.chip{display:inline-block;padd
 </style>
 </head>
 <body>
-<header><span>🏏  AUCTION ARENA </span><span id="rm"></span></header>
+<header><span>🏏 AUCTION ARENA</span><span id="rm"></span></header>
 <div id="app"></div>
 
 <script>
@@ -270,7 +270,12 @@ const FL={IN:'🇮🇳',AU:'🇦🇺',GB:'🇬🇧',SA:'🇿🇦',NZ:'NZ',WI:'�
 const TG={o:'Opener',m:'Middle',f:'Finisher',p:'Powerplay',d:'Death',s:'Spin'};
 const PL=RAW.split('\n').map((l,i)=>{const[n,role,c,v,t]=l.split('|');return{i,n,role,c,v:+v,t,os:c!='IN',b:v>=90?2:v>=85?1.5:v>=80?1:v>=72?.5:.2}});
 
-const S=null,MY='me',host=false,online=false,doc=null,db=null,ui=null,seen={},msg='';
+// Added missing selector helper
+const $ = s => document.querySelector(s);
+const m = val => '₹' + val + ' Cr';
+const osn = t => t.sq.filter(i => PL[i].os).length;
+
+let S=null,MY='me',host=false,online=false,doc=null,db=null,ui=null,seen={},msg='';
 let activeTeamCount = 4;
 let chosenTeamIndex = 0;
 
@@ -637,7 +642,7 @@ micBtn.onclick = function(){
   }
   micActive = !micActive;
   micBtn.classList.toggle('active', micActive);
-  if(micactive){
+  if(micActive){
     recognition.start();
     micBtn.title = "Voice/Mic Active (Click to Mute)";
   } else {
