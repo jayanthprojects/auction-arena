@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>IPL Auction Arena - Team Selection, Bots, Faces, Room Chat & Mic</title>
+<title>IPL Auction Arena - Team Selection, Bots, Faces, Room Chat</title>
 
 <!-- Firebase Compat SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -24,7 +24,7 @@ h1,h2,h3{margin:.2em 0}.mu,small{color:var(--mu)}.chip{display:inline-block;padd
 .av{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;flex:none;box-shadow:0 0 0 4px var(--ac);overflow:hidden;background:#222}
 .av svg{width:100%;height:100%;display:block}
 .bidbox{text-align:center;margin:8px 0}.amt{font-size:46px;font-weight:900;color:var(--ac);animation:pop .4s}.ld{font-weight:800;font-size:18px}
-.bar{height:14px;border-radius:9px;background:var(--bd);margin:10px 0;position:relative}.bar i{display:block;height:100%;border-radius:99px;background:var(--ok);transition:width .25s linear}.bar.hot i{background:#e11d48}.bar.hot{animation:pulse .6s infinite}.bar span{position:absolute;right:8px;top:-1px;font-size:11px;font-weight:700}
+.bar{height:14px;border-radius:9px;background:var(--bd);margin:10px 0;position:relative}.bar i{display:block;height:100%;border-radius:9px;background:var(--ok);transition:width .25s linear}.bar.hot i{background:#e11d48}.bar.hot{animation:pulse .6s infinite}.bar span{position:absolute;right:8px;top:-1px;font-size:11px;font-weight:700}
 .tm{display:flex;justify-content:space-between;padding:7px 10px;border-radius:10px;border-left:6px solid var(--cl);margin:5px 0;background:var(--bg)}.tm.me{outline:2px solid var(--ac)}.tm.lead{animation:glow 1s infinite alternate}
 .row{display:flex;justify-content:space-between;align-items:center;padding:5px 6px;border-bottom:1px solid var(--bd)}.row.on{background:var(--bg)}.lg div{font-size:13px;padding:2px 0;animation:slide .4s}
 .stamp{position:absolute;inset:0;display:grid;place-content:center;text-align:center;font-size:64px;font-weight:900;color:#fff;background:#000a;animation:stamp .5s}.stamp small{font-size:20px;color:#fff}.stamp.unsold{color:#fca5a5}
@@ -70,15 +70,15 @@ h1,h2,h3{margin:.2em 0}.mu,small{color:var(--mu)}.chip{display:inline-block;padd
 
 /* Fixed chat box for mobile & desktop */
 #xc-btn,#xc-box,#h-cb,#h-chat{display:none!important}
-#bc2-btn{display:none;position:fixed;right:78px;bottom:16px;z-index:99990;width:56px;height:56px;border-radius:50%;border:2px solid var(--ac,#d9a93c);background:var(--cd,#1f232b);color:#fff;font-size:24px;cursor:pointer;box-shadow:0 6px 18px #0008;padding:0}
+#bc2-btn{display:none;position:fixed;right:16px;bottom:16px;z-index:99990;width:56px;height:56px;border-radius:50%;border:2px solid var(--ac,#d9a93c);background:var(--cd,#1f232b);color:#fff;font-size:24px;cursor:pointer;box-shadow:0 6px 18px #0008;padding:0}
 #bc2-bd{position:absolute;top:-4px;right:-4px;background:#e11d48;color:#fff;font:700 11px system-ui;border-radius:99px;padding:2px 6px;display:none;font-style:normal}
-#bc2-box{display:none;position:fixed;right:78px;bottom:84px;z-index:99990;width:min(340px,94vw);max-height:calc(100vh - 120px);height:380px;flex-direction:column;background:var(--cd,#1f232b);color:var(--tx,#e9e6df);border:2px solid var(--ac,#d9a93c);border-radius:14px;overflow:hidden;box-shadow:0 10px 30px #000a;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#bc2-box{display:none;position:fixed;right:16px;bottom:84px;z-index:99990;width:min(340px,94vw);max-height:calc(100vh - 120px);height:380px;flex-direction:column;background:var(--cd,#1f232b);color:var(--tx,#e9e6df);border:2px solid var(--ac,#d9a93c);border-radius:14px;overflow:hidden;box-shadow:0 10px 30px #000a;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 #bc2-box.on{display:flex}
 .c2-h{display:flex;align-items:center;gap:8px;background:#0d0f13;color:#d9a93c;font-weight:800;padding:8px 10px;flex-shrink:0}.c2-h span{flex:1;font-size:11px;font-weight:600;opacity:.8}.c2-h button{border:0;background:none;color:#d9a93c;font-size:16px;cursor:pointer}
 #bc2-msgs{flex:1;overflow-y:auto;padding:8px;font-size:13px;line-height:1.35;color:var(--tx,#eef1ff);min-height:0}
 .c2-m{margin:6px 0;padding:6px 10px;border-radius:10px;background:rgba(127,127,127,.18);color:var(--tx,#eef1ff);max-width:88%;word-wrap:break-word}
 .c2-m b{display:inline-block;font-size:12px;margin-right:6px}
-.c2-m .c2-team{display:inline-block;font-size:10px;font-weight:800;padding:1px 6px;border-radius:4px;color:#fff;margin-right:4px;vertical-align:middle}
+.c2-m .c2-team{display:inline-block;font-size:10px;font-weight:800;padding:2px 6px;border-radius:4px;color:#fff;margin-right:6px;vertical-align:middle}
 .c2-m .c2-text{display:block;margin-top:2px;color:var(--tx,#eef1ff)}
 .c2-m.me{margin-left:auto;background:rgba(217,169,60,.28);text-align:right}
 .c2-m.sys{margin:6px auto;background:none;text-align:center;font-size:11px;opacity:.7}
@@ -89,9 +89,9 @@ h1,h2,h3{margin:.2em 0}.mu,small{color:var(--mu)}.chip{display:inline-block;padd
 @keyframes c2float{0%{transform:translateY(0) scale(.5);opacity:0}15%{opacity:1}100%{transform:translateY(-55vh) scale(1.5);opacity:0}}
 </style>
 
-<!-- Live commentary & voice styles -->
+<!-- Live commentary styles -->
 <style>
-#h-ring,#xr-btn,#xr-tip,#h-say,#h-ticker,.x-em,.ha .ha-svg,.ha .ha-b,.ha .x-pop{display:none!important}
+#h-ring,#xr-btn,#xr-tip,#h-say,#h-ticker,.x-em,.ha .ha-svg,.ha .ha-b,.ha .x-pop,#mic-btn{display:none!important}
 #bc-bar{position:sticky;top:6px;z-index:60;max-width:1072px;min-height:26px;margin:10px auto;padding:10px 16px 10px 92px;text-align:left;font:700 15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#fff;border:2px solid #ffffff55;border-radius:14px;background:linear-gradient(90deg,#d6246e,#7a3cff 55%,#0a8fd6);box-shadow:0 8px 24px #7a3cff66}
 #bc-bar::before{content:"● LIVE";position:absolute;left:12px;top:50%;transform:translateY(-50%);background:#e11d48;color:#fff;font-weight:900;font-size:12px;letter-spacing:1px;padding:4px 10px;border-radius:99px;box-shadow:0 0 0 3px #fff4;animation:bcblink 1s infinite}
 #bc-bar .bc-sp{display:inline-block;margin-right:6px;padding:1px 9px;border-radius:99px;font-weight:900;font-size:13px;color:#2a1650;background:var(--c,#ffd23f)}
@@ -99,10 +99,6 @@ h1,h2,h3{margin:.2em 0}.mu,small{color:var(--mu)}.chip{display:inline-block;padd
 @keyframes bcblink{50%{opacity:.45}}@keyframes bcflash{0%{transform:scale(.98)}40%{transform:scale(1.012)}100%{transform:none}}
 @media(max-width:800px){#bc-bar{font-size:13px;padding:30px 12px 9px}#bc-bar::before{top:9px;transform:none;left:10px}}
 .bl-opts{display:inline-flex;gap:6px;align-items:center;vertical-align:middle;margin:3px 0 3px 6px}.bl-opts select{padding:8px 6px;border-radius:8px}
-
-#mic-btn{display:none;position:fixed;right:12px;bottom:16px;z-index:86;width:54px;height:54px;border-radius:50%;border:2px solid #b8862f;background:#2b1a0f;color:#fff;font-size:24px;cursor:pointer;box-shadow:0 6px 18px #0008;transition:all .2s}
-#mic-btn.active{background:#e11d48;animation:micpulse 1s infinite}
-@keyframes micpulse{0%{box-shadow:0 0 0 0 rgba(225,29,72,0.7)}70%{box-shadow:0 0 0 15px rgba(225,29,72,0)}100%{box-shadow:0 0 0 0 rgba(225,29,72,0)}}
 </style>
 
 <!-- Billy repositioned + realistic portraits -->
@@ -499,7 +495,7 @@ const IDLEc=[
 const bar=document.createElement('div');bar.id='bc-bar';bar.textContent='🎙️ Welcome to the craziest IPL auction of the century!';
 const hd=document.querySelector('header');hd?hd.after(bar):document.body.prepend(bar);
 const q=[];let until=0,lastShow=Date.now();
-const fill=(t,x)=>t.replace(/\{(\w)\!=null?x[k]:''}/g,(_,k)=>x[k]!=null?x[k]:'');
+const fill=(t,x)=>t.replace(/\{(\w)\}/g,(_,k)=>x[k]!=null?x[k]:'');
 function enq(conv,x,prio){const L=conv.map(l=>[l[0],fill(l[1],x)]);if(prio)q.length=0;if(q.length<5)q.push(...L)}
 function show(l){const c=CH[l[0]]||CH.A;bar.innerHTML='';const sp=document.createElement('span');sp.className='bc-sp';sp.style.setProperty('--c',c[2]);sp.textContent=c[0]+' '+c[1];bar.appendChild(sp);bar.appendChild(document.createTextNode(l[1]));bar.classList.remove('fl');void bar.offsetWidth;bar.classList.add('fl');until=Date.now()+Math.max(5200,l[1].length*62);lastShow=Date.now()}
 const hs=document.getElementById('h-say');
@@ -557,16 +553,16 @@ document.body.insertAdjacentHTML('beforeend','<button id="bc2-btn" title="Room c
 const btn=document.getElementById('bc2-btn'),box=document.getElementById('bc2-box'),msgs=document.getElementById('bc2-msgs'),bd=document.getElementById('bc2-bd'),inp=document.getElementById('bc2-i');
 let ref=null,room='',path='',fb=0,unread=0,last=0;
 const MYID=()=>typeof MY!=='undefined'?MY:'me',DB=()=>typeof db!=='undefined'?db:null;
-const me= me=()=>{const s=g(),t=s&&s.t.find(x=>x.uid===MYID());return t?{n:t.nm||fn(t.n),c:t.col,team:t.n}:{n:'Guest',c:'#aaa',team:'Team'}};
+const me=()=>{const s=g(),t=s&&s.t.find(x=>x.uid===MYID());return t?{n:t.nm||fn(t.n),c:t.col,team:t.n}:{n:'Guest',c:'#aaa',team:'Team'}};
 function sys(t){const d=document.createElement('div');d.className='c2-m sys';d.textContent=t;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight}
 function pop(e){const x=document.createElement('span');x.className='c2-em';x.textContent=e;x.style.left=(10+Math.random()*80)+'vw';x.style.bottom='90px';document.body.appendChild(x);setTimeout(()=>x.remove(),2600)}
 function show(m){if(!m)return;const mine=m.u===MYID();if(m.e&&Date.now()-(m.ts||0)<5000)pop(m.e);
  const d=document.createElement('div');d.className='c2-m'+(mine?' me':'');
- const b=document.createElement('b');b.style.color=m.c||'#d9a93c';b.textContent=m.n||'Player';
- d.appendChild(b);
  if(m.team){
    const tb=document.createElement('span');tb.className='c2-team';tb.style.background=m.c||'#d9a93c';tb.textContent=m.team;d.appendChild(tb);
  }
+ const b=document.createElement('b');b.style.color=m.c||'#d9a93c';b.textContent=m.n||'Player';
+ d.appendChild(b);
  const txt=document.createElement('span');txt.className='c2-text';txt.textContent=m.e||String(m.t||'').slice(0,120);d.appendChild(txt);
  msgs.appendChild(d);while(msgs.children.length>80)msgs.firstChild.remove();msgs.scrollTop=msgs.scrollHeight;if(!box.classList.contains('on')&&!mine){unread++;bd.textContent=unread;bd.style.display='block'}}
 function sub(){ref=DB().ref(path).limitToLast(50);ref.on('child_added',s=>show(s.val()),()=>{if(!fb){fb=1;path='rooms/'+room+'/chat';sub()}})}
@@ -577,71 +573,14 @@ const say=()=>{const t=inp.value.trim();if(t){send({t:t.slice(0,120)});inp.value
 btn.onclick=()=>{box.classList.toggle('on');if(box.classList.contains('on')){unread=0;bd.style.display='none';msgs.scrollTop=msgs.scrollHeight;inp.focus()}};
 document.getElementById('bc2-x').onclick=()=>box.classList.remove('on');document.getElementById('bc2-s').onclick=say;inp.addEventListener('keydown',e=>{if(e.key==='Enter')say()});
 box.addEventListener('click',e=>{const q=e.target.closest('[data-r],[data-t]');if(!q)return;q.dataset.r?send({e:q.dataset.r}):send({t:q.dataset.t})});
-function findMic(){let best=null,bs=-1;document.querySelectorAll('button,a,div,span').forEach(e=>{if(e.id&&e.id.indexOf('bc2-')==0||e.closest('#bc2-box'))return;const cs=getComputedStyle(e);if(cs.position!=='fixed'||cs.display==='none'||cs.visibility==='hidden')return;const r=e.getBoundingClientRect();if(r.width<30||r.width>100||r.height<30||r.height>100)return;if(innerWidth-r.right>160||innerHeight-r.bottom>160)return;const sc=r.right+r.bottom;if(sc>bs){bs=sc;best=r}});return best}
+
 setInterval(()=>{try{const s=g(),on=typeof online!=='undefined'&&!!online,c=on&&s&&s.code?s.code:'';
  if(c!==room){c?attach(c):detach()}
  btn.style.display=c?'block':'none';if(!c){box.classList.remove('on');return}
- const r=findMic();if(r){btn.style.width=btn.style.height=Math.round(r.width)+'px';btn.style.right=Math.round(innerWidth-r.left+10)+'px';btn.style.bottom=Math.round(innerHeight-r.bottom)+'px'}
- else{btn.style.right='78px';btn.style.bottom='16px'}
- box.style.right=btn.style.right;box.style.bottom=(parseInt(btn.style.bottom)+btn.offsetHeight+12)+'px';
+ btn.style.right='16px';btn.style.bottom='16px';
+ box.style.right='16px';box.style.bottom='84px';
  document.getElementById('bc2-who').textContent=s?s.t.filter(t=>!t.ai&&t.uid).length+' online':''}catch(e){}},700);
 }catch(e){console.warn('patch v6 skipped:',e)}
-})();
-</script>
-
-<!-- Mic toggle integration script -->
-<script>
-(function(){
-try{
-const B=document.body;
-B.insertAdjacentHTML('beforeend','<button id="mic-btn" title="Toggle Voice/Mic Commentary">🎙️</button>');
-const micBtn=document.getElementById('mic-btn');
-let micActive=false, recognition=null;
-
-if(('webkitSpeechRecognition' in window) || ('SpeechRecognition' in window)){
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SpeechRecognition();
-  recognition.continuous = true;
-  recognition.interimResults = false;
-  recognition.lang = 'en-US';
-
-  recognition.onresult = function(event) {
-    const speechToText = event.results[event.results.length - 1][0].transcript.trim();
-    if(speechToText && typeof send === 'function' && online) {
-      send({t: "🎙️ [Voice]: " + speechToText});
-    }
-  };
-  recognition.onerror = function(e){ console.warn("Mic error:", e); };
-}
-
-micBtn.onclick = function(){
-  if(!recognition){
-    alert("Speech recognition is not supported in this browser.");
-    return;
-  }
-  micActive = !micActive;
-  micBtn.classList.toggle('active', micActive);
-  if(micActive){
-    recognition.start();
-    micBtn.title = "Voice/Mic Active (Click to Mute)";
-  } else {
-    recognition.stop();
-    micBtn.title = "Toggle Voice/Mic Commentary";
-  }
-};
-
-setInterval(()=>{
-  const s = (typeof S!=='undefined'?S:null);
-  const isOnline = (typeof online!=='undefined'&&!!online);
-  micBtn.style.display = (isOnline && s && s.code) ? 'block' : 'none';
-  if(!isOnline && micActive && recognition){
-    micActive = false;
-    micBtn.classList.remove('active');
-    recognition.stop();
-  }
-}, 500);
-
-}catch(e){console.warn('Mic integration skipped:', e);}
 })();
 </script>
 
