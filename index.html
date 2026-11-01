@@ -37,7 +37,55 @@ h1,h2,h3{margin:.2em 0}.mu,small{color:var(--mu)}.chip{display:inline-block;padd
 @keyframes glow{to{box-shadow:0 0 14px var(--cl)}}@keyframes stamp{from{transform:scale(3);opacity:0}}@keyframes fall{to{transform:translateY(520px) rotate(720deg)}}@keyframes grow{from{transform:scaleX(0)}}
 </style>
 
-<!-- ===== PATCH v5 + MIC INTEGRATION STYLES ===== -->
+<!-- ===== PATCH v6: Billy (professional auctioneer) + chat beside the mic button. ===== -->
+<style>
+/* Billy */
+.bz-wrap{position:absolute;right:16px;top:14px;width:190px;height:222px;z-index:3;pointer-events:none}
+.bz-svg{width:100%;height:100%;overflow:visible}
+.bz-b{position:absolute;right:100%;top:40px;width:235px;margin-right:10px;background:#fff;color:#1f2937;border:2px solid #d9a93c;border-radius:10px;padding:7px 11px;font:700 13px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;box-shadow:0 4px 14px #0006}
+.bz-b::after{content:"";position:absolute;right:-9px;top:14px;border:8px solid transparent;border-left-color:#d9a93c;border-right:0}
+@media(max-width:800px){.bz-wrap{position:relative;right:auto;top:auto;width:100%;height:auto;display:flex;flex-direction:column;align-items:center;margin-top:6px}.bz-svg{width:170px;height:200px}.bz-b{position:static;order:-1;width:auto;margin:0 0 6px}.bz-b::after{display:none}}
+.zL,.zR,.zH{transform-origin:0 0}
+.zB{animation:zbreath 3s ease-in-out infinite alternate}
+.zH{animation:zsway 5s ease-in-out infinite alternate}
+.zE{transform-box:fill-box;transform-origin:center;animation:zblink 4.5s infinite}
+.zP{animation:zscan 6s ease-in-out infinite}
+.zm{display:none}.zm.zb{transform-box:fill-box;transform-origin:50% 0}
+.bz-wrap[data-m=idle] .zm-i,.bz-wrap[data-m=bid] .zm-b,.bz-wrap[data-m=war] .zm-w,.bz-wrap[data-m=once] .zm-o,.bz-wrap[data-m=sold] .zm-s,.bz-wrap[data-m=unsold] .zm-u{display:inline}
+.bz-wrap[data-m=bid] .zm-b,.bz-wrap[data-m=war] .zm-w{animation:ztalk .28s ease-in-out infinite alternate}.bz-wrap[data-m=war] .zm-w{animation-duration:.16s}
+.bz-wrap[data-m=bid] .zL{animation:zpoint .6s ease-out forwards}.bz-wrap[data-m=bid] .zH{animation:znod .5s 2}
+.bz-wrap[data-m=war] .zL{animation:zflapL .5s infinite alternate}.bz-wrap[data-m=war] .zR{animation:zflapR .5s infinite alternate}.bz-wrap[data-m=war] .zH{animation:zturn .6s infinite alternate}
+.bz-wrap[data-m=once] .zL{animation:zpalm .8s ease-out forwards}.bz-wrap[data-m=once] .zR{animation:zready .8s ease-out forwards}
+.bz-wrap[data-m=sold] .zR{animation:zhit .9s 2}.bz-wrap[data-m=sold] .zL{animation:zpoint .5s forwards}.bz-wrap[data-m=sold] .bz-svg{animation:zshake .12s 6 .45s}
+.zim{display:none}.bz-wrap[data-m=sold] .zim{display:inline;animation:zimp .3s 4 both}
+.bz-wrap[data-m=sold] .zT{animation:zblinkT .4s infinite}
+.bz-wrap[data-m=unsold] .zL{transform:rotate(35deg)}.bz-wrap[data-m=unsold] .zR{transform:rotate(-25deg)}.bz-wrap[data-m=unsold] .zB{animation:zshrug 1.2s ease-in-out infinite alternate}
+@keyframes zbreath{from{transform:translateY(0)}to{transform:translateY(2px)}}@keyframes zsway{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+@keyframes zblink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}@keyframes zscan{0%,100%{transform:translateX(-2px)}50%{transform:translateX(2px)}}
+@keyframes ztalk{from{transform:scaleY(.45)}to{transform:scaleY(1)}}@keyframes znod{50%{transform:translateY(4px) rotate(3deg)}}
+@keyframes zpoint{to{transform:rotate(59deg)}}@keyframes zpalm{to{transform:rotate(140deg)}}@keyframes zready{to{transform:rotate(-25deg)}}
+@keyframes zflapL{from{transform:rotate(30deg)}to{transform:rotate(100deg)}}@keyframes zflapR{from{transform:rotate(-10deg)}to{transform:rotate(-70deg)}}@keyframes zturn{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+@keyframes zhit{0%{transform:rotate(-25deg)}35%{transform:rotate(-32deg)}55%{transform:rotate(100deg)}70%{transform:rotate(88deg)}100%{transform:rotate(-25deg)}}
+@keyframes zimp{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1.2)}}@keyframes zshake{from{transform:translateX(-2px)}to{transform:translateX(2px)}}
+@keyframes zshrug{to{transform:translateY(5px)}}@keyframes zblinkT{50%{opacity:.25}}
+/* chat (sits beside the mic button) */
+#xc-btn,#xc-box,#h-cb,#h-chat{display:none!important}
+#bc2-btn{display:none;position:fixed;right:12px;bottom:16px;z-index:99990;width:56px;height:56px;border-radius:50%;border:2px solid var(--ac,#d9a93c);background:var(--cd,#1f232b);color:#fff;font-size:24px;cursor:pointer;box-shadow:0 6px 18px #0008;padding:0}
+#bc2-bd{position:absolute;top:-4px;right:-4px;background:#e11d48;color:#fff;font:700 11px system-ui;border-radius:99px;padding:2px 6px;display:none;font-style:normal}
+#bc2-box{display:none;position:fixed;right:12px;bottom:84px;z-index:99990;width:min(320px,92vw);height:360px;flex-direction:column;background:var(--cd,#1f232b);color:var(--tx,#e9e6df);border:2px solid var(--ac,#d9a93c);border-radius:14px;overflow:hidden;box-shadow:0 10px 30px #000a;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#bc2-box.on{display:flex}
+.c2-h{display:flex;align-items:center;gap:8px;background:#0d0f13;color:#d9a93c;font-weight:800;padding:8px 10px}.c2-h span{flex:1;font-size:11px;font-weight:600;opacity:.8}.c2-h button{border:0;background:none;color:#d9a93c;font-size:16px;cursor:pointer}
+#bc2-msgs{flex:1;overflow:auto;padding:8px;font-size:13px;line-height:1.35}
+.c2-m{margin:4px 0;padding:5px 9px;border-radius:10px;background:rgba(127,127,127,.18);max-width:88%;word-wrap:break-word}.c2-m b{display:block;font-size:11px}.c2-m.me{margin-left:auto;background:rgba(217,169,60,.28);text-align:right}
+.c2-m.sys{margin:6px auto;background:none;text-align:center;font-size:11px;opacity:.7}
+.c2-q{display:flex;flex-wrap:wrap;gap:4px;padding:4px 6px;border-top:1px solid rgba(127,127,127,.3)}.c2-q button{border:0;border-radius:99px;background:rgba(127,127,127,.22);color:inherit;padding:3px 9px;font-size:13px;cursor:pointer}
+.c2-in{display:flex;border-top:1px solid rgba(127,127,127,.3)}.c2-in input{flex:1;min-width:0;margin:6px;padding:7px 10px;font-size:16px;border-radius:10px;border:1px solid rgba(127,127,127,.5);background:transparent;color:inherit}
+.c2-in button{margin:6px 6px 6px 0;padding:0 14px;border:0;border-radius:10px;background:var(--ac,#d9a93c);color:#111;font-weight:800;cursor:pointer}
+.c2-em{position:fixed;z-index:99995;pointer-events:none;font-size:34px;opacity:0;animation:c2float 2.4s ease-out forwards}
+@keyframes c2float{0%{transform:translateY(0) scale(.5);opacity:0}15%{opacity:1}100%{transform:translateY(-55vh) scale(1.5);opacity:0}}
+</style>
+
+<!-- Live commentary & voice styles -->
 <style>
 #h-ring,#xr-btn,#xr-tip,#h-say,#h-ticker,.x-em,.ha .ha-svg,.ha .ha-b,.ha .x-pop{display:none!important}
 #bc-bar{position:sticky;top:6px;z-index:60;max-width:1072px;min-height:26px;margin:10px auto;padding:10px 16px 10px 92px;text-align:left;font:700 15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#fff;border:2px solid #ffffff55;border-radius:14px;background:linear-gradient(90deg,#d6246e,#7a3cff 55%,#0a8fd6);box-shadow:0 8px 24px #7a3cff66}
@@ -409,7 +457,7 @@ if (typeof render === 'function') {
 }
 </script>
 
-<!-- ===== PATCH v5 SCRIPT & COMMENTARY ===== -->
+<!-- Live commentary script -->
 <script>
 (function(){
 try{
@@ -487,7 +535,7 @@ const moveSeat=(a,b)=>{b.uid=a.uid;b.nm=a.nm;b.ai=false;a.uid=null;a.nm='';a.ai=
 hostSnap=function(d){if(!d||!S)return;for(const k in d)if(k[0]=='a'&&k[1]=='_'){let a;try{a=JSON.parse(d[k])}catch(e){continue}if(seen[k]===a.k)continue;seen[k]=a.k;const u=k.slice(2),ti=S.t.findIndex(t=>t.uid===u);
  if(a.type=='join'&&S.ph=='lobby'&&ti<0){const w=a.team!=null&&S.t[a.team]&&S.t[a.team].ai?S.t[a.team]:S.t.find(t=>t.ai);if(w){w.ai=false;w.uid=u;w.nm=a.nm;sync()}}
  else if(a.type=='seat'&&S.ph=='lobby'&&ti>=0){const to=S.t[a.team];if(to&&to.ai){moveSeat(S.t[ti],to);sync()}}
- else if(a.type=='bid'&&ti>=0)bid(ti);else if(a.type=='xi'&&ti>=0&&S.ph=='xi কন্যা'){S.t[ti].xi=a.x;chk()}}};
+ else if(a.type=='bid'&&ti>=0)bid(ti);else if(a.type=='xi'&&ti>=0&&S.ph=='xi'){S.t[ti].xi=a.x;chk()}}};
 A.join=async function(){const c=($('#cd').value||'').trim().toUpperCase(),jt=$('#bl-jt')?$('#bl-jt').value:'';doc=db.ref('rooms/'+c);try{const s=await doc.once('value');if(!s.exists()){msg='Room not found';return render()}online=true;host=false;doc.on('value',s=>{const d=s.val();if(d&&d.j){S=JSON.parse(d.j);render()}});send({type:'join',nm:nm(),team:jt===''?null:+jt})}catch(e){msg='Could not join room';render()}};
 const _st=A.start;A.start=function(){if(online&&!bots){if(S.t.filter(t=>!t.ai).length<2){q.unshift(['B','Bots are OFF — I need at least 2 human managers. Turn Bots ON or wait for a friend to join.']);until=0;return}S.t=S.t.filter(t=>!t.ai)}_st()};
 const opts=(sel,any)=>(any?'<option value="">Any free team</option>':'')+ALL_TEAMS.slice(0,any?8:activeTeamCount).map((t,i)=>'<option value="'+i+'"'+(!any&&i==chosenTeamIndex?' selected':'')+'>'+t[0]+'</option>').join('');
@@ -507,7 +555,73 @@ const _r=render;render=function(){_r();try{reskin();homeTweak();lobbyTweak()}cat
 })();
 </script>
 
-<!-- ===== MIC & VOICE COMMENTARY INTEGRATION ===== -->
+<!-- ===== PATCH v6: Billy + Chat beside the mic button ===== -->
+<script>
+(function(){
+try{
+const f=a=>a[Math.random()*a.length|0],fn=n=>n.split(' ')[0],g=()=>typeof S!=='undefined'?S:null;
+
+const BILLY='<svg class="bz-svg" viewBox="0 0 200 256"><defs><radialGradient id="zg"><stop offset="0" stop-color="#ffd86b" stop-opacity=".35"/><stop offset="1" stop-color="#ffd86b" stop-opacity="0"/></radialGradient></defs>'+
+'<ellipse cx="100" cy="150" rx="96" ry="104" fill="url(#zg)"/>'+
+'<g transform="translate(0 36)"><rect x="22" y="-32" width="156" height="30" rx="6" fill="#07080a" stroke="#4b5363" stroke-width="2"/><text class="zT" x="100" y="-11" text-anchor="middle" font-family="Courier New,monospace" font-weight="700" font-size="15" fill="#ffcf5a">LOT</text>'+
+'<g class="zB"><path d="M54 150V130Q54 112 78 108H122Q146 112 146 130V150Z" fill="#1f2a44"/><path d="M86 108L100 134L114 108Z" fill="#fff"/><path d="M100 112L95 124L100 142L105 124Z" fill="#a31622"/><path d="M78 108L90 140L100 134M122 108L110 140L100 134" stroke="#151d33" stroke-width="2" fill="none"/><path d="M116 128H130V134H116Z" fill="#fff"/>'+
+'<g transform="translate(70 118)"><g class="zL"><path d="M0 0L-18 30" stroke="#1f2a44" stroke-width="13" stroke-linecap="round"/><circle cx="-19" cy="33" r="7" fill="#e8b48a"/><path d="M-20 38L-24 48" stroke="#e8b48a" stroke-width="5" stroke-linecap="round"/><rect x="-24" y="22" width="9" height="4" rx="1" fill="#d9a93c" transform="rotate(-60 -20 24)"/></g></g>'+
+'<g transform="translate(130 118)"><g class="zR"><path d="M0 0L18 20L24 -4" stroke="#1f2a44" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="24" cy="-7" r="7" fill="#e8b48a"/><rect x="21" y="-36" width="6" height="30" rx="2" fill="#8a5a2b"/><rect x="11" y="-42" width="26" height="13" rx="3" fill="#c58a3a"/></g></g></g>'+
+'<rect x="90" y="96" width="20" height="16" fill="#d9a279"/>'+
+'<g transform="translate(100 100)"><g class="zH"><g transform="translate(-100 -100)"><ellipse cx="68" cy="68" rx="6" ry="9" fill="#d9a279"/><ellipse cx="132" cy="68" rx="6" ry="9" fill="#d9a279"/><ellipse cx="100" cy="68" rx="32" ry="38" fill="#e8b48a"/><path d="M68 60Q68 28 100 26Q132 28 132 60Q120 44 100 46Q80 44 68 60Z" fill="#2b2118"/><path d="M66 62Q66 70 68 76M134 62Q134 70 132 76" stroke="#9aa0a6" stroke-width="3" fill="none"/><path d="M78 56Q86 52 94 56M106 56Q114 52 122 56" stroke="#2b2118" stroke-width="3.5" fill="none" stroke-linecap="round"/>'+
+'<g class="zE"><ellipse cx="86" cy="64" rx="5" ry="4" fill="#fff"/><ellipse cx="114" cy="64" rx="5" ry="4" fill="#fff"/><g class="zP"><circle cx="87" cy="64" r="2.4" fill="#222"/><circle cx="115" cy="64" r="2.4" fill="#222"/></g></g><rect x="76" y="56" width="20" height="16" rx="5" fill="none" stroke="#333" stroke-width="2.5"/><rect x="104" y="56" width="20" height="16" rx="5" fill="none" stroke="#333" stroke-width="2.5"/><path d="M96 63H104" stroke="#333" stroke-width="2.5"/><path d="M100 66Q96 80 101 84" stroke="#c98f66" stroke-width="2.5" fill="none" stroke-linecap="round"/>'+
+'<path class="zm zm-i" d="M88 90Q100 98 112 90" stroke="#8a3a3a" stroke-width="3" fill="none" stroke-linecap="round"/><path class="zm zm-b zb" d="M88 90Q100 106 112 90Z" fill="#7a2a2a"/><ellipse class="zm zm-w zb" cx="100" cy="92" rx="10" ry="8" fill="#7a2a2a"/><ellipse class="zm zm-o" cx="100" cy="92" rx="5" ry="4" fill="#7a2a2a"/><g class="zm zm-s"><path d="M86 88Q100 106 114 88Z" fill="#7a2a2a"/><rect x="90" y="88" width="20" height="5" fill="#fff"/></g><path class="zm zm-u" d="M90 95Q100 90 110 95" stroke="#8a3a3a" stroke-width="3" fill="none" stroke-linecap="round"/></g></g></g>'+
+'<path d="M30 220V150Q30 142 40 142H160Q170 142 170 150V220Z" fill="#5b3a1e"/><rect x="36" y="150" width="128" height="3" fill="#d9a93c"/><rect x="70" y="164" width="60" height="16" rx="2" fill="#d9a93c"/><text x="100" y="176" text-anchor="middle" font-size="11" font-weight="800" fill="#2a1c08">BILLY</text>'+
+'<rect x="138" y="136" width="36" height="10" rx="2" fill="#8a5a2b"/><rect x="98" y="120" width="4" height="22" fill="#222"/><ellipse cx="100" cy="116" rx="6" ry="8" fill="#333"/><g class="zim"><path d="M146 130L140 120M158 128V116M170 130L176 120" stroke="#ffd23f" stroke-width="3" stroke-linecap="round"/></g></g></svg>';
+const DL={
+ id:["Lot {n}: {p}. Opening at {nb}. Do I have a bid?","{p} — a fine addition to any squad. Who will start us at {nb}?","Opening bid {nb}, please. Dayachesi paddles up!"],
+ bid:["{bid} to {w}. Do I hear {nb}?","{bid} with {w}. Any advance on that?","Thank you, {w}. {bid} on the floor — {nb} anyone?"],
+ war:["A spirited contest! {bid} with {w}…","Gentlemen, the bidding is fierce — {bid}!","Steady, steady… {bid} with {w}. Who dares go higher?"],
+ sold:["SOLD! {p} to {w} for {bid}. Abhinandanalu!","Sold to {w} at {bid}. A superb acquisition!","Hammer down! {w} takes {p} at {bid}. Sabaash!"],
+ unsold:["No further bids. The lot passes unsold.","Regrettably no takers — {p} passes."]};
+const mood=c=>{const l=c.end-Date.now();return c.st=='sold'?'sold':c.st=='unsold'?'unsold':c.by<0?'idle':l<4000?'once':c.n>=5?'war':'bid'};
+let key='',line='';
+function ensure(){const s=g();if(!s||s.ph!='auc'||!s.c)return null;const bb=document.querySelector('#app .bidbox');if(!bb)return null;const card=bb.closest('.card')||bb.parentElement;if(!card)return null;
+ let w=card.querySelector('.bz-wrap');if(!w){if(getComputedStyle(card).position=='static')card.style.position='relative';w=document.createElement('div');w.className='bz-wrap';w.innerHTML=BILLY+'<div class="bz-b"></div>';card.appendChild(w)}return w}
+function tick(){try{const s=g();const w=ensure();if(!w)return;const c=s.c,p=PL[c.p],ld=c.by>=0?s.t[c.by]:null,mo=mood(c),l=c.end-Date.now(),st=mo=='once'?(l>2700?0:l>1300?1:2):0,k=mo+'|'+s.i+'|'+(mo=='bid'||mo=='war'?c.n:'')+'|'+st;
+ const fill=t=>t.replace('{n}',s.i+1).replace('{p}',p.n).replace('{w}',ld?fn(ld.n):'').replace('{bid}',m(c.bid)).replace('{nb}',m(nb(c)));
+ if(k!==key){key=k;line=mo=='once'?['Going once…','Going twice… fair warning.','Final call at '+m(c.bid)+'…'][st]:fill(f(DL[mo]))}
+ if(w.dataset.m!==mo)w.dataset.m=mo;const b=w.querySelector('.bz-b');if(b&&b.textContent!==line)b.textContent=line;
+ const t=w.querySelector('.zT'),tx=mo=='sold'?'SOLD '+m(c.bid):'LOT '+(s.i+1)+' · '+(c.by<0?'OPEN':m(c.bid));if(t&&t.textContent!==tx)t.textContent=tx}catch(e){}}
+setInterval(tick,200);
+if(typeof render==='function'){const _r=render;render=function(){_r();try{tick()}catch(e){}}}
+
+document.body.insertAdjacentHTML('beforeend','<button id="bc2-btn" title="Room chat">💬<i id="bc2-bd"></i></button><div id="bc2-box"><div class="c2-h"><b>💬 Room chat</b><span id="bc2-who"></span><button id="bc2-x">✕</button></div><div id="bc2-msgs"></div>'+
+'<div class="c2-q"><button data-r="👏">👏</button><button data-r="🔥">🔥</button><button data-r="😂">😂</button><button data-r="😮">😮</button><button data-r="💰">💰</button><button data-t="Bid cheyyandi! 🔨">Bid cheyyandi! 🔨</button><button data-t="Wallet ready ra 💰">Wallet ready ra 💰</button><button data-t="Nuvvu odipothav 😜">Nuvvu odipothav 😜</button></div>'+
+'<div class="c2-in"><input id="bc2-i" maxlength="120" placeholder="Type a message…" autocomplete="off"><button id="bc2-s">Send</button></div></div>');
+const btn=document.getElementById('bc2-btn'),box=document.getElementById('bc2-box'),msgs=document.getElementById('bc2-msgs'),bd=document.getElementById('bc2-bd'),inp=document.getElementById('bc2-i');
+let ref=null,room='',path='',fb=0,unread=0,last=0;
+const MYID=()=>typeof MY!=='undefined'?MY:'me',DB=()=>typeof db!=='undefined'?db:null;
+const me=()=>{const s=g(),t=s&&s.t.find(x=>x.uid===MYID());return t?{n:t.nm||fn(t.n),c:t.col}:{n:'Guest',c:'#aaa'}};
+function sys(t){const d=document.createElement('div');d.className='c2-m sys';d.textContent=t;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight}
+function pop(e){const x=document.createElement('span');x.className='c2-em';x.textContent=e;x.style.left=(10+Math.random()*80)+'vw';x.style.bottom='90px';document.body.appendChild(x);setTimeout(()=>x.remove(),2600)}
+function show(m){if(!m)return;const mine=m.u===MYID();if(m.e&&Date.now()-(m.ts||0)<5000)pop(m.e);const d=document.createElement('div');d.className='c2-m'+(mine?' me':'');const b=document.createElement('b');b.style.color=m.c||'#d9a93c';b.textContent=m.n||'Player';d.appendChild(b);d.appendChild(document.createTextNode(m.e||String(m.t||'').slice(0,120)));msgs.appendChild(d);while(msgs.children.length>80)msgs.firstChild.remove();msgs.scrollTop=msgs.scrollHeight;if(!box.classList.contains('on')&&!mine){unread++;bd.textContent=unread;bd.style.display='block'}}
+function sub(){ref=DB().ref(path).limitToLast(50);ref.on('child_added',s=>show(s.val()),()=>{if(!fb){fb=1;path='rooms/'+room+'/chat';sub()}})}
+function detach(){if(ref){try{ref.off()}catch(e){}}ref=null;room='';fb=0;msgs.textContent='';unread=0;bd.style.display='none'}
+function attach(c){detach();if(!DB())return;room=c;path='chats/'+c;sub();sys('Chat connected · room '+c)}
+function send(o){const d=DB();if(!d||!room||Date.now()-last<900)return;last=Date.now();const u=me(),m=Object.assign({u:MYID(),n:u.n,c:u.c,ts:Date.now()},o),p=d.ref(path).push(m);if(p&&p.catch)p.catch(()=>{if(!fb){fb=1;try{ref.off()}catch(e){}path='rooms/'+room+'/chat';sub();last=0;send(o)}})}
+const say=()=>{const t=inp.value.trim();if(t){send({t:t.slice(0,120)});inp.value=''}};
+btn.onclick=()=>{box.classList.toggle('on');if(box.classList.contains('on')){unread=0;bd.style.display='none';msgs.scrollTop=msgs.scrollHeight;inp.focus()}};
+document.getElementById('bc2-x').onclick=()=>box.classList.remove('on');document.getElementById('bc2-s').onclick=say;inp.addEventListener('keydown',e=>{if(e.key==='Enter')say()});
+box.addEventListener('click',e=>{const q=e.target.closest('[data-r],[data-t]');if(!q)return;q.dataset.r?send({e:q.dataset.r}):send({t:q.dataset.t})});
+function findMic(){let best=null,bs=-1;document.querySelectorAll('button,a,div,span').forEach(e=>{if(e.id&&e.id.indexOf('bc2-')==0||e.closest('#bc2-box'))return;const cs=getComputedStyle(e);if(cs.position!=='fixed'||cs.display==='none'||cs.visibility==='hidden')return;const r=e.getBoundingClientRect();if(r.width<30||r.width>100||r.height<30||r.height>100)return;if(innerWidth-r.right>160||innerHeight-r.bottom>160)return;const sc=r.right+r.bottom;if(sc>bs){bs=sc;best=r}});return best}
+setInterval(()=>{try{const s=g(),on=typeof online!=='undefined'&&!!online,c=on&&s&&s.code?s.code:'';
+ if(c!==room){c?attach(c):detach()}
+ btn.style.display=c?'block':'none';if(!c){box.classList.remove('on');return}
+ const r=findMic();if(r){btn.style.width=btn.style.height=Math.round(r.width)+'px';btn.style.right=Math.round(innerWidth-r.left+10)+'px';btn.style.bottom=Math.round(innerHeight-r.bottom)+'px'}
+ else{btn.style.right='12px';btn.style.bottom='16px'}
+ box.style.right=btn.style.right;box.style.bottom=(parseInt(btn.style.bottom)+btn.offsetHeight+12)+'px';
+ document.getElementById('bc2-who').textContent=s?s.t.filter(t=>!t.ai&&t.uid).length+' online':''}catch(e){}},700);
+}catch(e){console.warn('patch v6 skipped:',e)}
+})();
+</script>
+
+<!-- Mic toggle integration script -->
 <script>
 (function(){
 try{
