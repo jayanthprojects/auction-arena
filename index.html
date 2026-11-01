@@ -121,6 +121,20 @@ h1,h2,h3{margin:.2em 0}.mu,small{color:var(--mu)}.chip{display:inline-block;padd
 #mic-btn.active{background:#e11d48;animation:micpulse 1s infinite}
 @keyframes micpulse{0%{box-shadow:0 0 0 0 rgba(225,29,72,0.7)}70%{box-shadow:0 0 0 15px rgba(225,29,72,0)}100%{box-shadow:0 0 0 0 rgba(225,29,72,0)}}
 </style>
+
+<!-- ===== PATCH v7 STYLES (Billy repositioned + professional realistic portraits) ===== -->
+<style>
+@media(min-width:801px){
+  .bz-wrap{top:112px!important;right:12px!important;width:150px!important;height:176px!important}
+  .bz-b{right:0!important;left:auto!important;top:100%!important;margin:4px 0 0 0!important;width:220px!important}
+  .bz-b::after{left:auto!important;right:64px!important;top:-9px!important;border:8px solid transparent!important;border-bottom-color:#d9a93c!important;border-top:0!important}
+}
+.av{width:98px!important;height:98px!important;box-shadow:0 0 0 3px var(--ac),0 6px 16px #0008!important;background:#0c1226!important}
+.fp-body{animation:fpbreath 3.6s ease-in-out infinite alternate}
+.fp-eye{transform-box:fill-box;transform-origin:center;animation:fpblink 5s infinite}
+@keyframes fpbreath{from{transform:translateY(0)}to{transform:translateY(1.4px)}}
+@keyframes fpblink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.08)}}
+</style>
 </head>
 <body>
 <header><span>🏏 IPL AUCTION ARENA (Realistic Faces, 8-Player & Extra Animations)</span><span id="rm"></span></header>
@@ -265,47 +279,6 @@ const PL=RAW.split('\n').map((l,i)=>{const[n,role,c,v,t]=l.split('|');return{i,n
 
 const $=s=>document.querySelector(s),app=$('#app'),m=x=>'₹'+(+(+x).toFixed(2))+' Cr',osn=t=>t.sq.filter(i=>PL[i].os).length;
 
-const getRealisticFaceSvg = (name, role, country) => {
-  const seed = [...name].reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const skinTone = ['#e0ac69', '#f5d0b1', '#c68642', '#8d5524', '#ffdbac'][seed % 5];
-  const hairColor = ['#111111', '#2c221e', '#4a3728', '#d4af37', '#333333'][(seed >> 2) % 5];
-  const hasBeard = (seed % 3 !== 0);
-  const hasCap = (seed % 2 === 0);
-  const capColor = ['#1b263b', '#e63946', '#2a9d8f', '#f4a261', '#457b9d'][seed % 5];
-  
-  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="bgGrad${seed}" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#1e3a8a"/>
-        <stop offset="100%" stop-color="#0f172a"/>
-      </linearGradient>
-    </defs>
-    <rect width="100" height="100" fill="url(#bgGrad${seed})"/>
-    <path d="M 20 100 Q 20 75 50 75 Q 80 75 80 100 Z" fill="${capColor}"/>
-    <path d="M 35 85 L 50 95 L 65 85" stroke="#fff" stroke-width="2" fill="none"/>
-    <rect x="42" y="62" width="16" height="16" fill="${skinTone}" rx="3"/>
-    <circle cx="31" cy="48" r="6" fill="${skinTone}"/>
-    <circle cx="69" cy="48" r="6" fill="${skinTone}"/>
-    <ellipse cx="50" cy="48" rx="19" ry="23" fill="${skinTone}"/>
-    ${hasCap ? `
-      <path d="M 30 40 Q 50 20 70 40 L 73 45 Q 50 35 27 45 Z" fill="${capColor}"/>
-      <path d="M 40 38 Q 65 35 78 44 L 75 48 Q 55 41 40 42 Z" fill="${capColor}"/>
-    ` : `
-      <path d="M 31 38 Q 50 18 69 38 Q 70 30 50 24 Q 30 30 31 38 Z" fill="${hairColor}"/>
-    `}
-    <ellipse cx="42" cy="46" rx="2.5" ry="1.5" fill="#111"/>
-    <ellipse cx="58" cy="46" rx="2.5" ry="1.5" fill="#111"/>
-    <path d="M 39 42 Q 42 40 45 43" stroke="#222" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <path d="M 55 43 Q 58 40 61 42" stroke="#222" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <path d="M 50 44 L 48 55 Q 50 57 52 55 Z" fill="rgba(0,0,0,0.1)"/>
-    ${hasBeard ? `
-      <path d="M 36 54 Q 50 68 64 54 Q 63 66 50 69 Q 37 66 36 54 Z" fill="${hairColor}" opacity="0.8"/>
-    ` : ''}
-    <path d="M 45 61 Q 50 65 55 61" stroke="#8b3a3a" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <circle cx="50" cy="30" r="1" fill="#fff" opacity="0.3"/>
-  </svg>`;
-};
-
 let S=null,MY='me',host=false,online=false,doc=null,db=null,ui=null,seen={},msg='';
 let activeTeamCount = 4;
 let chosenTeamIndex = 0;
@@ -406,7 +379,7 @@ function stamp(c){const t=S.t[c.by];return c.st=='sold'?`<div class="stamp">SOLD
 
 function auc(){const c=S.c,p=PL[c.p],me=S.t.findIndex(t=>t.uid==MY),mt=S.t[me],a=nb(c),ld=c.by>=0?S.t[c.by]:null;
  app.innerHTML=`<div class="g"><div><section class="card"><span class="chip">Lot ${S.i+1}/${S.ord.length}</span><span class="chip">${RL[p.role]}</span>${p.os?'<span class="chip os">OVERSEAS</span>':''}
-<div class="pl"><div class="av">${getRealisticFaceSvg(p.n, p.role, p.c)}</div><div><h2>${p.n}</h2><div>${FL[p.c]} ${p.c} · Rating <b>${p.v}</b></div><div>${tags(p)}</div><small>Base ${m(p.b)}</small></div></div>
+<div class="pl"><div class="av"></div><div><h2>${p.n}</h2><div>${FL[p.c]} ${p.c} · Rating <b>${p.v}</b></div><div>${tags(p)}</div><small>Base ${m(p.b)}</small></div></div>
 <div class="bidbox"><small>Current bid</small><div class="amt">${c.by<0?'—':m(c.bid)}</div><div class="ld" style="color:${ld?ld.col:'var(--mu)'}">${ld?'🔨 '+ld.n:'Waiting for the first bid…'}</div></div>
 <div class="bar"><i id="tb"></i><span id="tt"></span></div>
 ${me>=0&&c.st=='bid'?`<button class="btn big" data-a="bid" ${c.by==me||!can(mt,c.p,a)?'disabled':''}>Bid ${m(a)}</button>`:''}
@@ -465,7 +438,7 @@ const f=a=>a[Math.random()*a.length|0],fn=n=>n.split(' ')[0],g=()=>typeof S!=='u
 let bots=true;
 new MutationObserver(()=>{document.body.removeAttribute('data-act');document.body.removeAttribute('data-duo')}).observe(document.body,{attributes:true,attributeFilter:['data-act','data-duo']});
 
-const CH={A:['🎙️','Overacting Anchor Ravi','#ffd23f'],P:['🧆','Puranapul Punch Master','#ffb347'],R:['📱','Reels Rakesh','#7dd3fc'],T:['👴','Tatayya (Old-Timer)','#c4b5fd'],U:['🛺','Auto Anna','#86efac'],Q:['👵','Bejawada Aunty','#fda4af'],S:['🧐','Professor Stats Sundar','#fde68a'],B:['🎩','Billy (Auctioneer)','#ffffff']};
+const CH={A:['🎙️','Overacting Anchor Ravi','#ffd23f'],P:['🧆','Puranapul Punch Master','#ffb347'],R:['📱','Reels Rakesh','#7dd3fc'],T:['👴','Tatayya (Old-Timer)','#c4b5fd'],U:['🛺','Auto Anna','#86efac'],Q:['👵','Bejawada Aunty','#fda4af'],S:['🧐','Professor Stats Sundار','#fde68a'],B:['🎩','Billy (Auctioneer)','#ffffff']};
 const LOT=[
 [['A',"Ladies and gentlemen! Ippudu stage meediki vasthunnadu… {p}! Rating {r}! Wow wow wow! 🎙️"],['P',"Rating {r} aa? Naa jebu rating minus 5 ra babu! Biryani ki kuda dabbulu levu 🧆"],['A',"Mee jebu gurinchi evaru adigaru Punch Master garu, player gurinchi cheppanu!"],['P',"Player ki kuda mee managers jebu chusi ‘balance enquiry’ message vasthundi ra!"]],
 [['R',"Guys! {p} ni teesukunte reel viral aipothundi! Like, share, subscribe, tarvata bid pettandi! 📱"],['T',"Naa kaalam lo player ki cycle ichchevaaru, ippudu crores aa? Kaalam maripoyindi ra! 👴"],['R',"Tatayya, ippudu cycle kaadu, Tesla! Trending ra!"],['T',"Trending ante aa? Cold aa, cough aa? Kashayam teesuko ra!"]],
@@ -523,7 +496,7 @@ const BILLY='<svg class="bl-svg" viewBox="0 0 200 220"><g class="bB"><path d="M5
 '<g class="bE"><ellipse cx="86" cy="64" rx="5" ry="4" fill="#fff"/><ellipse cx="114" cy="64" rx="5" ry="4" fill="#fff"/><circle cx="87" cy="64" r="2.4" fill="#222"/><circle cx="115" cy="64" r="2.4" fill="#222"/></g><rect x="76" y="56" width="20" height="16" rx="5" fill="none" stroke="#333" stroke-width="2.5"/><rect x="104" y="56" width="20" height="16" rx="5" fill="none" stroke="#333" stroke-width="2.5"/><path d="M96 63H104" stroke="#333" stroke-width="2.5"/><path d="M100 66Q96 80 101 84" stroke="#c98f66" stroke-width="2.5" fill="none" stroke-linecap="round"/>'+
 '<path class="bm bm-i" d="M88 90Q100 98 112 90" stroke="#8a3a3a" stroke-width="3" fill="none" stroke-linecap="round"/><path class="bm bm-b" d="M88 90Q100 106 112 90Z" fill="#7a2a2a"/><ellipse class="bm bm-w" cx="100" cy="94" rx="10" ry="8" fill="#7a2a2a"/><ellipse class="bm bm-o" cx="100" cy="92" rx="5" ry="4" fill="#7a2a2a"/><g class="bm bm-s"><path d="M86 88Q100 106 114 88Z" fill="#7a2a2a"/><rect x="90" y="88" width="20" height="5" fill="#fff"/></g><path class="bm bm-u" d="M90 95Q100 90 110 95" stroke="#8a3a3a" stroke-width="3" fill="none" stroke-linecap="round"/></g>'+
 '<path d="M30 220V150Q30 142 40 142H160Q170 142 170 150V220Z" fill="#5b3a1e"/><rect x="36" y="150" width="128" height="3" fill="#d9a93c"/><rect x="70" y="164" width="60" height="16" rx="2" fill="#d9a93c"/><text x="100" y="176" text-anchor="middle" font-size="11" font-weight="800" fill="#2a1c08">BILLY</text>'+
-'<rect x="138" y="136" width="36" height="10" rx="2" fill="#8a5a2b"/><rect x="98" y="120" width="4" height="22" fill="#222"/><ellipse cx="100" cy="116" rx="6" ry="8" fill="#333"/><g class="bim"><path d="M146 130L140 120M158 128V116M170 130L176 120" stroke="#ffd23f" stroke-width="3" stroke-linecap="round"/></g></svg>';
+'<rect x="138" y="136" width="36" height="10" rx="2" fill="#8a5a2b"/><rect x="98" y="120" width="4" height="22" fill="#222"/><ellipse cx="100" cy="116" rx="6" ry="8" fill="#333"/><g class="zim"><path d="M146 130L140 120M158 128V116M170 130L176 120" stroke="#ffd23f" stroke-width="3" stroke-linecap="round"/></g></svg>';
 const mood=c=>{const l=c.end-Date.now();return c.st=='sold'?'sold':c.st=='unsold'?'unsold':c.by<0?'idle':l<4000?'once':c.n>=5?'war':'bid'};
 function callTxt(s,c,mo){const p=PL[c.p],ld=c.by>=0?s.t[c.by]:null,l=c.end-Date.now(),w=ld?fn(ld.n):'';
  return mo=='idle'?'Lot '+(s.i+1)+': '+p.n+'. Opening at '+m(nb(c))+'. Do I have a bid?':mo=='bid'?m(c.bid)+' to '+w+'. Do I hear '+m(nb(c))+'?':mo=='war'?'A spirited contest! '+m(c.bid)+' with '+w+'…':
@@ -674,6 +647,162 @@ setInterval(()=>{
 }, 500);
 
 }catch(e){console.warn('Mic integration skipped:', e);}
+})();
+</script>
+
+<!-- ===== PATCH v7: Professional Realistic Faces & Enhanced Roasts ===== -->
+<script>
+(function(){
+try{
+const f=a=>a[Math.random()*a.length|0],fn=n=>n.split(' ')[0],g=()=>typeof S!=='undefined'?S:null;
+
+const shade=(hex,a)=>{const n=parseInt(hex.slice(1),16),R=n>>16,G=n>>8&255,B=n&255,
+ k=v=>Math.max(0,Math.min(255,Math.round(a>=0?v+(255-v)*a:v*(1+a))));
+ return '#'+[k(R),k(G),k(B)].map(v=>v.toString(16).padStart(2,'0')).join('')};
+const SKIN={
+ IN:['#c68a5e','#b97a50','#d49a6a','#a8693f','#c9915f'],
+ AU:['#f1c7a3','#e8b992','#f3d2b5','#e2ae85'],GB:['#f1c7a3','#e8b992','#f3d2b5','#efc2a0'],
+ NZ:['#e8b992','#f1c7a3','#d9a478'],SA:['#e2ae85','#d49a6a','#f1c7a3','#b97a50'],
+ WI:['#7a4a2b','#6b3f24','#8d5a38','#5e3720'],AF:['#c08a5c','#b57f52','#d29c6c'],
+ SL:['#a8693f','#b97a50','#9a5f38'],BD:['#b97a50','#a8693f','#c68a5e']};
+const JER={IN:['#1d4ed8','#ffffff'],AU:['#e5b800','#0b6b3a'],GB:['#12306b','#ffffff'],SA:['#0f7a3d','#f5c518'],
+ NZ:['#111827','#ffffff'],WI:['#7b1e3a','#f5c518'],AF:['#1e3a8a','#ffffff'],SL:['#1e40af','#f5c518'],BD:['#0b7a43','#ffffff']};
+const FAIR=['AU','GB','NZ','SA'];
+function face(p){
+ const h=[...p.n].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7),pk=(arr,k)=>arr[(h>>k)%arr.length],id='fp'+p.i;
+ const skin=pk(SKIN[p.c]||SKIN.IN,1),fair=FAIR.includes(p.c);
+ const hair=pk(fair?['#3a2a1c','#5a4028','#8a6a3a','#b9955a','#1f1712']:['#15110e','#1f1712','#2a1d14'],3);
+ const iris=pk(fair?['#3b2a1d','#4a6a8a','#5a6b3a','#3b2a1d']:['#3b2a1d','#2b1d13'],9);
+ const beard=(h>>5)%3,style=(h>>7)%4,[jc,ja]=JER[p.c]||JER.IN;
+ const sL=shade(skin,.22),sD=shade(skin,-.22),sDD=shade(skin,-.4),brow=shade(hair,-.25),lip=shade(skin,-.35);
+ const hairSvg=[
+  '<path d="M34 50C31 28 45 15 60 15C76 15 89 28 86 50C84 40 78 33 60 33C42 33 36 40 34 50Z" fill="url(#'+id+'h)"/>',
+  '<path d="M33 52C28 26 44 11 62 12C80 13 91 28 87 52C85 40 80 31 70 28C60 34 44 32 36 42Z" fill="url(#'+id+'h)"/>',
+  '<g fill="url(#'+id+'h)"><circle cx="38" cy="36" r="7"/><circle cx="46" cy="25" r="8"/><circle cx="58" cy="20" r="8"/><circle cx="71" cy="23" r="8"/><circle cx="81" cy="32" r="7"/><circle cx="85" cy="44" r="5"/><circle cx="35" cy="46" r="5"/></g>',
+  '<path d="M35 48C34 30 46 20 60 20C74 20 86 30 85 48C83 38 74 30 60 30C46 30 37 38 35 48Z" fill="url(#'+id+'h)" opacity=".85"/>'][style];
+ const beardSvg=beard==2?
+  '<path d="M35 58C36 82 46 95 60 95C74 95 84 82 85 58C82 71 76 73 70 72Q60 69 50 72C44 73 38 71 35 58Z" fill="'+hair+'" opacity=".92"/><path d="M50 72Q60 67 70 72Q60 75 50 72Z" fill="'+hair+'"/>':
+  beard==1?'<path d="M36 60C38 80 48 91 60 91C72 91 82 80 84 60C80 72 72 76 60 76C48 76 40 72 36 60Z" fill="'+hair+'" opacity=".22"/>':'';
+ const eye=(cx)=>'<g class="fp-eye"><ellipse cx="'+cx+'" cy="54" rx="5.4" ry="2.9" fill="#f4f1ec"/><circle cx="'+cx+'" cy="54" r="2.6" fill="'+iris+'"/><circle cx="'+cx+'" cy="54" r="1.2" fill="#050505"/><circle cx="'+(cx+.9)+'" cy="53.2" r=".75" fill="#fff"/></g>'+
+  '<path d="M'+(cx-5.8)+' 54Q'+cx+' '+(50.6)+' '+(cx+5.8)+' 54" stroke="'+sDD+'" stroke-width="1.3" fill="none" stroke-linecap="round"/>'+
+  '<path d="M'+(cx-4.5)+' 57.4Q'+cx+' 59 '+(cx+4.5)+' 57.4" stroke="'+sD+'" stroke-width=".7" fill="none" opacity=".7"/>';
+ return '<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><defs>'+
+  '<linearGradient id="'+id+'b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34456f"/><stop offset="1" stop-color="#0c1226"/></linearGradient>'+
+  '<radialGradient id="'+id+'s" cx=".42" cy=".34" r=".75"><stop offset="0" stop-color="'+sL+'"/><stop offset=".55" stop-color="'+skin+'"/><stop offset="1" stop-color="'+sD+'"/></radialGradient>'+
+  '<linearGradient id="'+id+'h" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+shade(hair,.18)+'"/><stop offset="1" stop-color="'+shade(hair,-.3)+'"/></linearGradient>'+
+  '<linearGradient id="'+id+'t" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset=".3" stop-color="#000" stop-opacity="0"/><stop offset=".7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".26"/></linearGradient>'+
+  '<radialGradient id="'+id+'v" cx=".5" cy=".45" r=".7"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".45"/></radialGradient></defs>'+
+  '<rect width="120" height="120" fill="url(#'+id+'b)"/><ellipse cx="60" cy="52" rx="48" ry="52" fill="#6f87c9" opacity=".12"/>'+
+  '<g class="fp-body">'+
+  '<path d="M6 120Q10 92 60 88Q110 92 114 120Z" fill="'+jc+'"/><path d="M6 120Q10 92 34 90L40 120Z" fill="#000" opacity=".15"/>'+
+  '<path d="M50 70V92Q60 103 70 92V70Z" fill="'+sD+'"/><path d="M50 82Q60 92 70 82V92Q60 103 50 92Z" fill="'+sDD+'" opacity=".55"/>'+
+  '<path d="M42 90L60 110L78 90" stroke="'+ja+'" stroke-width="4.2" fill="none" stroke-linejoin="round"/>'+
+  '<path d="M42 90L60 110L78 90L60 96Z" fill="'+skin+'" opacity="0"/>'+
+  '<ellipse cx="33.5" cy="58" rx="4.6" ry="8" fill="'+sD+'"/><ellipse cx="86.5" cy="58" rx="4.6" ry="8" fill="'+sD+'"/>'+
+  '<path d="M34 52C34 30 46 22 60 22C74 22 86 30 86 52C86 70 76 86 60 90C44 86 34 70 34 52Z" fill="url(#'+id+'s)"/>'+
+  '<path d="M34 52C34 30 46 22 60 22C74 22 86 30 86 52C86 70 76 86 60 90C44 86 34 70 34 52Z" fill="url(#'+id+'t)"/>'+
+  '<path d="M46 86Q60 94 74 86" stroke="'+sDD+'" stroke-width="2" fill="none" opacity=".25"/>'+
+  hairSvg+
+  '<path d="M41 47Q48 42.5 56 46" stroke="'+brow+'" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M64 46Q72 42.5 79 47" stroke="'+brow+'" stroke-width="3" fill="none" stroke-linecap="round"/>'+
+  eye(49)+eye(71)+
+  '<path d="M60 52Q57.5 64 54.5 68.5" stroke="'+sD+'" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".7"/><path d="M54 69.5Q60 72.5 66 69.5" stroke="'+sDD+'" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".75"/>'+
+  '<ellipse cx="56.2" cy="70" rx="1.1" ry=".7" fill="'+sDD+'"/><ellipse cx="63.8" cy="70" rx="1.1" ry=".7" fill="'+sDD+'"/>'+
+  beardSvg+
+  '<path d="M52 77Q56 75 60 76Q64 75 68 77Q60 79.4 52 77Z" fill="'+lip+'"/><path d="M52.5 77.4Q60 84 67.5 77.4Q60 80.2 52.5 77.4Z" fill="'+shade(lip,.18)+'"/>'+
+  '<path d="M52 77.2Q60 80 68 77.2" stroke="'+shade(lip,.4)+'" stroke-width=".8" fill="none"/>'+
+  '</g><rect width="120" height="120" fill="url(#'+id+'v)"/></svg>'}
+
+let lastFace='';
+function swapFace(){
+ const s=g();if(!s||s.ph!='auc'||!s.c)return;
+ const av=document.querySelector('#app .av');if(!av)return;
+ const k=String(s.c.p);if(av.dataset.f===k)return;
+ av.dataset.f=k;av.innerHTML=face(PL[s.c.p])}
+const _r7=render;render=function(){_r7();try{swapFace()}catch(e){}};
+setInterval(()=>{try{swapFace()}catch(e){}},300);
+
+const LOTR=[
+[['A',"{pf} entry ichadu! Rating {r}... kani mee managers ki 'BP' vachindi — Bid Pressure ra babu! 🎙️"],['P',"BP kaadu ra, 'Bank Problem'! Wallet lo dabbulu ledu, pressure matram full! 🧆"]],
+[['R',"{p} ni teesukunte profile pic maarchukovachu, kani wallet pic 'empty' ayipothundi! 📱"],['Q',"Naa alludu kuda ade cheppadu... 'Amma idi investment' ani! Ippudu bike EMI kooda kattaledu! 👵"]],
+[['S',"{p}: rating {r}. Mee managers decision accuracy: 12%. Source: trust me bro. 🧐"],['U',"12% aa? Naa auto GPS kante better anna! GPS ayina 'turn left' antadi! 🛺"]],
+[['T',"{p} aa? Naa kaalam lo ilanti vallu bench meeda kooda koorchoru ra! 👴"],['R',"Tatayya, ippudu bench ki kooda premium seat undi! Subscription tho! 📱"]],
+[['P',"{p} ki crores ivvali ante... mee managers ki EMI option unda? 🧆"],['A',"EMI kaadu Punch Master garu — 'Every Manager Is Insolvent'! 🎙️"]],
+[['Q',"{p} ni chusthe baagunnadu, kani mee managers chusthe 'sale lo free vachindi' ani anukuntaru! 👵"],['U',"Aunty, free ante bid lo 'Rs. 0'? Appudu naa auto kooda free! 🛺"]]];
+
+const HITR=[
+[['S',"{t} malli bid pettaru. Brain ki rest, wallet ki ICU! 🧐"],['Q',"{t} manager ni chusthe 'Sale' board chusina aunty laaga undi! 👵"]],
+[['U',"{t} anna, meter lekunda bid... ee speed ki traffic challan padutundi! 🛺"],['P',"Challan kaadu, GST kooda padutundi ra! 🧆"]],
+[['R',"{t} bid: 'Confidence 100, Budget 0' — new trend alert! 📱"],['T',"Trend ante marriage lo 'DJ' pettinattu, pedda sound, taruvata appu! 👴"]],
+[['A',"{t} bid pettaru! Dhairyam ante ide... kani calculator ekkadi, {t} garu? 🎙️"],['S',"Calculator lo battery ledu, hope lo undi! 🧐"]],
+[['P',"{t} bid chusthe naaku mirchi bajji kante 'spicy' ga undi! Wallet ki 'mantalu' pettali! 🧆"]]];
+
+const WARR=[
+[['A',"BIDDING WAR on {pf}! {t} manager chemata... kani 'Pay' button kaadu, 'Pray' button! 🙏🎙️"],['P',"Pray ante intlo wife ki 'idi last' ani cheppe prayer ra! 🧆"]],
+[['R',"Live war! {t} vs everyone — comments lo 'Wallet RIP' trending! 📱"],['T',"Naa kaalam lo ilaa fight chesthe 'Panchayat' pilichevaaru ra! 👴"]],
+[['S',"War probability 100%. {t} purse survival: 3%. Regret: 100%. 🧐"],['Q',"Regret kaadu, 'Rama Rama' anta ra naa alludu kooda ilage! 👵"]]];
+
+const SOLDR=[
+[['S',"{p} sold for {b}. Break-even: next 3 IPL seasons, zero injuries, zero drama. 🧐"],['T',"Zero drama aa? Serial lo kooda ledu ra ante! 👴"]],
+[['Q',"{b} aa?! {t} manager intlo tella chandruda chusi bid pettadu anipisthundi! 👵"],['P',"Intlo vaalu 'ayyo' antaru, ikkada 'sold' antaru! 🧆"]],
+[['R',"{t} just paid {b} for {p}. Reel title: 'Wallet has left the chat' 📱"],['U',"Chat lo kaadu anna, group nunchi remove chesaru! 🛺"]],
+[['A',"SOLD to {t}! Purse migilindi {pu}... ee speed ki next lot ki credit card kavali! 🎙️"],['S',"Credit card kooda 'declined' ani message vasthundi! 🧐"]],
+[['P',"{p} ni {b} ki konnadu... naa biryani bill chusi kooda nenu ila siggu padanu ra! 🧆"]]];
+
+const UNSR=[
+[['P',"{p} ki evaru bid pettaledu... mirchi bajji ki kooda 'add to cart' undi, ikkada ledu! 🧆"],['Q',"Pavam {p}, naa alludu laaga 'waiting for offers' lo undipoyadu! 👵"]],
+[['S',"Unsold analysis: managers overthinking, underbidding. Classic. 🧐"],['R',"Overthinking = zero bids bro! Comment 'sad' if you agree! 📱"]],
+[['T',"Naa kaalam lo player ni evaru teesukokapothe bus stand lo drop chesevaallam ra! 👴"],['U',"Naa auto lo kooda ekkadaniki? Evaru pilavaru! 🛺"]]];
+
+const HUMR=[
+[['A',"{m} garu bid pettaru! Confidence chusthe Dhoni ki kooda 'Thala' tirigi povali! 🎙️"],['P',"Confidence undi, kani wallet 'Seen' lo petti reply ivvadu! 🧆"]],
+[['P',"{m}, ee bid tarvata nee wallet ki 'Seen' kani 'Reply' raadu! 🧆"],['R',"'Seen at 10:06 PM' 💀 Bro got ghosted by his own bank! 📱"]],
+[['Q',"{m} abbayi... amma ki cheppakunda bid pettadu anipisthundi! 👵"],['T',"Cheppite 'chappal' vachedi ra, naa kaalam lo! 👴"]],
+[['S',"{m}'s bidding pattern: aggressive. Savings pattern: imaginary. 🧐"],['U',"Imaginary kaadu anna, 'under construction'! 🛺"]]];
+
+const LOWR=[
+[['S',"{t} purse {pu}. Ee budget tho 22 mandi ante... squad kaadu, 'group photo' ra! 🧐"],['P',"Group photo kooda 'zoom' lo, evaru 'camera on' cheyyaru! 🧆"]],
+[['Q',"{t} purse chusthe naa nelaakhari pension gurthostundi! {pu} ante 'last week of the month'! 👵"],['R',"Last week of month = 'Maggi mode ON'! 📱"]]];
+
+const IDLR=[
+[['P',"Evaru bid peduthaaru ra? 'Wait and watch' ante strategy kaadu, 'Wait and sleep'! 🧆"],['A',"Strategy ante Telugu serial laaga… 200 episodes tarvata kooda villain start kaadu! 🎙️"]],
+[['R',"Bid pettandi guys! Lekapothe 'Auction Boring' ani trend chestha! 📱"],['T',"Naa kaalam lo 'Oka rupayi' tho start chesevaallam. Ippudu managers jeb lo 'cobweb'! 👴"]],
+[['U',"Evaru bid pettaru ra? Meter run avuthundi, passenger ledu! 🛺"],['S',"Meter 15s, bidding 0. Efficiency: 'Nidra mode'! 🧐"]],
+[['Q',"Mee managers andaru 'Next bid next month' anukunnara ra? 👵"],['A',"Aunty, wait chese vaallu rendu rakalu — wise or broke! 🎙️"]]];
+
+const bar=document.getElementById('bc-bar');
+if(bar){
+const q2=[];let lastChange=Date.now(),hold=0,pend=null,mineHTML='';
+const obs=new MutationObserver(()=>{lastChange=Date.now();
+ if(Date.now()<hold&&mineHTML){pend=bar.innerHTML;setBar(mineHTML,true)}});
+obs.observe(bar,{childList:true,characterData:true,subtree:true});
+function setBar(html,keep){bar.innerHTML=html;obs.takeRecords();if(!keep){bar.classList.remove('fl');void bar.offsetWidth;bar.classList.add('fl')}}
+function showMine(l){const c=CH[l[0]]||CH.A,sp=document.createElement('span');sp.className='bc-sp';sp.style.setProperty('--c',c[2]);sp.textContent=c[0]+' '+c[1];
+ bar.textContent='';bar.appendChild(sp);bar.appendChild(document.createTextNode(l[1]));obs.takeRecords();
+ mineHTML=bar.innerHTML;bar.classList.remove('fl');void bar.offsetWidth;bar.classList.add('fl');
+ hold=Date.now()+Math.max(5600,l[1].length*66);lastChange=Date.now()}
+const fill=(t,x)=>t.replace(/\{(\w+)\}/g,(_,k)=>x[k]!=null?x[k]:'');
+function enq(conv,x,pri){if(pri)q2.length=0;if(q2.length<6)conv.forEach(l=>q2.push([l[0],fill(l[1],x),Date.now()+14000]))}
+
+setInterval(()=>{const now=Date.now();
+ if(pend&&now>=hold){setBar(pend);pend=null;mineHTML='';return}
+ while(q2.length&&q2[0][2]<now)q2.shift();
+ if(q2.length&&now>=hold&&now-lastChange>2800)showMine(q2.shift())},350);
+
+let Lt=-1,SS='bid',N=0,warD=0,lastHit=0,lastHum=0,lastLow=0;
+setInterval(()=>{const s=g();if(!s||s.ph!='auc'||!s.c)return;
+ const c=s.c,p=PL[c.p],now=Date.now(),lead=c.by>=0?s.t[c.by]:null;
+ const x={p:fn(p.n),pf:p.n,r:p.v,t:lead?fn(lead.n):'',tf:lead?lead.n:'',b:lead?m(c.bid):'',pu:lead?m(lead.pu):'',m:lead&&!lead.ai&&lead.nm?lead.nm:''};
+ if(Lt!=s.i){Lt=s.i;N=0;warD=0;SS='bid';if(Math.random()<.75)enq(f(LOTR),x,1)}
+ if(c.st!=SS){SS=c.st;if(c.st=='sold'&&lead)enq(f(SOLDR),x,1);else if(c.st=='unsold')enq(f(UNSR),x,1)}
+ if(c.n>N){N=c.n;
+  if(lead){
+   if(!lead.ai&&lead.nm&&now-lastHum>12000&&Math.random()<.6){lastHum=now;enq(f(HUMR),x)}
+   else if(lead.pu<30&&now-lastLow>20000&&Math.random()<.5){lastLow=now;enq(f(LOWR),x)}
+   else if(now-lastHit>8000&&Math.random()<.35){lastHit=now;enq(f(HITR),x)}
+   if(N>=6&&!warD){warD=1;enq(f(WARR),x)}}}
+ if(!q2.length&&now>=hold&&now-lastChange>9000&&c.st=='bid')enq(f(IDLR),x)},400);
+}
+}catch(e){console.warn('patch v7 skipped:',e)}
 })();
 </script>
 
